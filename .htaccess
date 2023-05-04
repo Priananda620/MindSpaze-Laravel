@@ -1,0 +1,6 @@
+SetEnv APP_KEY XMKvFNuLQ2XFiraAbuhKo4PYVlPaHaPhxnGikXUJLpI=
+SetEnv DB_HOST 127.0.0.1
+SetEnv DB_PORT 3306
+SetEnv DB_DATABASE lara_myTutor
+SetEnv DB_USERNAME root
+SetEnv DB_PASSWORD password
