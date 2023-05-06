@@ -17,14 +17,16 @@ class Question extends Model
         'title',
         'question_synopsis',
         'created_at',
-        'attached_img'
+        'attached_img',
+        'user_id'
     ];
 
     protected $casts = [
         'title' => 'string',
         'question_synopsis' => 'string',
         'created_at' => 'datetime',
-        'attached_img' => 'string'
+        'attached_img' => 'string',
+        'user_id' => 'integer'
     ];
 
 

@@ -27,7 +27,8 @@ class User extends Authenticatable
         'is_verified',
         'user_profile_img',
         'address',
-        'created_at'
+        'user_role',
+        'created_at',
     ];
 
     /**
@@ -54,6 +55,7 @@ class User extends Authenticatable
         'last_ip' => 'string',
         'user_profile_img' => 'string',
         'address' => 'string',
+        'user_role' => 'integer',
         'created_at' => 'timestamp'
     ];
 
