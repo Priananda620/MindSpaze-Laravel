@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Upvote extends Migration
+class Upvotes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class Upvote extends Migration
      */
     public function up()
     {
-        Schema::create('upvote', function (Blueprint $table) {
+        Schema::create('upvotes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('answer_id')->constrained();
             $table->foreignId('user_id')->constrained();

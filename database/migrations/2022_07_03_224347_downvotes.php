@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Downvote extends Migration
+class Downvotes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class Downvote extends Migration
      */
     public function up()
     {
-        Schema::create('downvote', function (Blueprint $table) {
+        Schema::create('downvotes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('answer_id')->constrained();
             $table->foreignId('user_id')->constrained();
