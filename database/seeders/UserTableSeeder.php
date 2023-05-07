@@ -22,7 +22,7 @@ class UserTableSeeder extends Seeder
                 'email' => 'prianandaazhar2001@gmail.com',
                 'username' => 'azhar620',
                 'password' => Hash::make("Azhar20062001"),
-                'phone' => '087875587801',
+                'phone' => '87875587801',
                 'country_code' => 'id',
                 'last_ip' => '111.94.63.54',
                 'is_verified' => true,

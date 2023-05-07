@@ -95,7 +95,7 @@ ul {
 
 header {
     min-height: 5vh;
-    padding: .7em 1.5em;
+    padding: 1em 3.5em;
     justify-content: space-between;
     position: sticky;
     top: 0;
@@ -108,6 +108,13 @@ section {
     padding: 4em 3vw;
 }
 
+.logoSpaZe{
+    transition: opacity ease-in-out .5s .5s, letter-spacing cubic-bezier(.61,.45,.18,.9) .4s, filter cubic-bezier(.61,.45,.18,.9) 1.2s 1.3s, transform cubic-bezier(.61,.45,.18,.9) 1.2s 1s;
+}
+
+.logo:hover .logoSpaZe{
+    letter-spacing: 3px !important;
+}
 
 .logo {
     position: relative;
@@ -115,7 +122,7 @@ section {
 
 .logo p {
     position: absolute;
-    left: 4px;
+    left: 1px;
     bottom: -21px;
     font-family: 'Chivo', sans-serif;
     font-size: 10px;
@@ -134,7 +141,7 @@ section {
 
 .logo h1 {
     font-size: 2.5em;
-    width: 188px;
+    /* width: 188px; */
     margin: 0;
 }
 
@@ -587,6 +594,20 @@ footer i:hover {
 
 #overlay-outter #overlay-wrapper p {
     margin-bottom: 0 !important;
+}
+
+
+form input[type="search"].bg-inherit-text{
+    margin-top: 2em;
+    font-weight: 700;
+    background: var(--display-font-color) !important;
+    color: #868ca0;
+    border: 0;
+    font-family: inherit;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    outline: none;
+    transition: box-shadow ease-in-out .2s;
+    font-size: 1.1em;
 }
 
 form label {

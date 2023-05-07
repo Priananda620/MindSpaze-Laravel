@@ -1,15 +1,22 @@
 <header class="d-flex align-items-center justify-content-between">
     <div id="header-inner-left">
         <div class="logo">
+            {{-- <img src="{{ asset('assets/logo/logo48.png') }}"> --}}
             <a href="{{url('/')}}">
-                <h1 class="fw-bold d-flex align-items-center"><span><img src="{{ asset('assets/logo/logo48.png') }}"></span>My Tutor</h1>
+                <h1 class="fw-bold d-flex align-items-center">
+                    <span>{!! file_get_contents('assets/logo/svgMindspaze.svg') !!}</span>
+                    <span style="color:#f5bc00" class="position-relative">
+                        Mind
+                        <p>AI Integrated</p>
+                    </span>
+                    <span class="logoSpaZe">Spaze</span></h1>
             </a>
-            <p>by Priananda</p>
+
         </div>
     </div>
-    <div class="spacer-left mx-3"></div>
+    <div class="spacer-left mx-2"></div>
     <div id="search-box" class="d-flex align-items-center">
-        <h4 class="my-0">For Tutors&nbsp;&nbsp;<i class="fa-brands fa-laravel"></i></h4>
+        <h4 class="my-0">Written In&nbsp;&nbsp;<i class="fa-brands fa-python"></i>&nbsp;<i class="fa-brands fa-laravel"></i></h4>
     </div>
 
     @auth

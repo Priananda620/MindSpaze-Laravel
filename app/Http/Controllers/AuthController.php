@@ -4,26 +4,29 @@ namespace App\Http\Controllers;
 
 
 use App\Models\State;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
     public function viewLogin()
     {
-        $cookieData = Cookie::get('tutor_login_email');
-        return view('login', compact('cookieData'));
+        return [
+            'user' => auth()->user()
+        ];
     }
 
 
-    public function viewRegister()
-    {
-        $states = State::all();
+    // public function viewRegister()
+    // {
+    //     $states = State::all();
 
-        return view('register', compact('states'));
-    }
+    //     return view('register', compact('states'));
+    // }
 
     public function login(Request $request)
     {
@@ -33,16 +36,35 @@ class AuthController extends Controller
             'remember' => ''
         ]);
 
+        $user = User::where('email', $request->email)->first();
 
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            if(!empty(Cookie::get("tutor_login_email"))){
-                Cookie::queue(Cookie::forget('tutor_login_email'));
+        if(Hash::check($request->password, $user->password)){
+            return [
+                'token' => $user->createToken(time())->plainTextToken
+            ];
+        }
+    }
+
+
+    public function loginWeb(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email:rfc,dns',
+            'password' => 'required',
+            'remember' => ''
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if(Auth::attempt($credentials)){
+            if(!empty(Cookie::get("mindspazeAuth"))){
+                Cookie::queue(Cookie::forget('mindspazeAuth'));
             }
 
             if(!empty($request->remember)){
                 print_r(Auth::user()->state);
 
-                Cookie::queue('tutor_login_email', $request->email, 10080);
+                Cookie::queue('mindspazeAuth', $request->email, 10080);
 
             }
             return redirect()->route('home');

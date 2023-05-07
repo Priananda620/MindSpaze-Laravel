@@ -22,21 +22,21 @@ use App\Models\Tutor;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
-Route::middleware(['guest'])->group(function () {
-    Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
-    Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
+// Route::middleware(['guest'])->group(function () {
+//     Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
+//     Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
 
-    Route::post('/doLogin', [AuthController::class, 'login'])->name('doLogin');
-    Route::post('/doRegister', [TutorController::class, 'createTutor'])->name('doRegister');
-});
+//     Route::post('/doLogin', [AuthController::class, 'login'])->name('doLogin');
+//     Route::post('/doRegister', [TutorController::class, 'createTutor'])->name('doRegister');
+// });
 
 
-Route::middleware(['checkLoginSession'])->group(function () {
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+// Route::middleware(['checkLoginSession'])->group(function () {
+//     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('/addCourse', [SubjectController::class, 'viewAddCourse'])->name('addCourse');
+//     Route::get('/addCourse', [SubjectController::class, 'viewAddCourse'])->name('addCourse');
 
-    Route::post('/doAddCourse', [SubjectController::class, 'doAddCourse'])->name('doAddCourse');
-});
+//     Route::post('/doAddCourse', [SubjectController::class, 'doAddCourse'])->name('doAddCourse');
+// });
 
 
