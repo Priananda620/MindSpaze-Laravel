@@ -18,10 +18,14 @@
     <div id="search-box" class="d-flex align-items-center">
         <h4 class="my-0">Written In&nbsp;&nbsp;<i class="fa-brands fa-python"></i>&nbsp;<i class="fa-brands fa-laravel"></i></h4>
     </div>
-
+    <div class="d-flex flex-row me-3" id="header-nav">
+        <form method="GET">
+            <input type="search" name="search-query" class="bg-inherit-text" placeholder="search mindspaze..." value="" required="">
+        </form>
+    </div>
     @auth
 
-        <div id="header-nav">
+        <div>
             <ul class="d-inline-flex" style="visibility: collapse">
                 <li><a href="index.php#view-subjects">courses</a></li>
                 <li><a href="tutor.php#view-tutors">tutors</a></li>
@@ -34,12 +38,23 @@
         {{-- <div class="user-avatar-rounded me-2" style="background-image:url('assets/tutors/{{auth()->user()->id}}.jpg')"></div> --}}
     @else
 
-        <div id="header-nav" class="d-inline-flex align-items-center">
-            <p class="mb-0 me-2">Not Logged In</p>
-            <a class="button me-2 login-show" style="visibility: collapse">Login</a>
-            <a class="button me-2 register-show" style="visibility: collapse">Register</a>
-        </div>
+        {{-- <div class="d-flex flex-row me-3">
+            <a class="button me-2 border-btn" href="{{url("login")}}">Login</a>
+            <a class="button" href="{{url("register")}}">Register</a>
+        </div> --}}
 
+        <div class="d-flex flex-row me-3">
+            <div class="p-1 user-avatar-wrap d-flex flex-row align-items-center justify-content-center">
+                <div class="user-avatar-rounded me-2" style="background-image:url('{{asset('assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg')}}')"></div>
+                <p class="mb-0 me-2">azhar620</p>
+            </div>
+
+        </div>
+        <div class="d-flex flex-row me-3">
+            <a href="" class="h3 m-0">
+                <i class="fa-solid fa-square-plus"></i>
+            </a>
+        </div>
     @endauth
     <div id="header-inner-right">
         <div class="dark-switch">

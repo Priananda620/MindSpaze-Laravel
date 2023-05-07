@@ -37,4 +37,8 @@ class Question extends Model
     public function answer(){
         return $this->hasMany(Answer::class);
     }
+
+    public function questioncategory(){
+        return $this->hasMany(QuestionCategory::class);
+    }
 }

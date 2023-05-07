@@ -54,7 +54,7 @@
                     <div></div>
 
                 </h1>
-                <form action="questions.php" method="GET">
+                <form method="GET">
                     <input type="search" name="search-query" class="bg-inherit-text" placeholder="search mindspace for topics..." value="" required="">
                 </form>
                 <p>
