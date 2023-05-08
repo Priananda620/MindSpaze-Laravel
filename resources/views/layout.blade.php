@@ -43,13 +43,13 @@
                 </g>
             </svg>
             <div class="d-flex justify-content-center">
-                <h2 class="fw-bold text-center px-2">More Details?</h2>
+                <h2 class="fw-bold text-center px-2">Take a look at our threads.</h2>
             </div>
             <div class="mt-5 text-center section-text">
-                <p>For more details you can visit my linkedin links — provided below</p>
+                <p>For more details — you can click button provided below</p>
                 <a style="width: 15em; margin:auto" class="button"
                     href="https://www.linkedin.com/in/priananda-azhar/" target="_blank"
-                    rel="noopener noreferrer">Linkedin</a>
+                    rel="noopener noreferrer">BROWSE</a>
             </div>
         </section>
 
@@ -57,6 +57,20 @@
 
         @include('footer')
     </div>
+    <div id="fixed-botton-right" class="p-3">
+        <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <img src="..." class="rounded me-2" alt="...">
+              <strong class="me-auto">Bootstrap</strong>
+              <small class="text-muted">11 mins ago</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              Hello, world! This is a toast message.
+            </div>
+          </div>
+    </div>
+    
 </body>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.35/js/uikit.min.js'></script>
 </html>

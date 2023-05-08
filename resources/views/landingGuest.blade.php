@@ -58,7 +58,7 @@
 
                 </h1>
                 <form method="GET">
-                    <input type="search" name="search-query" class="bg-inherit-text" placeholder="search mindspace for topics..." value="" required="">
+                    <input type="search" name="search-query" class="bg-inherit-text" placeholder="search mindspaze for topics..." value="" required="">
                 </form>
                 <p>
                     Hello there — <span class="fw-bold">MindSpaze AI</span> is
@@ -120,7 +120,7 @@
 				<p></p>
 			</div>
         </div>
-		<div class="d-flex justify-content-center flex-column text-center part2-center">
+		<div class="d-flex justify-content-center flex-column text-center part2-center pb-5">
 			<h2>
 			Ideas that can go anywhere
 			</h2>
@@ -141,6 +141,25 @@
 					<p onclick="location.href='about.php'"><strong>Learn More</strong>&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i></p>
 				</div>
 			</div>
+    </section>
+
+    <section>
+        <div class="cards-wrapper">
+            <div class="filter-header">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                      Latest
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                      <li><a class="dropdown-item active" href="#">Unanswered</a></li>
+                      <li><a class="dropdown-item active" href="#">Popular</a></li>
+                      <li><a class="dropdown-item active" href="#">Answered</a></li>
+                      <li><a class="dropdown-item active" href="#">Featured</a></li>
+                      <li><a class="dropdown-item active" href="#">Flagged</a></li>
+                    </ul>
+                  </div>
+            </div>
+        </div>
     </section>
 
 
