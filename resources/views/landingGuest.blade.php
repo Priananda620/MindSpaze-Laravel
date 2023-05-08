@@ -3,18 +3,21 @@
     <section id="hero" class="pb-0">
         {!! file_get_contents('assets/svg/svg1.svg') !!}
         {!! file_get_contents('assets/svg/svg2.svg') !!}
-        <div class="d-flex flex-column h4 position-absolute" style="margin-left:-1em;top:50%">
-            <a href="" class="my-3"><i class="fa-brands fa-instagram"></i></a>
-            <a href="" class="my-3"><i class="fa-brands fa-github"></i></a>
-            <a href="" class="my-3"><i class="fa-solid fa-envelope"></i></a>
+        <div class="position-absolute" style="height:100%">
+            <div class="d-flex flex-column h4 position-sticky" style="margin-left:-1em;top:50%">
+                <a href="" class="my-3" style="width:fit-content"><i class="fa-brands fa-instagram"></i></a>
+                <a href="" class="my-3" style="width:fit-content"><i class="fa-brands fa-github"></i></a>
+                <a href="" class="my-3" style="width:fit-content"><i class="fa-solid fa-envelope"></i></a>
+            </div>
         </div>
+        
         <div class="d-flex justify-content-around align-items-center">
 
             <div id="landing-display-text">
 
                 <h1 class="fw-bold">
                     <span>Hello There,</span><br>
-                    <span>We Are Now</span><br>
+                    <span class="red-backdrop">We Are Now</span><br>
                     <!-- <span>Service</span><br> -->
                     <span>
                         AI&nbsp;
@@ -84,8 +87,60 @@
         </div>
     </section>
 
-    <section id="heading-landing" class="pb-0" style="padding-top: 8em;">
-        <h2>Tutor course manager</h2>
+    <section class="pb-0">
+        <div id="divider_content">
+            <div id="divider_transparentBg"></div>
+            <div id="divider" uk-parallax="y:80%;easing:0.7;opacity:.8" style="transform: translate3d(0px, 20.08%, 0px); opacity: 0.95;">
+                <div id="divider_background" style="background-position-x: 0%;background-position-y: 0%;background-repeat: repeat;background-size: auto;background: url({{ asset('assets/resource/divider_bg.png') }});">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="part2">
+        <div class="d-flex flex-row align-items-center">
+			<div>
+				<h2>
+					Work on your curiosity — we’ll <div style="display: inline-block;"><span class="red-backdrop">take&nbsp;care</span></div> of the rest.
+				</h2>
+				
+			</div>
+			<div>
+				{!! file_get_contents('assets/svg/svg11.svg') !!}
+			</div>
+        </div>
+		<div class="d-flex flex-row align-items-center">
+			<div class="d-flex justify-content-end">
+				{!! file_get_contents('assets/svg/svg12.svg') !!}
+			</div>
+			<div>
+				<h2>
+					There are <div style="display: inline-block;"><span class="red-backdrop">no&nbsp;limits</span></div> to how and with whom — you can ask. 
+				</h2>
+				<p></p>
+			</div>
+        </div>
+		<div class="d-flex justify-content-center flex-column text-center part2-center">
+			<h2>
+			Ideas that can go anywhere
+			</h2>
+			<p>
+			Knowledge isn’t static — what should your curiousity be? We provide with the tools you rely on every day to keep information and conversations up-to-date, turning curiousity into interaction.
+			</p>
+			
+		</div>
+		<div class="d-flex flex-row justify-content-center mt-5">
+				<div class="part2-card" style="margin-right:1em">
+					<h2>Start Using<br>Our Services</h2>
+					<p>Start participating in our spaze now. You can start by exploring. And say hi to everyone if you have logged in 👋</p>
+					<p onclick="location.href='questions.php?latest=true'"><strong>View Latest Question</strong>&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i></p>
+				</div>
+				<div class="part2-card">
+					<h2>Meet Our Team</h2>
+					<p>How do we keep up in a modern workplace? Collaboratively building and sharing beautiful peace of work that combines design and logical thinking that outcomes indispensable things.</p>
+					<p onclick="location.href='about.php'"><strong>Learn More</strong>&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i></p>
+				</div>
+			</div>
     </section>
 
 
