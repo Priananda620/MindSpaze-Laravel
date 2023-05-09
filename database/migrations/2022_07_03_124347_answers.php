@@ -19,7 +19,7 @@ class Answers extends Migration
             $table->foreignId('user_id')->constrained();
 
             $table->longText('answer_synopsis');
-            $table->string('attached_img', 255);
+            $table->string('attached_img', 255)->nullable();
             $table->timestamp('created_at');
             $table->boolean('is_ai_verified')->default(false);
         });

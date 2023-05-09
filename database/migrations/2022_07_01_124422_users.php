@@ -24,7 +24,7 @@ class Users extends Migration
             $table->string('phone', 13);
             $table->char('country_code', 2);
             $table->foreign('country_code')->references('id')->on('countries');
-            $table->ipAddress('last_ip', 14)->nullable();
+            $table->ipAddress('last_ip')->nullable();
             $table->boolean('is_verified')->default(false);
             $table->string('user_profile_img', 255)->nullable();
             $table->text('address')->nullable();

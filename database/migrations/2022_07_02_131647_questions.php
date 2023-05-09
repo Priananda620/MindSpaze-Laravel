@@ -19,7 +19,7 @@ class Questions extends Migration
 
             $table->string('title', 255);
             $table->longText('question_synopsis');
-            $table->string('attached_img', 255);
+            $table->string('attached_img', 255)->nullable();
             $table->timestamp('created_at');
         });
     }

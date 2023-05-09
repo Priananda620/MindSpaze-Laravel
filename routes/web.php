@@ -21,6 +21,8 @@ use App\Models\Tutor;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/test', [HomeController::class, 'test'])->name('home');
+
 
 // Route::middleware(['guest'])->group(function () {
 //     Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');

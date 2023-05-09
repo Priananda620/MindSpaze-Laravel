@@ -13,6 +13,8 @@ function clearMsgOutput() {
     $('#SUCCESS-regis').css('display', 'none')
 }
 
+
+
 // function getCookie(cname) {
 //     let name = cname + "=";
 //     let decodedCookie = decodeURIComponent(document.cookie);
@@ -59,6 +61,27 @@ function debounce(callback, delay) {
 
 
 $(document).ready(() => {
+    var quill = new Quill('#answer-quill-container', {
+        modules: {
+            toolbar: [
+            [{
+                header: [1, 2, false]
+            }],
+            ['bold', 'italic'],
+            ['link', 'blockquote', 'code-block', 'image'],
+            [{ list: 'ordered' }, { list: 'bullet' }]
+            ]
+        },
+        placeholder: 'write your answer...',
+        theme: 'snow'
+    });
+
+
+    // var quillReadOnly = new Quill('.quill-readOnly', {
+    //     readOnly: true,
+    //     theme: 'snow'
+    // });
+
 
     var r = document.querySelector(':root');
     var searchSuggest
@@ -553,6 +576,22 @@ $(document).ready(() => {
     //         }
     //     }, 250 )
     // })
+
+
+    // $("#login-to-answer-btn").click(function(){
+    //     $("body").addClass("overlay-active");
+    //     $("#fixed-login-container").toggleClass("isActivated");
+    //     $("#fixed-register-container").removeClass("isActivated");
+    //     $("#fixed-full-content-wrapper").css('height', 'auto');
+    //     $("#fixed-full-content-wrapper").css('width', 'auto');
+    //     $("#fixed-full-content-wrapper h3").attr('style', '');
+    //     $('.fa-2x').css('display', 'none');
+    // });
+
+
+    $("#add-answer-btn").click(function(){
+        $("#answer-box").toggleClass("active");
+    });
 
 });
 

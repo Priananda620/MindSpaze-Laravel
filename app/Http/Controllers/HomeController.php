@@ -15,4 +15,15 @@ class HomeController extends Controller
             return view('landingGuest');
         }
     }
+
+    public function test(Request $request)
+    {
+        if(auth()->check()){
+            return view('threadDetails');
+            // $subjects = Subject::where('tutor_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+            // return view('mainPage', compact('subjects'));
+        }else{
+            return view('threadDetails');
+        }
+    }
 }
