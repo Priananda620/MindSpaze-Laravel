@@ -220,7 +220,7 @@ a {
     transition: background .1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
     align-items: center;
     display: flex;
-    margin-left: auto;
+    margin-right: auto;
     padding: 7px;
     justify-content: center;
     cursor: pointer;
@@ -325,7 +325,7 @@ pre{
 /* #answer-box textarea:hover #test{
     border: 1px rgb(0, 255, 42) solid !important;
   }
-  
+
   #test:hover ~ #answer-box{
     border: 1px rgb(0, 255, 42) solid !important;
   } */

@@ -86,25 +86,12 @@
                 <div class="thread-contents-items isTopAnswer" answer-id="41">
 
                     <div class="thread-contents-user-wrapper thread-border-bottom">
-                        <a href="profile.php?user_id=564">
-                            <div class="user-wrapper">
-                                <div class="image-evoke-update image-form-evoke user-avatar-rounded me-2"
-                                style="background-image:url({{asset('assets/user_images/1111111_3452fd55-fff9-4a4a-8b9b-832ba3c0e1fc.png')}});">
-                                </div>
-                                <div class="user-data">
-                                    <h7>azhar1234</h7>
-
-                                    <p class="unfocus-text m-0">4 weeks ago</p>
-                                </div>
-
-                            </div>
-                        </a>
-                        {{-- <div class="answer-stats">
-                            <i class="fas fa-vote-yea" style="color:var(--yellow)"></i>
-                            &nbsp;<span>1</span> approved
-                        </div> --}}
 
                         <div class="thread-answer-right-action">
+                            <div class="up-down-voting d-flex flex-column align-items-center justify-content-center">
+                                <i class="fas fa-arrow-up up-vote-items isActive thread-answer-right-action-item"></i>
+                                <i class="fas fa-arrow-down down-vote-items thread-answer-right-action-item"></i>
+                            </div>
                             <div class="answer-stats d-flex flex-row flex-wrap justify-content-start">
                                 <div class="answer-stat-items swatch-teal">
                                     4 upvoted&nbsp;
@@ -123,12 +110,31 @@
                                 </div>
                             </div>
                             <div class="fa-2x"><i class="fas fa-circle-notch fa-spin"></i></div>
-                            <div class="up-down-voting d-flex flex-column align-items-center justify-content-center">
-                                <i class="fas fa-arrow-up up-vote-items isActive thread-answer-right-action-item"></i>
-                                <i class="fas fa-arrow-down down-vote-items thread-answer-right-action-item"></i>
-                            </div>
-                            
+
+
                         </div>
+
+
+                        <a href="profile.php?user_id=564">
+                            <div class="user-wrapper">
+                                <div class="user-data align-items-end me-2">
+                                    <h7>azhar1234</h7>
+
+                                    <p class="unfocus-text m-0 mt-1">4 weeks ago</p>
+                                </div>
+                                <div class="image-evoke-update image-form-evoke user-avatar-rounded me-2"
+                                style="background-image:url({{asset('assets/user_images/1111111_3452fd55-fff9-4a4a-8b9b-832ba3c0e1fc.png')}});border: 1px solid var(--display-font-color-2nd);">
+                                </div>
+
+
+                            </div>
+                        </a>
+                        {{-- <div class="answer-stats">
+                            <i class="fas fa-vote-yea" style="color:var(--yellow)"></i>
+                            &nbsp;<span>1</span> approved
+                        </div> --}}
+
+
 
                     </div>
 
