@@ -61,19 +61,41 @@ function debounce(callback, delay) {
 
 
 $(document).ready(() => {
-    var quill = new Quill('#answer-quill-container', {
-        modules: {
-            toolbar: [
-            [{
-                header: [1, 2, false]
-            }],
-            ['bold', 'italic'],
-            ['link', 'blockquote', 'code-block', 'image'],
-            [{ list: 'ordered' }, { list: 'bullet' }]
-            ]
-        },
-        placeholder: 'write your answer...',
-        theme: 'snow'
+    // var quill = new Quill('#answer-quill-container', {
+    //     modules: {
+    //         toolbar: [
+    //             [{
+    //                 header: [1, 2, false]
+    //             }],
+    //             ['bold', 'italic'],
+    //             ['link', 'blockquote', 'code-block', 'image'],
+    //             [{ list: 'ordered' }, { list: 'bullet' }]
+    //         ]
+    //     },
+    //     placeholder: 'write your answer...',
+    //     theme: 'snow'
+    // });
+
+
+    $('#chips-filter .badge').on('click', function () {
+        $(this).toggleClass('bg-dark');
+        $(this).toggleClass('bg-secondary');
+        $(this).toggleClass('chips-first-select');
+    });
+    const dropdown = $('.dropdown');
+    const options = dropdown.find('.dropdown-item');
+
+    options.on('click', function () {
+
+        const selectedValue = $(this).attr('data-value');
+
+        // Update the button text
+        const dropdownButton = dropdown.find('.dropdown-toggle');
+        dropdownButton.text($(this).text());
+        dropdownButton.attr("selected-value",$(this).text());
+
+        const selectedOption = $('#selected-option');
+        selectedOption.val(selectedValue);
     });
 
 
@@ -357,30 +379,30 @@ $(document).ready(() => {
     var ignoreOverlay = document.getElementById('overlay-wrapper')
     var ignoreLoginShow = document.getElementsByClassName('login-show')
 
-    document.addEventListener('click', function (event) {
-        var notContainsSearchSug = !ignoreSearchSug.contains(event.target)
-        var notContainsOverlay = !ignoreOverlay.contains(event.target)
-        var notContainsLoginShow
+    // document.addEventListener('click', function (event) {
+    //     var notContainsSearchSug = !ignoreSearchSug.contains(event.target)
+    //     var notContainsOverlay = !ignoreOverlay.contains(event.target)
+    //     var notContainsLoginShow
 
-        for(i=0;i<ignoreLoginShow.length;i++){
-            notContainsLoginShow = ignoreLoginShow[i].contains(event.target)
-            if(notContainsLoginShow){
-                break
-            }
-        }
-        notContainsLoginShow = !notContainsLoginShow
+    //     for (i = 0; i < ignoreLoginShow.length; i++) {
+    //         notContainsLoginShow = ignoreLoginShow[i].contains(event.target)
+    //         if (notContainsLoginShow) {
+    //             break
+    //         }
+    //     }
+    //     notContainsLoginShow = !notContainsLoginShow
 
-        if (notContainsSearchSug) {
-            console.log("CLOSE SEAARCH")
-            $('#search-suggestion').css({ display: "none" })
+    //     if (notContainsSearchSug) {
+    //         console.log("CLOSE SEAARCH")
+    //         $('#search-suggestion').css({ display: "none" })
 
-        }
+    //     }
 
-        if(notContainsLoginShow && notContainsOverlay && $("body").hasClass("overlay-active")){
-            $('#xmark-button').click()
-            console.log("CLOSE OVERYLTA")
-        }
-    })
+    //     if (notContainsLoginShow && notContainsOverlay && $("body").hasClass("overlay-active")) {
+    //         $('#xmark-button').click()
+    //         console.log("CLOSE OVERYLTA")
+    //     }
+    // })
 
     var searchSuggest
     var searchResultCount
@@ -393,7 +415,7 @@ $(document).ready(() => {
     })
 
     // $('#search-box form input').focusout(() => {
-        // $('#search-suggestion').css({ display: "none" })
+    // $('#search-suggestion').css({ display: "none" })
     // })
 
 
@@ -589,7 +611,7 @@ $(document).ready(() => {
     // });
 
 
-    $("#add-answer-btn").click(function(){
+    $("#add-answer-btn").click(function () {
         $("#answer-box").toggleClass("active");
     });
 

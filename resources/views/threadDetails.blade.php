@@ -40,8 +40,8 @@
 
                     <p class="lh-sm mb-5">Does Priananda Azhar loves me? because I love
                         him soooo much </p>
-                    <img style="padding: 0 0 1.5em 0; line-height: 1.5em; width:50%;"
-                        src="asset/question_images/98f51a29-df07-48af-925b-9f1ded257bee.jpeg">
+                    {{-- <img style="padding: 0 0 1.5em 0; line-height: 1.5em; width:50%;"
+                        src="asset/question_images/98f51a29-df07-48af-925b-9f1ded257bee.jpeg"> --}}
                     <div id="answer-detail-wrapper" class="mt-3">
                         <div id="ans-count">2 answers</div>
                         {{-- <a class="button small-bth" id="login-to-answer-btn"
@@ -87,7 +87,7 @@
 
                     <div class="thread-contents-user-wrapper thread-border-bottom">
 
-                        <div class="thread-answer-right-action">
+                        <div class="thread-answer-right-action" style="width: 31em;">
                             <div class="up-down-voting d-flex flex-column align-items-center justify-content-center">
                                 <i class="fas fa-arrow-up up-vote-items isActive thread-answer-right-action-item"></i>
                                 <i class="fas fa-arrow-down down-vote-items thread-answer-right-action-item"></i>
