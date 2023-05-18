@@ -48,4 +48,8 @@ class Answer extends Model
     public function downvote(){
         return $this->hasMany(DownVote::class);
     }
+
+    public function reaction(){
+        return $this->hasMany(Reaction::class);
+    }
 }

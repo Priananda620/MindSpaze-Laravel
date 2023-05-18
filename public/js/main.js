@@ -58,23 +58,108 @@ function debounce(callback, delay) {
     }
 }
 
+function appendNewReaction(emoji, count) {
+    let withoutPrefix = emoji.substring(2);
+    let container = $('.thread-reaction > div:nth-child(2) > button')
+    let isExist = false
+    let existObj;
+    container.each(function() {
+        if($(this).attr('decodedEmoji') == withoutPrefix){
+            isExist = true;
+            existObj = $(this)
+        }
+    })
+    console.log(isExist)
+    if(isExist){
+        let currCount = existObj.find('span').html();
+        currCount++
+
+        if(currCount >= 100){
+            existObj.find('span').html('99+');
+        }else{
+            existObj.find('span').html(currCount);
+        }
+    }else{
+        addNewReaction(emoji, count)
+    }
+}
+
+function addNewReaction(emoji, count){
+    // let str = "\u1f92a";
+    let withoutPrefix = emoji.substring(2);
+
+    let decodedEmoji = String.fromCodePoint(parseInt(withoutPrefix, 16));
+    // let decodedEmoji = unescape(emoji)
+    let newReactionButton = $('<button>', {
+        'type': 'button',
+        'class': 'btn bg-light position-relative rounded-pill hide',
+        'html': decodedEmoji+' <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">'+count+'</span>'
+    });
+    newReactionButton.attr('decodedEmoji', withoutPrefix);
+
+    let container = $('.thread-reaction > div:nth-child(2)')
+
+    container.append(newReactionButton)
+
+    setTimeout(function(){
+        newReactionButton.removeClass('hide')
+    }, 10);
+        
+}
+
 
 
 $(document).ready(() => {
-    // var quill = new Quill('#answer-quill-container', {
-    //     modules: {
-    //         toolbar: [
-    //             [{
-    //                 header: [1, 2, false]
-    //             }],
-    //             ['bold', 'italic'],
-    //             ['link', 'blockquote', 'code-block', 'image'],
-    //             [{ list: 'ordered' }, { list: 'bullet' }]
-    //         ]
-    //     },
-    //     placeholder: 'write your answer...',
-    //     theme: 'snow'
-    // });
+    var quill = new Quill('#answer-quill-container', {
+        modules: {
+            toolbar: [
+                [{
+                    header: [1, 2, false]
+                }],
+                ['bold', 'italic'],
+                ['link', 'blockquote', 'code-block', 'image'],
+                [{ list: 'ordered' }, { list: 'bullet' }]
+            ]
+        },
+        placeholder: 'write your answer...',
+        theme: 'snow'
+    });
+
+    const rootElement = $('#picmo-picker-container');
+    const picker = picmo.createPicker({ rootElement });
+    const emojiInput = $('#emoji-input > input');
+    const emojiRegex = /\p{Extended_Pictographic}/u
+    picker.addEventListener('emoji:select', event => {
+
+        emojiInput.val(event.emoji)
+        console.log('Emoji selected:', emojiInput.val())
+
+        const escapeSequence = '\\u' + emojiInput.val().codePointAt(0).toString(16);
+        console.log(escapeSequence); // Outputs \uD83D\uDE09
+        
+        // let encodedEmoji = encodeURIComponent(emojiInput.val());
+        // console.log(encodedEmoji)
+        appendNewReaction(escapeSequence, 1)
+
+        rootElement.addClass('d-none')
+    });
+
+    $('#emoji-input > input').on('input', function () {
+        const inputVal = $(this).val().trim();
+
+        if (!emojiRegex.test(inputVal)) {
+            $(this).val("")
+        }
+
+    });
+
+    $('#emoji-input').on('click', (e) => {
+        rootElement.toggleClass('d-none')
+    })
+
+    rootElement.on('click', (e) => {
+        e.stopPropagation()
+    })
 
 
     $('#chips-filter .badge').on('click', function () {
@@ -92,11 +177,12 @@ $(document).ready(() => {
         // Update the button text
         const dropdownButton = dropdown.find('.dropdown-toggle');
         dropdownButton.text($(this).text());
-        dropdownButton.attr("selected-value",$(this).text());
+        dropdownButton.attr("selected-value", $(this).text());
 
         const selectedOption = $('#selected-option');
         selectedOption.val(selectedValue);
     });
+
 
 
     // var quillReadOnly = new Quill('.quill-readOnly', {
@@ -126,8 +212,8 @@ $(document).ready(() => {
 
 
 
+    
     const buttonDarkToggle = document.querySelector('#dark-switch-input')
-
     buttonDarkToggle.addEventListener('click', function () {
         const toggler = document.querySelector('input#dark-switch-input')
         const togglerVal = toggler.getAttribute("checked");
@@ -142,6 +228,8 @@ $(document).ready(() => {
             r.style.setProperty('--base-color-lifted-1', '#2b2b2b')
             r.style.setProperty('--section-bg', '#27215a')
             r.style.setProperty('--display-font-color-2nd', '#c1c4c6')
+
+            Cookies.set('dark_switch_status', true)
         } else {
             console.log("bbbbb")
             toggler.setAttribute("checked", "false");
@@ -150,10 +238,17 @@ $(document).ready(() => {
             r.style.setProperty('--base-color-lifted-1', '#e0e3ff')
             r.style.setProperty('--section-bg', '#6a63ab')
             r.style.setProperty('--display-font-color-2nd', '#424c53')
+
+            Cookies.set('dark_switch_status', false)
         }
 
         // document.querySelector('input #dark-switch-input').checked = !toggler
     })
+    
+    if(Cookies.get('dark_switch_status') == 'false'){
+        console.log(Cookies.get('dark_switch_status'))
+        buttonDarkToggle.click()
+    }
 
     $(".addCourseAction").on('click', (e) => {
         e.preventDefault()

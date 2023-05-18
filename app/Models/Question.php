@@ -38,7 +38,7 @@ class Question extends Model
         return $this->hasMany(Answer::class);
     }
 
-    public function questioncategory(){
-        return $this->hasMany(QuestionCategory::class);
+    public function questiontag(){
+        return $this->hasMany(QuestionTag::class);
     }
 }

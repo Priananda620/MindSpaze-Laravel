@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use QuestionCategories;
+use App\Models\QuestionTag;
 
-class Category extends Model
+class Tag extends Model
 {
     use HasFactory;
     const UPDATED_AT = null;
@@ -14,14 +14,14 @@ class Category extends Model
 
 
     protected $fillable = [
-        'category_name'
+        'tag_name'
     ];
 
     protected $casts = [
-        'category_name' => 'string'
+        'tag_name' => 'string'
     ];
 
-    public function questioncategory(){
-        return $this->hasMany(QuestionCategory::class);
+    public function questiontag(){
+        return $this->hasMany(QuestionTag::class);
     }
 }

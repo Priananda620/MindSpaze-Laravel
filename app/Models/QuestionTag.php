@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class QuestionCategory extends Model
+class QuestionTag extends Model
 {
     use HasFactory;
     const UPDATED_AT = null;
@@ -13,12 +13,12 @@ class QuestionCategory extends Model
 
     protected $fillable = [
         'question_id',
-        'category_id',
+        'tag_id',
     ];
 
     protected $casts = [
         'question_id' => 'integer',
-        'category_id' => 'integer',
+        'tag_id' => 'integer',
     ];
 
     public function question()
@@ -26,8 +26,8 @@ class QuestionCategory extends Model
         return $this->belongsTo(Question::class);
     }
 
-    public function category()
+    public function tag()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Tag::class);
     }
 }

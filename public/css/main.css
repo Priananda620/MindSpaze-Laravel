@@ -1446,6 +1446,11 @@ h3>.divider {
 .card{
     background-color: var(--base-color-lifted-1) !important;
     cursor: pointer;
+    transition: filter cubic-bezier(0.25, 0.46, 0.45, 0.94) .2s
+}
+
+.card:hover{
+    filter: brightness(0.9);
 }
 
 .card h5{
@@ -1469,4 +1474,18 @@ h3>.divider {
 
 .chips-first-select{
     order: -1;
+}
+
+.position-absolute{
+    z-index: 1;
+}
+
+
+.ql-editor{
+    cursor: unset !important;
+    height: unset !important;
+}
+
+.z-index-5{
+    z-index: 1000;
 }

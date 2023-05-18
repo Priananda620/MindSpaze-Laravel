@@ -3,7 +3,7 @@
     <script src="//cdn.quilljs.com/1.0.0/quill.min.js"></script>
     <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet" />
     <section id="thread-details" class="m-5">
-        <div class="d-flex flex-row m-5">
+        <div class="d-flex flex-row my-5 justify-content-center">
 
             <div id="thread-contents-left">
                 <div class="thread-contents-header">
@@ -138,9 +138,25 @@
 
                     </div>
 
-                    <div>
-                        <p>testttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttttestttttttttttttttttttttttttttttttt
-                        </p>
+                    <div class="ql-editor" contenteditable="false">
+                        <p><br></p><h1>ffuefu</h1><p><br></p><ol><li>ww</li><li>w</li><li>w</li></ol><p><em>wwwww</em></p><p><br></p><p><strong>BOLD</strong></p>
+                    </div>
+                    <div class="thread-reaction w-100 d-inline-flex align-items-center">
+                        <div class="me-2">
+                            <button id="emoji-input" type="button" class="btn bg-light position-relative rounded-pill position-relative">
+                                <i class="fa-solid fa-plus"></i>
+                                <input type="hidden">
+                                <div id="picmo-picker-container" class="position-absolute z-index-5 d-none">
+    
+                                </div>
+                            </button>
+                        </div>
+                        
+                        <div class="d-flex flex-row gap-3 py-3 pe-4 overflow-auto hide-scrollbar1 hide-scrollbar2">  
+                            
+                            <button type="button" class="btn bg-light position-relative rounded-pill" decodedemoji="2620">☠ <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">97</span></button>
+                            
+                        </div>
                     </div>
                 </div>
 
@@ -154,69 +170,97 @@
                     </div>
 
 
-                    <div class="thread-side-contents-items">
-                        <!--------------------------------------------------------------------------------------------------------->
-                        <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9388200037698113" crossorigin="anonymous"></script> -->
-
-                        <ins class="adsbygoogle" style="display: block; height: 159px;" data-ad-format="fluid"
-                            data-ad-layout-key="-fb+5k+67-cb+t" data-ad-client="ca-pub-9388200037698113"
-                            data-ad-slot="9583102781" data-adsbygoogle-status="done" data-ad-status="unfilled">
-                            <div id="aswift_1_host"
-                                style="border: medium none; height: 159px; width: 399px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block;"
-                                tabindex="0" title="Advertisement" aria-label="Advertisement"><iframe id="aswift_1"
-                                    name="aswift_1"
-                                    style="left:0;position:absolute;top:0;border:0;width:399px;height:159px;"
-                                    sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
-                                    marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true"
-                                    scrolling="no"
-                                    src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-9388200037698113&amp;output=html&amp;h=159&amp;slotname=9583102781&amp;adk=246713997&amp;adf=520875591&amp;pi=t.ma~as.9583102781&amp;w=399&amp;lmt=1683606578&amp;rafmt=11&amp;format=399x159&amp;url=http%3A%2F%2Fmindspaze.000webhostapp.com%2Fthread.php%3Fquestion_id%3D162&amp;wgl=1&amp;dt=1683606576932&amp;bpp=6&amp;bdt=2458&amp;idt=1316&amp;shv=r20230504&amp;mjsv=m202305040101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;cookie=ID%3D86450c69fae9a9db-22aeef9389e00005%3AT%3D1682753424%3ART%3D1682753424%3AS%3DALNI_MbMBDwZP5XTDMOIDLNbk2nEfvacWg&amp;gpic=UID%3D00000bff44d3c010%3AT%3D1682753424%3ART%3D1683606576%3AS%3DALNI_MaV9LXaNDBg_47FPek2NqFOKdWDkA&amp;prev_fmts=0x0&amp;nras=1&amp;correlator=4239553204618&amp;frm=20&amp;pv=1&amp;ga_vid=1967584361.1683606578&amp;ga_sid=1683606578&amp;ga_hid=995032859&amp;ga_fc=0&amp;u_tz=420&amp;u_his=2&amp;u_h=774&amp;u_w=1376&amp;u_ah=774&amp;u_aw=1376&amp;u_cd=24&amp;u_sd=1.395&amp;adx=756&amp;ady=245&amp;biw=1359&amp;bih=661&amp;scr_x=0&amp;scr_y=0&amp;eid=44759876%2C44773809%2C44759842%2C44759927%2C31071755%2C31074432%2C44788441%2C44789924%2C31074438&amp;oid=2&amp;pvsid=817445565051193&amp;tmod=1226386856&amp;nvt=1&amp;fc=1920&amp;brdim=-7%2C-7%2C-7%2C-7%2C1376%2C0%2C1390%2C788%2C1376%2C661&amp;vis=2&amp;rsz=%7C%7CEer%7C&amp;abl=CS&amp;pfx=0&amp;fu=128&amp;bc=23&amp;ifi=2&amp;uci=a!2&amp;fsb=1&amp;xpc=5WvlP8EgsP&amp;p=http%3A//mindspaze.000webhostapp.com&amp;dtd=1377"
-                                    data-google-container-id="a!2" data-load-complete="true" width="399" height="159"
-                                    frameborder="0"></iframe></div>
-                        </ins>
-                        <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-
+                    <div class="row row-cols-1 row-cols-md-1 g-4">
+                        <div class="col">
+                          <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-inline-flex align-items-center mb-2">
+                                    <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
+                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
+                                    <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
+                                </div>
+                                <h5 class="card-title">Card title ard title card title ard title card title</h5>            
+                                <div class="d-inline-flex">
+                                    
+                                    <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
+                                </div>                      
+                                
+                                <div>
+                                    <span class="badge bg-light text-dark">5 answers</span>
+                                    <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
+                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>                       
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-inline-flex align-items-center mb-2">
+                                    <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
+                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
+                                    <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
+                                </div>
+                                <h5 class="card-title">Card title ard title card title ard title card title</h5>            
+                                <div class="d-inline-flex">
+                                    
+                                    <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
+                                </div>                      
+                                
+                                <div>
+                                    <span class="badge bg-light text-dark">5 answers</span>
+                                    <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
+                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>                       
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-inline-flex align-items-center mb-2">
+                                    <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
+                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
+                                    <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
+                                </div>
+                                <h5 class="card-title">Card title ard title card title ard title card title</h5>            
+                                <div class="d-inline-flex">
+                                    
+                                    <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
+                                </div>                      
+                                
+                                <div>
+                                    <span class="badge bg-light text-dark">5 answers</span>
+                                    <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
+                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>                       
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-inline-flex align-items-center mb-2">
+                                    <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
+                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
+                                    <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
+                                </div>
+                                <h5 class="card-title">Card title ard title card title ard title card title</h5>            
+                                <div class="d-inline-flex">
+                                    
+                                    <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
+                                </div>                      
+                                
+                                <div>
+                                    <span class="badge bg-light text-dark">5 answers</span>
+                                    <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
+                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>                       
+                                </div>
+                            </div>
+                          </div>
+                        </div>
                     </div>
-
-                    <a class="thread-side-contents-items non-ads" href="thread.php?question_id=141">
-                        <div class="side-inner-left">
-                            <img src="asset/question_images/default_question_MindSpace.jpg">
-                        </div>
-                        <div class="side-inner-right">
-                            <h3>
-                                BIND PARAM SQLBIND P... </h3>
-                            <p>
-                                BIND PARAM SQLBIND PARAM SQLBIND PARAM SQLBIND PARAM SQL </p>
-                        </div>
-
-                    </a>
-
-                    <a class="thread-side-contents-items non-ads" href="thread.php?question_id=144">
-                        <div class="side-inner-left">
-                            <img src="asset/question_images/315881a9-5d7e-474e-8cbe-307a7cb49528.ico">
-                        </div>
-                        <div class="side-inner-right">
-                            <h3>
-                                test SQL BIND PARAM ... </h3>
-                            <p>
-                                test SQL BIND PARAM IMG NAMEtest SQL BIND PARAM IMG NAME </p>
-                        </div>
-
-                    </a>
-
-                    <a class="thread-side-contents-items non-ads" href="thread.php?question_id=162">
-                        <div class="side-inner-left">
-                            <img src="asset/question_images/98f51a29-df07-48af-925b-9f1ded257bee.jpeg">
-                        </div>
-                        <div class="side-inner-right">
-                            <h3>
-                                A very serious quest... </h3>
-                            <p>
-                                Does Priananda Azhar loves me? because I love him soooo much </p>
-                        </div>
-
-                    </a>
+                        
 
                 </div>
             </div>

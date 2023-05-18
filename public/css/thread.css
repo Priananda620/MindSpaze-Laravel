@@ -20,13 +20,13 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 67%;
-    margin-right: 3%;
+    width: 60%;
+    margin-right: 2em;
 }
 
 
 #thread-contents-right {
-    width: 400px;
+    width: 441px;
     /* AD SENSE AD SENSE AD SENSE AD SENSE AD SENSE AD SENSE AD SENSE AD SENSE */
     padding-top: 5%;
     flex-shrink: 0;
@@ -442,4 +442,16 @@ a.button.small-bth{
     color: whitesmoke;
     background-color: var(--base-color);
     border: 1px solid gray;
+}
+
+.thread-reaction button{
+    transition: transform cubic-bezier(.18,.89,.32,1.28) .4s;
+}
+
+.thread-reaction button.hide{
+    transform: scale(0);
+}
+
+.thread-reaction button.selected{
+    background-color: var(--yellow) !important;
 }
