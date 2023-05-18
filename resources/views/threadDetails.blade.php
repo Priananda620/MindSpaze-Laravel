@@ -138,8 +138,10 @@
 
                     </div>
 
-                    <div class="ql-editor" contenteditable="false">
-                        <p><br></p><h1>ffuefu</h1><p><br></p><ol><li>ww</li><li>w</li><li>w</li></ol><p><em>wwwww</em></p><p><br></p><p><strong>BOLD</strong></p>
+                    <div class="ql-snow">
+                        <div class="ql-editor" contenteditable="false" id="answer-content">
+
+                        </div>
                     </div>
                     <div class="thread-reaction w-100 d-inline-flex align-items-center">
                         <div class="me-2">
@@ -147,15 +149,15 @@
                                 <i class="fa-solid fa-plus"></i>
                                 <input type="hidden">
                                 <div id="picmo-picker-container" class="position-absolute z-index-5 d-none">
-    
+
                                 </div>
                             </button>
                         </div>
-                        
-                        <div class="d-flex flex-row gap-3 py-3 pe-4 overflow-auto hide-scrollbar1 hide-scrollbar2">  
-                            
+
+                        <div class="d-flex flex-row gap-3 py-3 pe-4 overflow-auto hide-scrollbar1 hide-scrollbar2">
+
                             <button type="button" class="btn bg-light position-relative rounded-pill" decodedemoji="2620">☠ <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">97</span></button>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -176,19 +178,19 @@
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
+                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>
                                     <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
                                 </div>
-                                <h5 class="card-title">Card title ard title card title ard title card title</h5>            
+                                <h5 class="card-title">Card title ard title card title ard title card title</h5>
                                 <div class="d-inline-flex">
-                                    
+
                                     <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                </div>                      
-                                
+                                </div>
+
                                 <div>
                                     <span class="badge bg-light text-dark">5 answers</span>
                                     <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>                       
+                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>
                                 </div>
                             </div>
                           </div>
@@ -198,19 +200,19 @@
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
+                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>
                                     <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
                                 </div>
-                                <h5 class="card-title">Card title ard title card title ard title card title</h5>            
+                                <h5 class="card-title">Card title ard title card title ard title card title</h5>
                                 <div class="d-inline-flex">
-                                    
+
                                     <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                </div>                      
-                                
+                                </div>
+
                                 <div>
                                     <span class="badge bg-light text-dark">5 answers</span>
                                     <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>                       
+                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>
                                 </div>
                             </div>
                           </div>
@@ -220,19 +222,19 @@
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
+                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>
                                     <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
                                 </div>
-                                <h5 class="card-title">Card title ard title card title ard title card title</h5>            
+                                <h5 class="card-title">Card title ard title card title ard title card title</h5>
                                 <div class="d-inline-flex">
-                                    
+
                                     <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                </div>                      
-                                
+                                </div>
+
                                 <div>
                                     <span class="badge bg-light text-dark">5 answers</span>
                                     <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>                       
+                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>
                                 </div>
                             </div>
                           </div>
@@ -242,25 +244,25 @@
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
+                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>
                                     <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
                                 </div>
-                                <h5 class="card-title">Card title ard title card title ard title card title</h5>            
+                                <h5 class="card-title">Card title ard title card title ard title card title</h5>
                                 <div class="d-inline-flex">
-                                    
+
                                     <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                </div>                      
-                                
+                                </div>
+
                                 <div>
                                     <span class="badge bg-light text-dark">5 answers</span>
                                     <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>                       
+                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>
                                 </div>
                             </div>
                           </div>
                         </div>
                     </div>
-                        
+
 
                 </div>
             </div>

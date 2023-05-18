@@ -70,7 +70,9 @@
             </div>
           </div>
     </div>
-    
+    <div id="backdrop-close-evoke">
+
+    </div>
 </body>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.35/js/uikit.min.js'></script>
 </html>

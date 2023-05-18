@@ -18,6 +18,28 @@
         /* border: 2px rgb(53, 53, 53) solid; */
 }
 
+#backdrop-close-evoke{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.75);
+    visibility: collapse;
+}
+
+.visibility-collapse{
+    visibility: collapse !important;
+}
+
+.visibility-visible{
+    visibility: unset !important;
+}
+
+.z-index100{
+    z-index: 100 !important;
+}
 
 /*barlow font*/
 /* @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,300;0,400;0,600;1,100;1,300;1,400;1,600&display=swap');
@@ -1431,7 +1453,7 @@ h3>.divider {
     border: none !important;
     padding: 1.2em;
     margin: 0 .4em !important;
-    font-size: .85em !important; 
+    font-size: .85em !important;
 }
 
 

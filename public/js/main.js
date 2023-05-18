@@ -104,39 +104,48 @@ function addNewReaction(emoji, count){
     setTimeout(function(){
         newReactionButton.removeClass('hide')
     }, 10);
-        
+
+}
+const activeModal = {};
+function answerBoxToggle(){
+    $("#answer-box").toggleClass("active")
+    $("#answer-box").toggleClass("z-index100")
 }
 
 
 
 $(document).ready(() => {
-    var quill = new Quill('#answer-quill-container', {
-        modules: {
-            toolbar: [
+    const backdropCloseEvoke = $("#backdrop-close-evoke")
+
+    if(window.location.pathname === "/test"){
+        quillEditor = new Quill('#answer-quill-container', {
+            modules: {
+                toolbar: [
                 [{
                     header: [1, 2, false]
                 }],
                 ['bold', 'italic'],
                 ['link', 'blockquote', 'code-block', 'image'],
                 [{ list: 'ordered' }, { list: 'bullet' }]
-            ]
-        },
-        placeholder: 'write your answer...',
-        theme: 'snow'
-    });
+                ]
+            },
+            placeholder: 'write your answer...',
+            theme: 'snow'
+        })
+    }
 
     const rootElement = $('#picmo-picker-container');
     const picker = picmo.createPicker({ rootElement });
     const emojiInput = $('#emoji-input > input');
     const emojiRegex = /\p{Extended_Pictographic}/u
     picker.addEventListener('emoji:select', event => {
-
+        backdropCloseEvoke.click()
         emojiInput.val(event.emoji)
         console.log('Emoji selected:', emojiInput.val())
 
         const escapeSequence = '\\u' + emojiInput.val().codePointAt(0).toString(16);
         console.log(escapeSequence); // Outputs \uD83D\uDE09
-        
+
         // let encodedEmoji = encodeURIComponent(emojiInput.val());
         // console.log(encodedEmoji)
         appendNewReaction(escapeSequence, 1)
@@ -144,17 +153,27 @@ $(document).ready(() => {
         rootElement.addClass('d-none')
     });
 
-    $('#emoji-input > input').on('input', function () {
+    emojiInput.on('input', function () {
         const inputVal = $(this).val().trim();
 
         if (!emojiRegex.test(inputVal)) {
             $(this).val("")
+            console.log("BBBBBBBBBBBBBB")
+        }else{
+            console.log("AAAAAAAAAAAAAA")
         }
 
     });
 
-    $('#emoji-input').on('click', (e) => {
+    function emojiSelectorToggle(){
         rootElement.toggleClass('d-none')
+        rootElement.toggleClass("z-index100")
+    }
+
+    $('#emoji-input').on('click', (e) => {
+        emojiSelectorToggle()
+        activeModal.answerBoxToggle = () => emojiSelectorToggle()
+        backdropCloseEvoke.addClass('visibility-visible')
     })
 
     rootElement.on('click', (e) => {
@@ -167,6 +186,8 @@ $(document).ready(() => {
         $(this).toggleClass('bg-secondary');
         $(this).toggleClass('chips-first-select');
     });
+
+
     const dropdown = $('.dropdown');
     const options = dropdown.find('.dropdown-item');
 
@@ -184,6 +205,29 @@ $(document).ready(() => {
     });
 
 
+    quillEditor.on('text-change', function() {
+        console.log(quillEditor.root.innerHTML)
+        $('#answer-content').html(quillEditor.root.innerHTML)
+    })
+
+
+
+    $("#add-answer-btn").click(function(){
+        answerBoxToggle()
+        activeModal.answerBoxToggle = () => answerBoxToggle()
+        backdropCloseEvoke.addClass('visibility-visible')
+    });
+
+
+    backdropCloseEvoke.click(function(){
+        for (const methodName in activeModal) {
+            if (activeModal.hasOwnProperty(methodName)) {
+                activeModal[methodName]()
+            }
+        }
+        backdropCloseEvoke.removeClass('visibility-visible')
+
+    })
 
     // var quillReadOnly = new Quill('.quill-readOnly', {
     //     readOnly: true,
@@ -212,7 +256,7 @@ $(document).ready(() => {
 
 
 
-    
+
     const buttonDarkToggle = document.querySelector('#dark-switch-input')
     buttonDarkToggle.addEventListener('click', function () {
         const toggler = document.querySelector('input#dark-switch-input')
@@ -244,7 +288,7 @@ $(document).ready(() => {
 
         // document.querySelector('input #dark-switch-input').checked = !toggler
     })
-    
+
     if(Cookies.get('dark_switch_status') == 'false'){
         console.log(Cookies.get('dark_switch_status'))
         buttonDarkToggle.click()
@@ -706,9 +750,9 @@ $(document).ready(() => {
     // });
 
 
-    $("#add-answer-btn").click(function () {
-        $("#answer-box").toggleClass("active");
-    });
+    // $("#add-answer-btn").click(function () {
+    //     $("#answer-box").toggleClass("active");
+    // });
 
 });
 
