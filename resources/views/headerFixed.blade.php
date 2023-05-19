@@ -79,7 +79,7 @@
         @endauth
         <div id="header-inner-right">
             <div class="dark-switch">
-                <input id="dark-switch-input" type="checkbox" checked="">
+                <input id="dark-switch-input" type="checkbox" checked="true">
                 <label for="dark-switch-input"></label>
             </div>
         </div>

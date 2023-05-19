@@ -26,4 +26,15 @@ class HomeController extends Controller
             return view('threadDetails');
         }
     }
+
+    public function profile(Request $request)
+    {
+        if(auth()->check()){
+            return view('profile');
+            // $subjects = Subject::where('tutor_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+            // return view('mainPage', compact('subjects'));
+        }else{
+            return view('profile');
+        }
+    }
 }

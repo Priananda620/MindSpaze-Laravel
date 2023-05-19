@@ -74,8 +74,9 @@
                     </div>
                 @else
                     <div id="hero-buttons-wrap" class="d-inline-flex mt-3">
-                        <a class="button me-2" href="{{url("login")}}">Login</a>
-                        <a class="button" href="{{url("register")}}">Register</a>
+                        <a class="button me-2 login-show">Login</a>
+                        <a class="button register-show">Register</a>
+                        {{-- {{url("register")}} --}}
                     </div>
                 @endauth
             </div>
@@ -129,18 +130,22 @@
 			</p>
 			
 		</div>
-		<div class="d-flex flex-row justify-content-center mt-5">
+		<div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 g-6">
+            <div class="col mt-5">
 				<div class="part2-card" style="margin-right:1em">
 					<h2>Start Using<br>Our Services</h2>
 					<p>Start participating in our spaze now. You can start by exploring. And say hi to everyone if you have logged in 👋</p>
 					<p onclick="location.href='questions.php?latest=true'"><strong>View Latest Question</strong>&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i></p>
 				</div>
+            </div>
+            <div class="col mt-5">
 				<div class="part2-card">
 					<h2>Meet Our Team</h2>
 					<p>How do we keep up in a modern workplace? Collaboratively building and sharing beautiful peace of work that combines design and logical thinking that outcomes indispensable things.</p>
 					<p onclick="location.href='about.php'"><strong>Learn More</strong>&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i></p>
 				</div>
-			</div>
+            </div>
+		</div>
     </section>
 
     <section id="threads-with-filter">
@@ -189,7 +194,7 @@
             <div class="my-5">
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
                     <div class="col">
-                        <div class="card position-relative" style="width: 22rem;">
+                        <div class="card position-relative w-100">
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
@@ -211,7 +216,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card position-relative" style="width: 22rem;">
+                        <div class="card position-relative w-100">
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
@@ -233,7 +238,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card position-relative" style="width: 22rem;">
+                        <div class="card position-relative w-100">
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
@@ -255,7 +260,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card position-relative" style="width: 22rem;">
+                        <div class="card position-relative w-100">
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
@@ -277,7 +282,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card position-relative" style="width: 22rem;">
+                        <div class="card position-relative w-100">
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>

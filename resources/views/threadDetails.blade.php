@@ -102,11 +102,14 @@
                                 <div class="answer-stat-items false-red">
                                     Marked False&nbsp;<i class="fa-solid fa-circle-xmark"></i>
                                 </div>
+                                <div class="answer-stat-items ai-blue">
+                                    AI Verified&nbsp;
+                                </div>
                                 <div class="answer-stat-items down-grey">
                                     1 downvoted&nbsp;
                                 </div>
-                                <div class="answer-stat-items ai-blue">
-                                    AI Verified&nbsp;
+                                <div class="answer-stat-items down-grey">
+                                    Potential False&nbsp;
                                 </div>
                             </div>
                             <div class="fa-2x"><i class="fas fa-circle-notch fa-spin"></i></div>

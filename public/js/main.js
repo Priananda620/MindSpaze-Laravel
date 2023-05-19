@@ -100,10 +100,10 @@ function addNewReaction(emoji, count){
     let container = $('.thread-reaction > div:nth-child(2)')
 
     container.append(newReactionButton)
-
+    
     setTimeout(function(){
         newReactionButton.removeClass('hide')
-    }, 10);
+    }, 50);
 
 }
 const activeModal = {};
@@ -112,6 +112,21 @@ function answerBoxToggle(){
     $("#answer-box").toggleClass("z-index100")
 }
 
+
+function backdropCloseEvokeShow(){
+    const backdropCloseEvoke = $("#backdrop-close-evoke")
+    backdropCloseEvoke.addClass('visibility-visible')
+    backdropCloseEvoke.addClass('semi-transparent-bg')
+}
+
+function backdropCloseEvokeHide(){
+    const backdropCloseEvoke = $("#backdrop-close-evoke")
+    backdropCloseEvoke.removeClass('semi-transparent-bg')
+    setTimeout(function(){
+        backdropCloseEvoke.removeClass('visibility-visible')
+    }, 380);
+    
+}
 
 
 $(document).ready(() => {
@@ -131,6 +146,11 @@ $(document).ready(() => {
             },
             placeholder: 'write your answer...',
             theme: 'snow'
+        })
+
+        quillEditor.on('text-change', function() {
+            console.log(quillEditor.root.innerHTML)
+            $('#answer-content').html(quillEditor.root.innerHTML)
         })
     }
 
@@ -173,7 +193,7 @@ $(document).ready(() => {
     $('#emoji-input').on('click', (e) => {
         emojiSelectorToggle()
         activeModal.answerBoxToggle = () => emojiSelectorToggle()
-        backdropCloseEvoke.addClass('visibility-visible')
+        backdropCloseEvokeShow()
     })
 
     rootElement.on('click', (e) => {
@@ -205,28 +225,23 @@ $(document).ready(() => {
     });
 
 
-    quillEditor.on('text-change', function() {
-        console.log(quillEditor.root.innerHTML)
-        $('#answer-content').html(quillEditor.root.innerHTML)
-    })
-
-
 
     $("#add-answer-btn").click(function(){
         answerBoxToggle()
         activeModal.answerBoxToggle = () => answerBoxToggle()
-        backdropCloseEvoke.addClass('visibility-visible')
+        backdropCloseEvokeShow()
     });
 
 
     backdropCloseEvoke.click(function(){
+        console.log("Backdrop click")
         for (const methodName in activeModal) {
             if (activeModal.hasOwnProperty(methodName)) {
                 activeModal[methodName]()
             }
         }
-        backdropCloseEvoke.removeClass('visibility-visible')
-
+        
+        backdropCloseEvokeHide()
     })
 
     // var quillReadOnly = new Quill('.quill-readOnly', {
@@ -294,19 +309,6 @@ $(document).ready(() => {
         buttonDarkToggle.click()
     }
 
-    $(".addCourseAction").on('click', (e) => {
-        e.preventDefault()
-        console.log("SHOOOOOWWWW")
-        $("body").addClass("overlay-active")
-        $("#register-body").addClass("d-none")
-        $("#login-body").addClass("d-none")
-        $("#addCourse-body").removeClass("d-none")
-        $("#overlay-outter").removeClass("align-items-start")
-        $("#overlay-outter").addClass("align-items-center")
-
-        clearMsgOutput()
-    })
-
     $(".login-show").on('click', (e) => {
         e.preventDefault()
         console.log("SHOOOOOWWWW")
@@ -333,7 +335,7 @@ $(document).ready(() => {
 
     })
 
-    $("#xmark-button").on('click', (e) => {
+    $(".xmark-button").on('click', (e) => {
         e.preventDefault()
         console.log("CLOOOOOOSEEEEEEE")
         $("body").removeClass("overlay-active")

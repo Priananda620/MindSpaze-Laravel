@@ -25,7 +25,7 @@ class UserTableSeeder extends Seeder
                 'phone' => '87875587801',
                 'country_code' => 'id',
                 'last_ip' => '111.94.63.54',
-                'is_verified' => true,
+                // 'classification_status' => true,
                 'user_profile_img' => '/',
                 'address' => "address address address address address address "
             ],

@@ -25,7 +25,7 @@ class Users extends Migration
             $table->char('country_code', 2);
             $table->foreign('country_code')->references('id')->on('countries');
             $table->ipAddress('last_ip')->nullable();
-            $table->boolean('is_verified')->default(false);
+            $table->string('classification_status', 255)->nullable();
             $table->string('user_profile_img', 255)->nullable();
             $table->text('address')->nullable();
             $table->smallInteger('user_role')->default(0);//0 user, 1 admin

@@ -14,9 +14,20 @@
 
 <body>
 
-    @yield('loginRegister')
-    @yield('addCourse')
+    {{-- @yield('loginRegister') --}}
+    {{-- @yield('addCourse') --}}
+    <div id="overlay-outter" class="d-flex position-fixed align-items-start">
+        <div id="overlay-wrapper" class="p-4">
 
+            <div class="xmark-button">
+                <button class="float-end"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            @include('login')
+            @include('register')
+
+        </div>
+    </div>
 
     <div id="full-page-container">
 
