@@ -18,6 +18,10 @@
         /* border: 2px rgb(53, 53, 53) solid; */
 }
 
+.fa-brands {
+    color: var(--display-font-color);
+}
+
 #backdrop-close-evoke{
     position: fixed;
     top: 0;
@@ -1528,11 +1532,11 @@ h3>.divider {
     50% { background-color: var(--base-color); }
     100% { background-color: var(--base-color-lifted-1); }
   }
-  
+
   .search-container {
     position: relative;
   }
-  
+
   .suggestion-container {
     position: absolute;
     top: 101%;
@@ -1545,20 +1549,19 @@ h3>.divider {
     overflow-y: auto;
     background: var(--base-color);
   }
-  
+
   .skeleton-row {
     height: 10px;
     margin-bottom: 5px;
     background-color: #f2f2f2;
     animation: skeleton-animation 1s infinite;
   }
-  
+
   .suggestion-item {
     padding: 10px;
     cursor: pointer;
   }
-  
+
   .suggestion-item:hover {
     background-color: #f2f2f2;
   }
-  
