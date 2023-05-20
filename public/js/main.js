@@ -63,28 +63,28 @@ function appendNewReaction(emoji, count) {
     let container = $('.thread-reaction > div:nth-child(2) > button')
     let isExist = false
     let existObj;
-    container.each(function() {
-        if($(this).attr('decodedEmoji') == withoutPrefix){
+    container.each(function () {
+        if ($(this).attr('decodedEmoji') == withoutPrefix) {
             isExist = true;
             existObj = $(this)
         }
     })
     console.log(isExist)
-    if(isExist){
+    if (isExist) {
         let currCount = existObj.find('span').html();
         currCount++
 
-        if(currCount >= 100){
+        if (currCount >= 100) {
             existObj.find('span').html('99+');
-        }else{
+        } else {
             existObj.find('span').html(currCount);
         }
-    }else{
+    } else {
         addNewReaction(emoji, count)
     }
 }
 
-function addNewReaction(emoji, count){
+function addNewReaction(emoji, count) {
     // let str = "\u1f92a";
     let withoutPrefix = emoji.substring(2);
 
@@ -93,62 +93,62 @@ function addNewReaction(emoji, count){
     let newReactionButton = $('<button>', {
         'type': 'button',
         'class': 'btn bg-light position-relative rounded-pill hide',
-        'html': decodedEmoji+' <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">'+count+'</span>'
+        'html': decodedEmoji + ' <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">' + count + '</span>'
     });
     newReactionButton.attr('decodedEmoji', withoutPrefix);
 
     let container = $('.thread-reaction > div:nth-child(2)')
 
     container.append(newReactionButton)
-    
-    setTimeout(function(){
+
+    setTimeout(function () {
         newReactionButton.removeClass('hide')
     }, 50);
 
 }
-const activeModal = {};
-function answerBoxToggle(){
+var activeModal = {};
+function answerBoxToggle() {
     $("#answer-box").toggleClass("active")
     $("#answer-box").toggleClass("z-index100")
 }
 
 
-function backdropCloseEvokeShow(){
+function backdropCloseEvokeShow() {
     const backdropCloseEvoke = $("#backdrop-close-evoke")
     backdropCloseEvoke.addClass('visibility-visible')
     backdropCloseEvoke.addClass('semi-transparent-bg')
 }
 
-function backdropCloseEvokeHide(){
+function backdropCloseEvokeHide() {
     const backdropCloseEvoke = $("#backdrop-close-evoke")
     backdropCloseEvoke.removeClass('semi-transparent-bg')
-    setTimeout(function(){
+    setTimeout(function () {
         backdropCloseEvoke.removeClass('visibility-visible')
     }, 380);
-    
+
 }
 
 
 $(document).ready(() => {
     const backdropCloseEvoke = $("#backdrop-close-evoke")
 
-    if(window.location.pathname === "/test"){
+    if (window.location.pathname === "/test") {
         quillEditor = new Quill('#answer-quill-container', {
             modules: {
                 toolbar: [
-                [{
-                    header: [1, 2, false]
-                }],
-                ['bold', 'italic'],
-                ['link', 'blockquote', 'code-block', 'image'],
-                [{ list: 'ordered' }, { list: 'bullet' }]
+                    [{
+                        header: [1, 2, false]
+                    }],
+                    ['bold', 'italic'],
+                    ['link', 'blockquote', 'code-block', 'image'],
+                    [{ list: 'ordered' }, { list: 'bullet' }]
                 ]
             },
             placeholder: 'write your answer...',
             theme: 'snow'
         })
 
-        quillEditor.on('text-change', function() {
+        quillEditor.on('text-change', function () {
             console.log(quillEditor.root.innerHTML)
             $('#answer-content').html(quillEditor.root.innerHTML)
         })
@@ -179,13 +179,13 @@ $(document).ready(() => {
         if (!emojiRegex.test(inputVal)) {
             $(this).val("")
             console.log("BBBBBBBBBBBBBB")
-        }else{
+        } else {
             console.log("AAAAAAAAAAAAAA")
         }
 
     });
 
-    function emojiSelectorToggle(){
+    function emojiSelectorToggle() {
         rootElement.toggleClass('d-none')
         rootElement.toggleClass("z-index100")
     }
@@ -226,21 +226,21 @@ $(document).ready(() => {
 
 
 
-    $("#add-answer-btn").click(function(){
+    $("#add-answer-btn").click(function () {
         answerBoxToggle()
         activeModal.answerBoxToggle = () => answerBoxToggle()
         backdropCloseEvokeShow()
     });
 
 
-    backdropCloseEvoke.click(function(){
+    backdropCloseEvoke.click(function () {
         console.log("Backdrop click")
         for (const methodName in activeModal) {
             if (activeModal.hasOwnProperty(methodName)) {
                 activeModal[methodName]()
             }
         }
-        
+        activeModal = {}
         backdropCloseEvokeHide()
     })
 
@@ -252,6 +252,82 @@ $(document).ready(() => {
 
     var r = document.querySelector(':root');
     var searchSuggest
+
+
+    ///////////////////////////////////////////////////////////////////////
+    var searchInput = $('#search-input');
+    var searchResults = $('#suggestion-list');
+
+    var debounceTimer;
+    var debounceDelay = 600; // Debounce delay in milliseconds
+    
+
+    function toggleSuggestionContainer(){
+        let suggestionContainer = $('.suggestion-container')
+        suggestionContainer.toggleClass('d-none')
+    }
+
+    searchInput.focus( function () {
+        console.log('focus')
+
+        if(!activeModal.hasOwnProperty('toggleSuggestionContainer')){
+            toggleSuggestionContainer()
+            activeModal.toggleSuggestionContainer = () => toggleSuggestionContainer()
+            backdropCloseEvokeShow()
+        }
+    });
+
+    searchInput.focusout( function () {
+        console.log('focus out')
+        // backdropCloseEvoke.click()
+    });
+
+    searchInput.on('input', function () {
+        if(searchInput.val().length == 0){
+            searchResults.hide();
+            console.log("SEARCH EMPTY NO DEBOUNCE")
+        }else{
+            searchResults.empty();
+            searchResults.show();
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(fetchSearchResults, debounceDelay);
+            console.log("GOT DEBOUNCE")
+        }
+
+        
+    });
+
+    function fetchSearchResults() {
+        var query = searchInput.val();
+        searchResults.html('<div class="skeleton-row skeleton"></div>'.repeat(5)); // Show skeleton loading
+
+        $.ajax({
+            url: 'https://dummyjson.com/products/search',
+            method: 'GET',
+            data: { q: query },
+            success: function (response) {
+                displaySearchResults(response);
+            },
+            error: function () {
+                searchResults.html('<div class="alert alert-danger">Failed to fetch search results.</div>');
+            }
+        });
+    }
+
+    function displaySearchResults(results) {
+        searchResults.empty();
+
+        if (results.total > 0) {
+            for (var i = 0; i < results.total; i++) {
+                var result = results.products[i];
+                var resultItem = $('<div class="card mb-3"><div class="card-body"><h5 class="card-title">' + result.title + '</h5><p class="card-text">' + result.description + '</p></div></div>');
+                searchResults.append(resultItem);
+            }
+        } else {
+            searchResults.append('<div class="alert alert-info">No results found.</div>');
+        }
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     // loginRememberMeCookie()
@@ -304,7 +380,7 @@ $(document).ready(() => {
         // document.querySelector('input #dark-switch-input').checked = !toggler
     })
 
-    if(Cookies.get('dark_switch_status') == 'false'){
+    if (Cookies.get('dark_switch_status') == 'false') {
         console.log(Cookies.get('dark_switch_status'))
         buttonDarkToggle.click()
     }

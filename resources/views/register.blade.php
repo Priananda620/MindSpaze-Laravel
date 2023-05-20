@@ -3,7 +3,7 @@
 
 
             <div id="register-body" class="m-5">
-                <h2>Register Tutor</h2>
+                <h2>Register</h2>
                 <form method="POST" enctype="multipart/form-data" class="d-flex flex-column" action="{{ url('/doRegister') }}">
 
                     {{ csrf_field() }}

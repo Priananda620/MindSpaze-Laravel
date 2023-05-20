@@ -558,6 +558,10 @@ section.section-child .section-text {
     width: 600px;
 }
 
+#header-nav p{
+    color: var(--display-font-color-2nd);
+}
+
 @media only screen and (max-width: 1024px) {
     #hero-text-priananda {
         width: 80%;
@@ -1517,3 +1521,44 @@ h3>.divider {
 .z-index-5{
     z-index: 1000;
 }
+
+
+@keyframes skeleton-animation {
+    0% { background-color: var(--base-color-lifted-1); }
+    50% { background-color: var(--base-color); }
+    100% { background-color: var(--base-color-lifted-1); }
+  }
+  
+  .search-container {
+    position: relative;
+  }
+  
+  .suggestion-container {
+    position: absolute;
+    top: 101%;
+    right: 0;
+    width: 200%;
+    background-color: #ffffff;
+    border: 3px solid var(--base-color-lifted-1);
+    /* border-top: none; */
+    max-height: 85vh;
+    overflow-y: auto;
+    background: var(--base-color);
+  }
+  
+  .skeleton-row {
+    height: 10px;
+    margin-bottom: 5px;
+    background-color: #f2f2f2;
+    animation: skeleton-animation 1s infinite;
+  }
+  
+  .suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .suggestion-item:hover {
+    background-color: #f2f2f2;
+  }
+  

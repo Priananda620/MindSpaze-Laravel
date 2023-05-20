@@ -20,10 +20,13 @@
         <div id="search-box" class="d-flex align-items-center">
             <h4 class="my-0">Written In&nbsp;&nbsp;<i class="fa-brands fa-python"></i>&nbsp;<i class="fa-brands fa-laravel"></i></h4>
         </div>
-        <div class="d-flex flex-row me-3" id="header-nav">
+        <div class="d-flex flex-row me-3 position-relative" id="header-nav">
             <form method="GET">
-                <input type="search" name="search-query" class="bg-inherit-text" placeholder="search mindspaze..." value="" required="">
+                <input id="search-input" type="search" name="search-query" class="bg-inherit-text form-control ds-input" placeholder="search mindspaze..." value="" required="">
             </form>
+            <div class="suggestion-container p-4 d-none rounded-3">
+                <div id="suggestion-list" class="suggestion-list"></div>
+            </div>
         </div>
         @auth
 

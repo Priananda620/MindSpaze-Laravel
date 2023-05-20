@@ -4,7 +4,7 @@
 
 
             <div id="login-body" class="m-5">
-                <h2>Login For Tutor</h2>
+                <h2>Login</h2>
                 <form method="POST" enctype="multipart/form-data" class="d-flex flex-column" action="{{ url('/doLogin') }}">
 
                     {{ csrf_field() }}
