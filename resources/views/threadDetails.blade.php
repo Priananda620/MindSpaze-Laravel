@@ -39,7 +39,7 @@
                     <h2 class="lh-sm border-start border-3 ps-3">A very serious question </h2>
 
                     <div class="ql-snow">
-                        <div class="ql-editor p-0" id="answer-content" contenteditable="false">
+                        <div class="ql-editor p-0" id="question-content" contenteditable="false">
 
                         </div>
                     </div>
