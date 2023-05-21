@@ -22,7 +22,7 @@
     color: var(--display-font-color);
 }
 
-#backdrop-close-evoke{
+#backdrop-close-evoke {
     position: fixed;
     top: 0;
     left: 0;
@@ -31,22 +31,22 @@
     z-index: 10;
     visibility: collapse;
 
-    transition: background .3s cubic-bezier(.08,.82,.17,1);
+    transition: background .3s cubic-bezier(.08, .82, .17, 1);
 }
 
-#backdrop-close-evoke.semi-transparent-bg{
+#backdrop-close-evoke.semi-transparent-bg {
     background: rgba(0, 0, 0, 0.75);
 }
 
-.visibility-collapse{
+.visibility-collapse {
     visibility: collapse !important;
 }
 
-.visibility-visible{
+.visibility-visible {
     visibility: unset !important;
 }
 
-.z-index100{
+.z-index100 {
     z-index: 100 !important;
 }
 
@@ -310,7 +310,7 @@ section#part2 svg {
     align-items: self-start;
 }
 
-.col:nth-of-type(2) > .part2-card {
+.col:nth-of-type(2)>.part2-card {
     background: url("../media/illustration-team.jpg");
     background-position-x: 0%;
     background-position-y: 0%;
@@ -323,7 +323,7 @@ section#part2 svg {
     z-index: 1;
 }
 
-.col:nth-of-type(2) > .part2-card::before {
+.col:nth-of-type(2)>.part2-card::before {
     width: 100%;
     height: 100%;
     left: 0;
@@ -562,7 +562,7 @@ section.section-child .section-text {
     width: 600px;
 }
 
-#header-nav p{
+#header-nav p {
     color: var(--display-font-color-2nd);
 }
 
@@ -1474,70 +1474,79 @@ h3>.divider {
 .hide-scrollbar1::-webkit-scrollbar {
     display: none;
 }
+
 .hide-scrollbar2 {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
-.card{
+.card {
     background-color: var(--base-color-lifted-1) !important;
     cursor: pointer;
     transition: filter cubic-bezier(0.25, 0.46, 0.45, 0.94) .2s
 }
 
-.card:hover{
+.card:hover {
     filter: brightness(0.9);
 }
 
-.card h5{
+.card h5 {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
 
     @supports (-webkit-line-clamp: 2) {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: initial;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: initial;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 }
 
-.card-body{
+.card-body {
     padding: 2rem !important;
 }
 
-.chips-first-select{
+.chips-first-select {
     order: -1;
 }
 
-.position-absolute{
+.position-absolute {
     z-index: 1;
 }
 
 
-.ql-editor{
+.ql-editor {
     cursor: unset !important;
     height: unset !important;
 }
 
-.z-index-5{
+.z-index-5 {
     z-index: 1000;
 }
 
 
 @keyframes skeleton-animation {
-    0% { background-color: var(--base-color-lifted-1); }
-    50% { background-color: var(--base-color); }
-    100% { background-color: var(--base-color-lifted-1); }
-  }
+    0% {
+        background-color: var(--base-color-lifted-1);
+    }
 
-  .search-container {
+    50% {
+        background-color: var(--base-color);
+    }
+
+    100% {
+        background-color: var(--base-color-lifted-1);
+    }
+}
+
+.search-container {
     position: relative;
-  }
+}
 
-  .suggestion-container {
+.suggestion-container {
     position: absolute;
     top: 101%;
     right: 0;
@@ -1548,20 +1557,36 @@ h3>.divider {
     max-height: 85vh;
     overflow-y: auto;
     background: var(--base-color);
-  }
+}
 
-  .skeleton-row {
+.skeleton-row {
     height: 10px;
     margin-bottom: 5px;
     background-color: #f2f2f2;
     animation: skeleton-animation 1s infinite;
-  }
+}
 
-  .suggestion-item {
+.suggestion-item {
     padding: 10px;
     cursor: pointer;
-  }
+}
 
-  .suggestion-item:hover {
+.suggestion-item:hover {
     background-color: #f2f2f2;
-  }
+}
+
+/* .nav-link:not(.active){
+    color: white !important;
+} */
+
+button.nav-link:not(.active){
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity)) !important;
+    color: white !important;
+}
+
+button.nav-link.active{
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-secondary-rgb),var(--bs-bg-opacity)) !important;
+    color: white !important;
+}
