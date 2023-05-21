@@ -36,10 +36,13 @@
                     </div>
 
 
-                    <h2 class="lh-sm">A very serious question </h2>
+                    <h2 class="lh-sm border-start border-3 ps-3">A very serious question </h2>
 
-                    <p class="lh-sm mb-5">Does Priananda Azhar loves me? because I love
-                        him soooo much </p>
+                    <div class="ql-snow">
+                        <div class="ql-editor p-0" id="answer-content" contenteditable="false">
+
+                        </div>
+                    </div>
                     {{-- <img style="padding: 0 0 1.5em 0; line-height: 1.5em; width:50%;"
                         src="asset/question_images/98f51a29-df07-48af-925b-9f1ded257bee.jpeg"> --}}
                     <div id="answer-detail-wrapper" class="mt-3">
