@@ -12,22 +12,22 @@
                     </div>
 
                     <h2 class="fw-bold mt-3">azhar620</h2>
-                    <p class="text-muted">Joined 11 November 2022
+                    <p class="text-muted-color">Joined 11 November 2022
                     </p>
                 </div>
 
                 <div class="d-flex justify-content-between">
                     <div>
                         <h4 class="fw-bold">100</h4>
-                        <p class="text-muted">Questions</p>
+                        <p class="text-muted-color">Questions</p>
                     </div>
                     <div>
                         <h4 class="fw-bold">50</h4>
-                        <p class="text-muted">Moderated</p>
+                        <p class="text-muted-color">Moderated</p>
                     </div>
                     <div>
                         <h4 class="fw-bold">20</h4>
-                        <p class="text-muted">Answers</p>
+                        <p class="text-muted-color">Answers</p>
                     </div>
                 </div>
                 <div class="d-flex flex-wrap mb-2 pb-4">
@@ -40,16 +40,16 @@
                 </div>
 
                 <ul class="nav flex-row justify-content-between mb-4 fs-3">
-                    <li class="nav-item">
+                    <li class="nav-item bg-lifted rounded-pill">
                         <a class="nav-link px-3" href="#"><i class="fa-brands fa-facebook-f"></i></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item bg-lifted rounded-pill">
                         <a class="nav-link px-3" href="#"><i class="fa-brands fa-twitter"></i></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item bg-lifted rounded-pill">
                         <a class="nav-link px-3" href="#"><i class="fa-brands fa-instagram"></i></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item bg-lifted rounded-pill">
                         <a class="nav-link px-3" href="#"><i class="fa-brands fa-linkedin"></i></a>
                     </li>
                 </ul>

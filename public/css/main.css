@@ -151,6 +151,14 @@ header>#header {
     z-index: 1000;
 }
 
+.text-muted-color{
+    color: var(--display-font-color-2nd) !important;
+}
+
+.bg-lifted{
+    background-color: var(--base-color-lifted-1) !important;
+}
+
 .toast-body {
     mix-blend-mode: difference;
     color: white;
