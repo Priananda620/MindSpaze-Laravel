@@ -156,7 +156,7 @@ header>#header {
 }
 
 .progress-bar{
-    transition: opacity .3s ease-out .1s, width .1s ease;
+    transition: opacity .2s ease-out .1s, width .1s ease;
 }
 
 .bg-lifted{
