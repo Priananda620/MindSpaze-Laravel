@@ -14,6 +14,63 @@ function clearMsgOutput() {
 }
 
 
+function createNewCard(title, username, dateAgo, profileImgUrl, answerCount, isGotAnsVerified, threadUrl) {
+    // var col = $('.col');
+    let col = $('<div>', { class: 'col' });
+
+    let card = $('<div>', { class: 'card position-relative w-100' });
+
+    let cardBody = $('<div>', { class: 'card-body' });
+
+    let userAvatar = $('<div>', {
+        class: 'user-avatar-rounded me-2',
+        style: 'background-image:url("' + profileImgUrl + '"); width: 2em; height: 2em;'
+    });
+
+    let cardSubtitle = $('<h6>', { class: 'card-subtitle text-muted me-2' }).text(username);
+
+    let boltIcon = $('<i>', {
+        class: 'fa-solid fa-bolt mb-2 orange',
+        style: 'color:var(--yellow)',
+        'data-bs-toggle': 'tooltip',
+        'data-bs-placement': 'right',
+        title: 'Hot Thread'
+    });
+
+    let dInlineFlex = $('<div>', { class: 'd-inline-flex align-items-center mb-2' });
+    dInlineFlex.append(userAvatar, cardSubtitle, boltIcon);
+
+    let cardTitle = $('<h5>', { class: 'card-title' }).text(title);
+
+    let cardSubtitle2 = $('<h6>', { class: 'card-subtitle text-muted mb-3' }).text(dateAgo);
+
+    let badges = $('<div>');
+
+    let badgeAnsVerif;
+
+    if (isGotAnsVerified) {
+        badgeAnsVerif = $('<span>', { class: 'badge bg-light text-dark' }).text('answer verified ').append($('<i>', { class: 'fa-solid fa-circle-check' }))
+    } else {
+        badgeAnsVerif = $('<span>', { class: 'badge bg-light text-dark' }).text('no verified answer ').append($('<i>', { class: 'fa-solid fa-triangle-exclamation' }))
+    }
+    let suffix = answerCount > 1 ? 's' : '';
+    let ansCount = answerCount > 99 ? '99+' : answerCount
+    let badgeAnsCount = $('<span>', { class: 'badge bg-light text-dark me-1' }).text(ansCount + ' answer' + suffix)
+    badges.append(
+        badgeAnsCount,
+        badgeAnsVerif,
+        $('<a>', { class: 'card-link float-end', href: threadUrl }).append($('<i>', { class: 'fa-solid fa-share-from-square' }))
+    );
+
+    cardBody.append(dInlineFlex, cardTitle, cardSubtitle2, badges);
+
+    card.append(cardBody);
+
+    col.append(card);
+
+    return col
+}
+
 
 // function getCookie(cname) {
 //     let name = cname + "=";
@@ -260,33 +317,33 @@ $(document).ready(() => {
 
     var debounceTimer;
     var debounceDelay = 600; // Debounce delay in milliseconds
-    
 
-    function toggleSuggestionContainer(){
+
+    function toggleSuggestionContainer() {
         let suggestionContainer = $('.suggestion-container')
         suggestionContainer.toggleClass('d-none')
     }
 
-    searchInput.focus( function () {
+    searchInput.focus(function () {
         console.log('focus')
 
-        if(!activeModal.hasOwnProperty('toggleSuggestionContainer')){
+        if (!activeModal.hasOwnProperty('toggleSuggestionContainer')) {
             toggleSuggestionContainer()
             activeModal.toggleSuggestionContainer = () => toggleSuggestionContainer()
             backdropCloseEvokeShow()
         }
     });
 
-    searchInput.focusout( function () {
+    searchInput.focusout(function () {
         console.log('focus out')
         // backdropCloseEvoke.click()
     });
 
     searchInput.on('input', function () {
-        if(searchInput.val().length == 0){
+        if (searchInput.val().length == 0) {
             searchResults.hide();
             console.log("SEARCH EMPTY NO DEBOUNCE")
-        }else{
+        } else {
             searchResults.empty();
             searchResults.show();
             clearTimeout(debounceTimer);
@@ -294,12 +351,144 @@ $(document).ready(() => {
             console.log("GOT DEBOUNCE")
         }
 
-        
+
     });
 
+    //////////////////////////////////////////////////////////////////////////
+    var nonHeaderSearch = $('.search-not-header')
+    var nonHeaderSearchResults = $('#nonHeaderSearchResults')
+
+    nonHeaderSearch.on('input', () => {
+        // searchResults.empty();
+        // searchResults.show();
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(fetchNonHeaderSearchResults, debounceDelay);
+        console.log("GOT DEBOUNCE")
+    })
+
+    ///////////////////////////////////////////////////////////////////////////
+    function fetchNonHeaderSearchResults() {
+        let query = nonHeaderSearch.val();
+        nonHeaderSearchResults.html('<div class="skeleton-row p-4 skeleton"></div>'.repeat(10)); // Show skeleton loading
+
+        setUrlSearchParams(query)
+
+        $.ajax({
+            url: 'https://dummyjson.com/products/search',
+            method: 'GET',
+            data: { q: query },
+            timeout: 5000,
+            success: function (response) {
+                displayNonHeaderSearchResults(response);
+            },
+            error: function () {
+                nonHeaderSearchResults.html('<div class="alert alert-danger">Failed to fetch search results.</div>');
+            },
+            beforeSend: function () {
+                animateProgressBar(true)
+            },
+            // xhr: function () {
+            //     var xhr = new window.XMLHttpRequest();
+
+            //     // Progress event handler
+            //     xhr.upload.addEventListener('progress', function (event) {
+            //         if (event.lengthComputable) {
+            //             var progress = Math.round((event.loaded / event.total) * 100);
+
+            //             // Update the width of the progress bar dynamically
+            //             $('.progress-bar').css('width', progress + '%');
+            //         }
+            //     }, false);
+
+            //     return xhr;
+            // },
+            complete: function () {
+                $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+
+                $('.progress-bar').addClass('opacity-0')
+                $('.progress-bar').removeClass('opacity-100')
+                
+
+                // setInterval(function () {
+                //     $('.progress-bar').css('width', '0%').attr('aria-valuenow', 0);
+                // }, 600);
+            },
+        });
+
+    }
+    
+    function animateProgressBar(isStepping) {
+        var progress = 20;
+        var increment = 10;
+        var delay = 300;
+        var progressBar = $('.progress-bar');
+
+        progressBar.css('width', progress + '%').attr('aria-valuenow', progress);
+
+    
+        if(isStepping){
+            progressBar.removeClass('opacity-0')
+            progressBar.addClass('opacity-100') 
+
+            var interval = setInterval(function () {
+                let currProgress = parseInt(progressBar.attr('aria-valuenow'))
+                currProgress += increment;
+                progressBar.css('width', currProgress + '%').attr('aria-valuenow', currProgress);
+                console.log(currProgress)
+                if (currProgress >= 100) {
+                    
+                    clearInterval(interval);
+                    progressBar.css('width', '100%').attr('aria-valuenow', '100');
+                }
+            }, delay);
+        }else{
+            progressBar.css('width', '20%').attr('aria-valuenow', '20');
+
+            progressBar.removeClass('opacity-0')
+            progressBar.addClass('opacity-100')
+        }
+
+        
+    }
+
+    window.addEventListener('popstate', function (event) {
+        // Get the query parameter from the URL
+        let searchQuery = new URLSearchParams(window.location.search).get('query');
+
+        nonHeaderSearch.val(searchQuery)
+
+        nonHeaderSearch.trigger('input');
+    });
+
+    function setUrlSearchParams(query) {
+        var url = new URL(window.location.href);
+        let searchQuery = new URLSearchParams(window.location.search).get('query');
+        if (searchQuery !== query) {
+            url.searchParams.set('query', query);
+            history.pushState(null, null, url.toString());
+        }
+
+    }
+
+    function displayNonHeaderSearchResults(results) {
+        nonHeaderSearchResults.empty();
+
+        if (results.total > 0) {
+            for (var i = 0; i < results.total; i++) {
+                let result = results.products[i];
+
+                let resultItem = createNewCard(result.title, result.brand, '5 days ago', result.thumbnail, result.stock, true, result.images[0]);
+                // console.log(resultItem)
+                nonHeaderSearchResults.append(resultItem);
+            }
+        } else {
+            nonHeaderSearchResults.append('<div class="alert alert-info">No results found.</div>');
+        }
+    }
+
     function fetchSearchResults() {
-        var query = searchInput.val();
-        searchResults.html('<div class="skeleton-row skeleton"></div>'.repeat(5)); // Show skeleton loading
+        let query = searchInput.val();
+        searchResults.html('<div class="skeleton-row skeleton"></div>'.repeat(5)); // Show skeleton loadin
 
         $.ajax({
             url: 'https://dummyjson.com/products/search',

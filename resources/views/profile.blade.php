@@ -74,22 +74,22 @@
                                     <!-- Bordered Tabs -->
                                     <ul class="nav nav-pills" role="tablist">
 
-                                        <li class="nav-item me-2" role="presentation">
+                                        <li class="nav-item me-2 mt-2" role="presentation">
                                             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview"
                                                 aria-selected="true" role="tab">Overview</button>
                                         </li>
 
-                                        <li class="nav-item me-2" role="presentation">
+                                        <li class="nav-item me-2 mt-2" role="presentation">
                                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit"
                                                 aria-selected="false" role="tab" tabindex="-1">Edit Profile</button>
                                         </li>
 
-                                        <li class="nav-item me-2" role="presentation">
+                                        <li class="nav-item me-2 mt-2" role="presentation">
                                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings"
                                                 aria-selected="false" role="tab" tabindex="-1">Settings</button>
                                         </li>
 
-                                        <li class="nav-item me-2" role="presentation">
+                                        <li class="nav-item me-2 mt-2" role="presentation">
                                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password"
                                                 aria-selected="false" role="tab" tabindex="-1">Change Password</button>
                                         </li>

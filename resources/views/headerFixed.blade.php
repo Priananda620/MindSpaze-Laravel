@@ -7,17 +7,17 @@
                 <a href="{{url('/')}}">
                     <h1 class="fw-bold d-flex align-items-center">
                         <span>{!! file_get_contents('assets/logo/svgMindspaze.svg') !!}</span>
-                        <span style="color:#f5bc00" class="position-relative">
+                        <span style="color:#f5bc00" class="position-relative logo-mind">
                             Mind
                             <p>AI Integrated</p>
                         </span>
-                        <span class="logoSpaZe">Spaze</span></h1>
+                        <span class="logoSpaZe logo-spaze">Spaze</span></h1>
                 </a>
 
             </div>
         </div>
         <div class="spacer-left mx-2"></div>
-        <div id="search-box" class="d-flex align-items-center">
+        <div id="written-by" class="d-flex align-items-center">
             <h4 class="my-0">Written In&nbsp;&nbsp;<i class="fa-brands fa-python"></i>&nbsp;<i class="fa-brands fa-laravel"></i></h4>
         </div>
         <div class="d-flex flex-row me-3 position-relative" id="header-nav">
@@ -89,7 +89,7 @@
         
     </div>
     <div class="progress" style="height: .5em;">
-        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar progress-bar-striped progress-bar-animated opacity-0" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
 </header>
 

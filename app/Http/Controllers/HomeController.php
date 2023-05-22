@@ -27,6 +27,17 @@ class HomeController extends Controller
         }
     }
 
+    public function threads(Request $request)
+    {
+        if(auth()->check()){
+            return view('threadList');
+            // $subjects = Subject::where('tutor_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+            // return view('mainPage', compact('subjects'));
+        }else{
+            return view('threadList');
+        }
+    }
+
     public function profile(Request $request)
     {
         if(auth()->check()){

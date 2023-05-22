@@ -21,10 +21,11 @@ use App\Models\Tutor;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/test', [HomeController::class, 'test'])->name('home');
+Route::get('/test', [HomeController::class, 'test'])->name('test');
 
-Route::get('/profile', [HomeController::class, 'profile'])->name('home');
+Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 
+Route::get('/threads', [HomeController::class, 'threads'])->name('threads');
 
 // Route::middleware(['guest'])->group(function () {
 //     Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');

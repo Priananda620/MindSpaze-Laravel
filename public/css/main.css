@@ -155,6 +155,10 @@ header>#header {
     color: var(--display-font-color-2nd) !important;
 }
 
+.progress-bar{
+    transition: opacity .3s ease-out .1s, width .1s ease;
+}
+
 .bg-lifted{
     background-color: var(--base-color-lifted-1) !important;
 }
@@ -1597,4 +1601,33 @@ button.nav-link.active{
     --bs-bg-opacity: 1;
     background-color: rgba(var(--bs-secondary-rgb),var(--bs-bg-opacity)) !important;
     color: white !important;
+}
+
+/* ///////////////////////////////////////// */
+@media only screen and (max-width: 1024px) {
+    .suggestion-container {
+        position: fixed;
+        top: 10%;
+        left: 0;
+        width: 100%;
+    }
+    
+    .logo-spaze{
+        display: none !important;
+    }
+    
+    .logo-mind{
+        display: none !important;
+    }
+
+    #written-by{
+        display: none !important;
+    }
+
+}
+
+@media only screen and (max-width: 720px) {
+    header #header{
+        padding: .5em 1em;
+    }
 }

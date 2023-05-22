@@ -1,6 +1,7 @@
 @extends('layout')
 @section('content')
     <section id="hero" class="pb-0">
+        {{-- <object id="svg-hero" data="assets/svg/undraw_work_time_re_hdyv.svg" type="image/svg+xml"></object> --}}
         {!! file_get_contents('assets/svg/svg1.svg') !!}
         {!! file_get_contents('assets/svg/svg2.svg') !!}
         <div class="position-absolute" style="height:100%">
