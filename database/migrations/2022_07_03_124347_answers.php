@@ -20,8 +20,10 @@ class Answers extends Migration
 
             $table->longText('answer_synopsis');
             $table->string('attached_img', 255)->nullable();
-            $table->timestamp('created_at');
+            $table->boolean('isDeleted')->default(false);
             $table->boolean('is_ai_verified')->default(false);
+            $table->timestamp('created_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

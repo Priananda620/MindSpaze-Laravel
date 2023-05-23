@@ -20,7 +20,10 @@ class Questions extends Migration
             $table->string('title', 255);
             $table->longText('question_synopsis');
             $table->string('attached_img', 255)->nullable();
-            $table->timestamp('created_at');
+            $table->boolean('isHotThread')->default(false);
+            $table->boolean('isDeleted')->default(false);
+            $table->timestamp('created_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

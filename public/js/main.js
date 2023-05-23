@@ -473,11 +473,24 @@ $(document).ready(() => {
     function displayNonHeaderSearchResults(results) {
         nonHeaderSearchResults.empty();
 
-        if (results.total > 0) {
-            for (var i = 0; i < results.total; i++) {
+        let total = Object.keys(results.products).length
+
+        $('#threadList-totalData').html(total)
+
+        if (total > 0) {
+            for (var i = 0; i < total; i++) {
                 let result = results.products[i];
 
-                let resultItem = createNewCard(result.title, result.brand, '5 days ago', result.thumbnail, result.stock, true, result.images[0]);
+                // if(result.title === null){
+                //     console.log('---------------'+i)
+                // }
+                try {
+                    var resultItem = createNewCard(result.title, result.brand, '5 days ago', result.thumbnail, result.stock, true, result.images[0]);
+                } catch (error) {
+                    console.log('---------------'+i)
+                    console.log(result)
+                }
+                
                 // console.log(resultItem)
                 nonHeaderSearchResults.append(resultItem);
             }

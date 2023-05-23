@@ -11,8 +11,10 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    public $timestamps = ["created_at"];
-    const UPDATED_AT = null;
+    // public $timestamps = ["created_at","updated_at"];
+
+    public $timestamps=true;
+    const UPDATED_AT = 'updated_at';
     const CREATED_AT = 'created_at';
 
     // protected $table = 'tutors';
@@ -29,6 +31,7 @@ class User extends Authenticatable
         'address',
         'user_role',
         'created_at',
+        'updated_at'
     ];
 
     /**
@@ -56,7 +59,8 @@ class User extends Authenticatable
         'user_profile_img' => 'string',
         'address' => 'string',
         'user_role' => 'integer',
-        'created_at' => 'timestamp'
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp'
     ];
 
     public function question(){

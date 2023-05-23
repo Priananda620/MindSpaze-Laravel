@@ -29,10 +29,13 @@ class Users extends Migration
             $table->string('user_profile_img', 255)->nullable();
             $table->text('address')->nullable();
             $table->smallInteger('user_role')->default(0);//0 user, 1 admin
-            $table->timestamp('created_at', $precision = 0);
+            $table->timestamp('created_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
         });
 
         DB::statement("ALTER TABLE users ADD CONSTRAINT chkrole check (user_role in (0, 1));");
+
+        DB::statement("ALTER TABLE `users` CHANGE `updated_at` `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;");
 
     }
 

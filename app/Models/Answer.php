@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Answer extends Model
 {
     use HasFactory;
-    public $timestamps = ["created_at"];
-    const UPDATED_AT = null;
+    public $timestamps=true;
+    const UPDATED_AT = 'updated_at';
     const CREATED_AT = 'created_at';
 
 
@@ -17,7 +17,9 @@ class Answer extends Model
         'answer_synopsis',
         'attached_img',
         'created_at',
+        'updated_at',
         'is_ai_verified',
+        'isDeleted',
         'question_id',
         'user_id'
     ];
@@ -25,8 +27,10 @@ class Answer extends Model
     protected $casts = [
         'answer_synopsis' => 'string',
         'attached_img' => 'string',
-        'created_at' => 'datetime',
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
         'is_ai_verified' => 'boolean',
+        'isDeleted' => 'boolean',
         'question_id' => 'integer',
         'user_id' => 'integer'
     ];
