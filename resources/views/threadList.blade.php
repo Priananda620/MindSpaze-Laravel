@@ -45,7 +45,7 @@
         </div>
         <div class="row row-cols-lg-3 row-cols-1 row-cols-md-2 mt-3">
             <form class="d-flex align-items-center justify-content-center">
-                <input name="search" type="text" placeholder="search..." class="bg-lifted search-not-header mt-0">
+                <input name="search" type="search" placeholder="search..." class="bg-lifted search-not-header mt-0">
                 <span id="threadList-totalData" class="badge bg-secondary ms-2">5</span>
             </form>
             
@@ -55,116 +55,16 @@
         </div>
         <div class="my-5">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="nonHeaderSearchResults">
-                <div class="col">
-                    <div class="card position-relative w-100">
-                        <div class="card-body">
-                            <div class="d-inline-flex align-items-center mb-2">
-                                <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
-                                <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                            </div>
-                            <h5 class="card-title">Card title ard title card title ard title card title</h5>            
-                            <div class="d-inline-flex">
-                                {{-- <h6 class="card-subtitle text-muted mb-2">azhar620</h6> --}}
-                                <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                            </div>                      
-                            {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
-                            <div>
-                                <span class="badge bg-light text-dark">5 answers</span>
-                                <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>                       
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card position-relative w-100">
-                        <div class="card-body">
-                            <div class="d-inline-flex align-items-center mb-2">
-                                <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
-                                <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                            </div>
-                            <h5 class="card-title">Card title ard title card title ard title card title</h5>            
-                            <div class="d-inline-flex">
-                                {{-- <h6 class="card-subtitle text-muted mb-2">azhar620</h6> --}}
-                                <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                            </div>                      
-                            {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
-                            <div>
-                                <span class="badge bg-light text-dark">5 answers</span>
-                                <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>                       
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card position-relative w-100">
-                        <div class="card-body">
-                            <div class="d-inline-flex align-items-center mb-2">
-                                <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
-                                <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                            </div>
-                            <h5 class="card-title">Card title ard title card title ard title card title</h5>            
-                            <div class="d-inline-flex">
-                                {{-- <h6 class="card-subtitle text-muted mb-2">azhar620</h6> --}}
-                                <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                            </div>                      
-                            {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
-                            <div>
-                                <span class="badge bg-light text-dark">5 answers</span>
-                                <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>                       
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card position-relative w-100">
-                        <div class="card-body">
-                            <div class="d-inline-flex align-items-center mb-2">
-                                <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
-                                <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                            </div>
-                            <h5 class="card-title">Card title ard title card title ard title card title</h5>            
-                            <div class="d-inline-flex">
-                                {{-- <h6 class="card-subtitle text-muted mb-2">azhar620</h6> --}}
-                                <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                            </div>                      
-                            {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
-                            <div>
-                                <span class="badge bg-light text-dark">5 answers</span>
-                                <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>                       
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card position-relative w-100">
-                        <div class="card-body">
-                            <div class="d-inline-flex align-items-center mb-2">
-                                <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
-                                <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                            </div>
-                            <h5 class="card-title">Card title ard title card title ard title card title</h5>            
-                            <div class="d-inline-flex">
-                                {{-- <h6 class="card-subtitle text-muted mb-2">azhar620</h6> --}}
-                                <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                            </div>                      
-                            {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
-                            <div>
-                                <span class="badge bg-light text-dark">5 answers</span>
-                                <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>                       
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="skeleton-row p-4 skeleton"></div>
+                <div class="skeleton-row p-4 skeleton"></div>
+                <div class="skeleton-row p-4 skeleton"></div>
+                <div class="skeleton-row p-4 skeleton"></div>
+                <div class="skeleton-row p-4 skeleton"></div>
+                <div class="skeleton-row p-4 skeleton"></div>
+                <div class="skeleton-row p-4 skeleton"></div>
+                <div class="skeleton-row p-4 skeleton"></div>
+                <div class="skeleton-row p-4 skeleton"></div>
+                <div class="skeleton-row p-4 skeleton"></div>
             </div>
         </div>
         

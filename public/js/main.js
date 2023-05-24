@@ -186,7 +186,16 @@ function backdropCloseEvokeHide() {
 }
 
 
+
 $(document).ready(() => {
+    function setSearchInputValue(value) {
+        setTimeout(function () {
+            let nonHeaderSearch = $('.search-not-header')
+            nonHeaderSearch.val(value)
+            nonHeaderSearch.trigger('input');
+        }, 10);
+    }
+
     const backdropCloseEvoke = $("#backdrop-close-evoke")
 
     if (window.location.pathname === "/test") {
@@ -209,6 +218,22 @@ $(document).ready(() => {
             console.log(quillEditor.root.innerHTML)
             $('#answer-content').html(quillEditor.root.innerHTML)
         })
+    }
+    if (window.location.pathname === "/threads") {
+        const urlParams = new URLSearchParams(window.location.search);
+        const params = {};
+
+        console.log("DSDSADNSAUODSDOANSDNSAONDNNNNN")
+
+        for (const [param, value] of urlParams) {
+            params[param] = value;
+        }
+
+        if (params.hasOwnProperty('query') && params.query !== null) {
+            console.log("PARAMQUERY" + params.query)
+            setSearchInputValue(params.query)
+        }
+
     }
 
     const rootElement = $('#picmo-picker-container');
@@ -407,7 +432,7 @@ $(document).ready(() => {
 
                 $('.progress-bar').addClass('opacity-0')
                 $('.progress-bar').removeClass('opacity-100')
-                
+
 
                 // setInterval(function () {
                 //     $('.progress-bar').css('width', '0%').attr('aria-valuenow', 0);
@@ -416,7 +441,7 @@ $(document).ready(() => {
         });
 
     }
-    
+
     function animateProgressBar(isStepping) {
         var progress = 20;
         var increment = 10;
@@ -425,10 +450,10 @@ $(document).ready(() => {
 
         progressBar.css('width', progress + '%').attr('aria-valuenow', progress);
 
-    
-        if(isStepping){
+
+        if (isStepping) {
             progressBar.removeClass('opacity-0')
-            progressBar.addClass('opacity-100') 
+            progressBar.addClass('opacity-100')
 
             var interval = setInterval(function () {
                 let currProgress = parseInt(progressBar.attr('aria-valuenow'))
@@ -436,28 +461,25 @@ $(document).ready(() => {
                 progressBar.css('width', currProgress + '%').attr('aria-valuenow', currProgress);
                 console.log(currProgress)
                 if (currProgress >= 100) {
-                    
+
                     clearInterval(interval);
                     progressBar.css('width', '100%').attr('aria-valuenow', '100');
                 }
             }, delay);
-        }else{
+        } else {
             progressBar.css('width', '20%').attr('aria-valuenow', '20');
 
             progressBar.removeClass('opacity-0')
             progressBar.addClass('opacity-100')
         }
 
-        
+
     }
 
     window.addEventListener('popstate', function (event) {
         // Get the query parameter from the URL
         let searchQuery = new URLSearchParams(window.location.search).get('query');
-
-        nonHeaderSearch.val(searchQuery)
-
-        nonHeaderSearch.trigger('input');
+        setSearchInputValue(searchQuery)
     });
 
     function setUrlSearchParams(query) {
@@ -487,10 +509,10 @@ $(document).ready(() => {
                 try {
                     var resultItem = createNewCard(result.title, result.brand, '5 days ago', result.thumbnail, result.stock, true, result.images[0]);
                 } catch (error) {
-                    console.log('---------------'+i)
+                    console.log('---------------' + i)
                     console.log(result)
                 }
-                
+
                 // console.log(resultItem)
                 nonHeaderSearchResults.append(resultItem);
             }
