@@ -185,15 +185,15 @@ function backdropCloseEvokeHide() {
 
 }
 
-function onResizeActions(viewportWidth, viewportHeight){
+function onResizeActions(viewportWidth, viewportHeight) {
     let header = $('header')
     let headerHeight = header.height()
 
     console.log(headerHeight)
 
-    if(viewportWidth < 1024){
+    if (viewportWidth < 1024) {
         $('.suggestion-container ').css('top', headerHeight)
-    }else{
+    } else {
         $('.suggestion-container ').css('top', '');
     }
 }
@@ -201,14 +201,14 @@ function onResizeActions(viewportWidth, viewportHeight){
 var resizeTimeout;
 
 function handleResize() {
-  clearTimeout(resizeTimeout);
-  
-  resizeTimeout = setTimeout(function() {
-    var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-    var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-    
-    onResizeActions(viewportWidth, viewportHeight);
-  }, 100);
+    clearTimeout(resizeTimeout);
+
+    resizeTimeout = setTimeout(function () {
+        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+        var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+        onResizeActions(viewportWidth, viewportHeight);
+    }, 100);
 }
 
 window.addEventListener('resize', handleResize);
@@ -225,7 +225,7 @@ $(document).ready(() => {
         }, 10);
     }
     setSearchInputValue()
-    
+
     const backdropCloseEvoke = $("#backdrop-close-evoke")
 
     if (window.location.pathname === "/test") {
@@ -1092,6 +1092,25 @@ $(document).ready(() => {
     // $("#add-answer-btn").click(function () {
     //     $("#answer-box").toggleClass("active");
     // });
+
+    const avatarInput = $('#user-pic-update');
+    const avatarPreview = $('#upload-avatar-preview');
+
+    $('#upload-avatar-btn').on('click', function() {
+        avatarInput.trigger('click');
+    })
+
+    avatarInput.on('change', function (event) {
+        if (event.target.files && event.target.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                avatarPreview.attr('src', event.target.result);
+            };
+
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    });
 
 });
 

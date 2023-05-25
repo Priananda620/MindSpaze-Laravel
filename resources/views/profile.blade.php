@@ -153,12 +153,20 @@
                                                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
                                                         Image</label>
                                                     <div class="col-md-8 col-lg-9">
-                                                        <img src="assets/img/profile-img.jpg" alt="Profile">
+                                                        <img id="upload-avatar-preview" class="w-50" src="http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg" alt="Profile">
                                                         <div class="pt-2">
-                                                            <a href="#" class="btn btn-primary btn-sm"
-                                                                title="Upload new profile image"><i class="bi bi-upload"></i></a>
                                                             <a href="#" class="btn btn-danger btn-sm"
-                                                                title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                                                                title="Remove my profile image">
+                                                                <i class="fa-solid fa-square-minus"></i>
+                                                            </a>
+                                                            
+                                                            <input style="display: none" id="user-pic-update" type="file" name="user-pic-update" required="">
+                                                            <a id="upload-avatar-btn" class="btn bg-lifted-1 btn-sm"
+                                                                title="Upload new profile image">
+                                                                    
+                                                                
+                                                                <i class="fa-solid fa-images"></i>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>

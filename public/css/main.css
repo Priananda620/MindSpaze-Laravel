@@ -1603,6 +1603,12 @@ button.nav-link.active{
     color: white !important;
 }
 
+.bg-lifted-1{
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-secondary-rgb),var(--bs-bg-opacity)) !important;
+    color: #fff;
+}
+
 /* ///////////////////////////////////////// */
 @media only screen and (max-width: 1024px) {
     .suggestion-container {
