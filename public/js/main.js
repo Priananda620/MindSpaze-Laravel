@@ -185,9 +185,38 @@ function backdropCloseEvokeHide() {
 
 }
 
+function onResizeActions(viewportWidth, viewportHeight){
+    let header = $('header')
+    let headerHeight = header.height()
+
+    console.log(headerHeight)
+
+    if(viewportWidth < 1024){
+        $('.suggestion-container ').css('top', headerHeight)
+    }else{
+        $('.suggestion-container ').css('top', '');
+    }
+}
+
+var resizeTimeout;
+
+function handleResize() {
+  clearTimeout(resizeTimeout);
+  
+  resizeTimeout = setTimeout(function() {
+    var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+    var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    
+    onResizeActions(viewportWidth, viewportHeight);
+  }, 100);
+}
+
+window.addEventListener('resize', handleResize);
 
 
 $(document).ready(() => {
+    onResizeActions(window.innerWidth || document.documentElement.clientWidth, window.innerHeight || document.documentElement.clientHeight)
+
     function setSearchInputValue(value) {
         setTimeout(function () {
             let nonHeaderSearch = $('.search-not-header')
@@ -195,7 +224,8 @@ $(document).ready(() => {
             nonHeaderSearch.trigger('input');
         }, 10);
     }
-
+    setSearchInputValue()
+    
     const backdropCloseEvoke = $("#backdrop-close-evoke")
 
     if (window.location.pathname === "/test") {
@@ -232,6 +262,7 @@ $(document).ready(() => {
         if (params.hasOwnProperty('query') && params.query !== null) {
             console.log("PARAMQUERY" + params.query)
             setSearchInputValue(params.query)
+            console.log("GET PARAM HAS QUERY KEY")
         }
 
     }
@@ -339,6 +370,7 @@ $(document).ready(() => {
     ///////////////////////////////////////////////////////////////////////
     var searchInput = $('#search-input');
     var searchResults = $('#suggestion-list');
+    var startTypingH5 = $('.start-typing-h5');
 
     var debounceTimer;
     var debounceDelay = 600; // Debounce delay in milliseconds
@@ -367,10 +399,12 @@ $(document).ready(() => {
     searchInput.on('input', function () {
         if (searchInput.val().length == 0) {
             searchResults.hide();
+            startTypingH5.show()
             console.log("SEARCH EMPTY NO DEBOUNCE")
         } else {
             searchResults.empty();
             searchResults.show();
+            startTypingH5.hide()
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(fetchSearchResults, debounceDelay);
             console.log("GOT DEBOUNCE")
@@ -541,8 +575,10 @@ $(document).ready(() => {
     function displaySearchResults(results) {
         searchResults.empty();
 
-        if (results.total > 0) {
-            for (var i = 0; i < results.total; i++) {
+        let total = Object.keys(results.products).length
+
+        if (total > 0) {
+            for (var i = 0; i < total; i++) {
                 var result = results.products[i];
                 var resultItem = $('<div class="card mb-3"><div class="card-body"><h5 class="card-title">' + result.title + '</h5><p class="card-text">' + result.description + '</p></div></div>');
                 searchResults.append(resultItem);
@@ -1009,6 +1045,7 @@ $(document).ready(() => {
             $('#search-suggestion > h4').html("Type something. . .")
             skeletonItems.removeClass("d-inline-flex")
         }
+
 
 
 

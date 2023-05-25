@@ -25,7 +25,9 @@
                 <input id="search-input" type="search" name="search-query" class="bg-inherit-text form-control ds-input" placeholder="search mindspaze..." value="" required="">
             </form>
             <div class="suggestion-container p-4 d-none rounded-3">
-                <div id="suggestion-list" class="suggestion-list"></div>
+                <h5 class="start-typing-h5">Start typing to see results...</h5>
+                <div id="suggestion-list" class="suggestion-list">
+                </div>
             </div>
         </div>
         @auth
