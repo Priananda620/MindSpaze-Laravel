@@ -220,7 +220,7 @@ a {
     transition: background .1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
     align-items: center;
     display: flex;
-    margin-right: auto;
+    /* margin-right: auto; */
     padding: 7px;
     justify-content: center;
     cursor: pointer;

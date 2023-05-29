@@ -21,16 +21,22 @@
                             </div>
                         </a>
                         <div class="afterMenu">
-                            <div class="hamburger-quora">
-                                <svg width="24px" height="24px" viewBox="0 0 24 24">
-                                    <g id="overflow" class="icon_svg-stroke" stroke-width="1.5" stroke="#666"
-                                        fill="none" fill-rule="evenodd">
-                                        <path
-                                            d="M5,14 C3.8954305,14 3,13.1045695 3,12 C3,10.8954305 3.8954305,10 5,10 C6.1045695,10 7,10.8954305 7,12 C7,13.1045695 6.1045695,14 5,14 Z M12,14 C10.8954305,14 10,13.1045695 10,12 C10,10.8954305 10.8954305,10 12,10 C13.1045695,10 14,10.8954305 14,12 C14,13.1045695 13.1045695,14 12,14 Z M19,14 C17.8954305,14 17,13.1045695 17,12 C17,10.8954305 17.8954305,10 19,10 C20.1045695,10 21,10.8954305 21,12 C21,13.1045695 20.1045695,14 19,14 Z">
-                                        </path>
-                                    </g>
-                                </svg>
+                            <div class="hamburger-icon hamburgerMenu-toggler">
+                                <a class="p-3 cursor-pointer">
+                                    <i class="fa-solid fa-ellipsis-vertical fw-bold fs-2"></i>
+                                </a>
                             </div>
+                            <div class="collapse navbar-collapse position-absolute bg-lifted" id="hamburgerMenu">
+                                <ul class="navbar-nav p-2">
+                                    <li class="nav-item m-1">
+                                        <a href="#" class="p-2"><i class="fa-solid fa-share-nodes"></i></a>
+                                    </li>
+                                    <li class="nav-item m-1">
+                                        <a href="#" class="p-2"><i class="fa-solid fa-trash"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                    
                         </div>
 
                     </div>
@@ -89,13 +95,22 @@
                 <div class="thread-contents-items isTopAnswer" answer-id="41">
 
                     <div class="thread-contents-user-wrapper thread-border-bottom">
+                        <a href="profile.php?user_id=564" class="me-auto">
+                            <div class="user-wrapper">
+                                <div class="image-evoke-update image-form-evoke user-avatar-rounded me-2" style="background-image:url(http://127.0.0.1:8000/assets/user_images/1111111_3452fd55-fff9-4a4a-8b9b-832ba3c0e1fc.png);border: 1px solid var(--display-font-color-2nd);">
+                                </div><div class="user-data align-items-start me-2">
+                                    <h7>azhar1234</h7>
 
-                        <div class="thread-answer-right-action" style="width: 31em;">
-                            <div class="up-down-voting d-flex flex-column align-items-center justify-content-center">
-                                <i class="fas fa-arrow-up up-vote-items isActive thread-answer-right-action-item"></i>
-                                <i class="fas fa-arrow-down down-vote-items thread-answer-right-action-item"></i>
+                                    <p class="unfocus-text m-0 mt-1 w-90px">4 weeks ago</p>
+                                </div>
+                                
+
+
                             </div>
-                            <div class="answer-stats d-flex flex-row flex-wrap justify-content-start">
+                        </a>
+                        <div class="thread-answer-right-action" style="width: 31em;">
+                            
+                            <div class="answer-stats d-flex flex-row flex-wrap justify-content-end">
                                 <div class="answer-stat-items swatch-teal">
                                     4 upvoted&nbsp;
                                 </div>
@@ -115,32 +130,13 @@
                                     Potential False&nbsp;
                                 </div>
                             </div>
-                            <div class="fa-2x"><i class="fas fa-circle-notch fa-spin"></i></div>
+                            <div class="up-down-voting d-flex flex-column align-items-center justify-content-center">
+                                <i class="fas fa-arrow-up up-vote-items isActive thread-answer-right-action-item"></i>
+                                <i class="fas fa-arrow-down down-vote-items thread-answer-right-action-item"></i>
+                            </div><div class="fa-2x"><i class="fas fa-circle-notch fa-spin"></i></div>
 
 
                         </div>
-
-
-                        <a href="profile.php?user_id=564">
-                            <div class="user-wrapper">
-                                <div class="user-data align-items-end me-2">
-                                    <h7>azhar1234</h7>
-
-                                    <p class="unfocus-text m-0 mt-1">4 weeks ago</p>
-                                </div>
-                                <div class="image-evoke-update image-form-evoke user-avatar-rounded me-2"
-                                style="background-image:url({{asset('assets/user_images/1111111_3452fd55-fff9-4a4a-8b9b-832ba3c0e1fc.png')}});border: 1px solid var(--display-font-color-2nd);">
-                                </div>
-
-
-                            </div>
-                        </a>
-                        {{-- <div class="answer-stats">
-                            <i class="fas fa-vote-yea" style="color:var(--yellow)"></i>
-                            &nbsp;<span>1</span> approved
-                        </div> --}}
-
-
 
                     </div>
 
@@ -174,7 +170,7 @@
             <div id="thread-contents-right">
                 <div id="side-sticky-wrapper">
                     <div class="thread-contents-header">
-                        <h2>Related Threads</h2>
+                        <h2 class="fw-700">Related Threads</h2>
                     </div>
 
 

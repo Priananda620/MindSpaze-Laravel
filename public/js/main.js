@@ -182,19 +182,38 @@ function backdropCloseEvokeHide() {
     setTimeout(function () {
         backdropCloseEvoke.removeClass('visibility-visible')
     }, 380);
-
 }
 
 function onResizeActions(viewportWidth, viewportHeight) {
     let header = $('header')
     let headerHeight = header.height()
+    let part2Childs = $('section#part2 > div:nth-child(1), section#part2 > div:nth-child(2)')
+    let threadDetails = $('#thread-details > div')
+    let threadDetailsChilds = $('#thread-details > div > div')
 
     console.log(headerHeight)
 
+    if(viewportWidth < 720){
+        $('section#thread-details').removeClass('m-5')
+
+    }else{
+        $('section#thread-details').addClass('m-5')
+    }
+
     if (viewportWidth < 1024) {
         $('.suggestion-container ').css('top', headerHeight)
+        part2Childs.addClass('flex-column')
+        part2Childs.removeClass('flex-row')
+        threadDetails.addClass('flex-column')
+        threadDetails.removeClass('flex-row')
+        threadDetailsChilds.addClass('w-100')
     } else {
         $('.suggestion-container ').css('top', '');
+        part2Childs.removeClass('flex-column')
+        part2Childs.addClass('flex-row')
+        threadDetails.removeClass('flex-column')
+        threadDetails.addClass('flex-row')
+        threadDetailsChilds.removeClass('w-100')
     }
 }
 
@@ -214,8 +233,18 @@ function handleResize() {
 window.addEventListener('resize', handleResize);
 
 
+function clearModalShown(){
+    for (const methodName in activeModal) {
+        if (activeModal.hasOwnProperty(methodName)) {
+            activeModal[methodName]()
+        }
+    }
+    activeModal = {}
+}
+
 $(document).ready(() => {
     onResizeActions(window.innerWidth || document.documentElement.clientWidth, window.innerHeight || document.documentElement.clientHeight)
+
 
     function setSearchInputValue(value) {
         setTimeout(function () {
@@ -345,15 +374,22 @@ $(document).ready(() => {
         backdropCloseEvokeShow()
     });
 
+    $('.hamburgerMenu-toggler').click(function () {
+        $('#hamburgerMenu').toggleClass('show');
+        $('.user-wrapper').toggleClass('z-index100')
+
+        activeModal.hamburgerMenuToggle = () => {
+            $('#hamburgerMenu').toggleClass('show');
+            setTimeout(function () {
+                $('.user-wrapper').toggleClass('z-index100')
+            }, 100);
+        }
+        backdropCloseEvokeShow()
+    });
 
     backdropCloseEvoke.click(function () {
         console.log("Backdrop click")
-        for (const methodName in activeModal) {
-            if (activeModal.hasOwnProperty(methodName)) {
-                activeModal[methodName]()
-            }
-        }
-        activeModal = {}
+        clearModalShown()
         backdropCloseEvokeHide()
     })
 
@@ -383,6 +419,7 @@ $(document).ready(() => {
 
     searchInput.focus(function () {
         console.log('focus')
+        clearModalShown()
 
         if (!activeModal.hasOwnProperty('toggleSuggestionContainer')) {
             toggleSuggestionContainer()

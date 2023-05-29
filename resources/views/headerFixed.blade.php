@@ -52,8 +52,8 @@
 
             <div class="d-flex flex-row me-3">
                 <div class="p-1 user-avatar-wrap d-flex flex-row align-items-center justify-content-center position-relative">
-                    <div class="user-avatar-rounded me-2" style="background-image:url('{{asset('assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg')}}')"></div>
-                    <p class="mb-0 me-2">azhar620</p>
+                    <div class="user-avatar-rounded" style="background-image:url('{{asset('assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg')}}')"></div>
+                    <p id="username-header" class="mb-0 me-2 ms-2">azhar620</p>
                     <div id="user-dropdown-wrap" class="position-absolute p-0 d-flex align-items-center justify-content-center">
                         <ul class="p-0 m-0 d-flex justify-content-start flex-column">
                             <li>
