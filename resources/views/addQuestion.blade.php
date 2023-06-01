@@ -10,7 +10,7 @@
 .container {
   position: relative;
   width: 100%;
-  height: 511px;
+  height: 75vh;
   overflow: hidden;
 }
 
@@ -82,7 +82,7 @@
         <h2 class="">Thank you for interested in a part of our community!
         </h2>
         <p class=" text-muted-color">
-            We're here to help answer your questions and provide valuable insights. 
+            We're here to help answer your questions and provide valuable insights.
         </p>
         {{-- <img src="placeholder1.jpg" alt="Step 1 Image"> --}}
     </div>
@@ -90,7 +90,7 @@
         <object class="mb-5" style="width: 21vw;" data="assets/svg/undraw_complete_design_re_h75h.svg" type="image/svg+xml"></object>
         <h3 class="text-muted-color">Keep In Mind</h3>
         <h2 class="">You Have to Follow Our Community Guidelines</h2>
-        
+
     </div>
     <div id="step3" class="step p-5" style="justify-content: start;">
       <object class="mb-5 mt-3" style="width: 25vw;" data="assets/svg/undraw_text_field_htlv.svg" type="image/svg+xml"></object>
@@ -103,12 +103,12 @@
         <i class="fa-regular fa-circle-check text-success fa-2xl fs-2" style="display: none"></i>
         <i class="fa-regular fa-circle-xmark fa-2xl fs-2 text-danger" style="display: none"></i>
       </div>
-      
+
     </div>
     <div id="step4" class="step p-5" style="justify-content: start;">
         <h2>Fill Your Question Details</h2>
         {{-- <img src="placeholder3.jpg" alt="Step 3 Image"> --}}
-        
+
         <div style="width: 92%;" class="mt-4">
             <div id="question-quill-container">
                 <p>     </p>
@@ -121,7 +121,7 @@
         </div>
         <div class="mt-5">Select your tags</div>
         <div class="mb-3 d-flex flex-row mt-3" style="width: 90%;">
-            
+
             <button class="btn btn-secondary" type="disabled">
                 <i class="fa-solid fa-tags"></i>
             </button>
@@ -194,7 +194,7 @@ $(document).ready(function() {
             currentStep++;
         }
       }
-        
+
     });
 
   $('#newTitle > input').keypress(function(event) {

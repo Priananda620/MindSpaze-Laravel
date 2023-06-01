@@ -218,13 +218,14 @@ function onResizeActions(viewportWidth, viewportHeight) {
 }
 
 var resizeTimeout;
+var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
 function handleResize() {
     clearTimeout(resizeTimeout);
 
     resizeTimeout = setTimeout(function () {
-        var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-        var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
 
         onResizeActions(viewportWidth, viewportHeight);
     }, 100);
@@ -407,10 +408,10 @@ $(document).ready(() => {
             $('#answer-content').html(quillEditor.root.innerHTML)
 
             let questionQuillHeight = $('#question-quill-container').height()
-            if (questionQuillHeight > 200) {
-                $('#addQuestion-container').css('height', (questionQuillHeight + 317) + 'px');
+            if (questionQuillHeight > (viewportHeight*0.42)) {
+                $('#addQuestion-container').css('height', (questionQuillHeight-70 + (viewportHeight*0.42)) + 'px');
             }else{
-                $('#addQuestion-container').css('height', 511 + 'px');
+                $('#addQuestion-container').css('height', 75 + 'vh');
             }
 
 
@@ -563,8 +564,8 @@ $(document).ready(() => {
             data: { q: query },
             timeout: 5000,
             success: function (response) {
-                
-                
+
+
                 if(Object.keys(response.products).length > 0){
                     $('#step3 .fa-circle-xmark').show();
                     $('#step3 .fa-circle-check').hide();
@@ -576,7 +577,7 @@ $(document).ready(() => {
                     pushToastMessage('Success', 'Title is available', 'success')
                     $("#nextButton").attr("isDisabled", "false");
                 }
-                
+
             },
             error: function () {
                 pushToastMessage('failed', 'fail to request to the server', 'fail')
@@ -605,7 +606,7 @@ $(document).ready(() => {
         $('#step3 .fa-ellipsis').show();
         $('#step3 .fa-circle-check').hide();
         $('#step3 .fa-circle-xmark').hide();
-        
+
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(fetchNewQuestionCheck, debounceDelay);
         console.log("GOT DEBOUNCE")
