@@ -18,7 +18,8 @@ class Answer extends Model
         'attached_img',
         'created_at',
         'updated_at',
-        'is_ai_verified',
+        'ai_classification_status',
+        'moderated_as',
         'isDeleted',
         'question_id',
         'user_id'
@@ -29,7 +30,8 @@ class Answer extends Model
         'attached_img' => 'string',
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp',
-        'is_ai_verified' => 'boolean',
+        'ai_classification_status' => 'string',
+        'moderated_as' => 'string',
         'isDeleted' => 'boolean',
         'question_id' => 'integer',
         'user_id' => 'integer'

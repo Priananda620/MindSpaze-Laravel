@@ -193,10 +193,10 @@ function onResizeActions(viewportWidth, viewportHeight) {
 
     console.log(headerHeight)
 
-    if(viewportWidth < 720){
+    if (viewportWidth < 720) {
         $('section#thread-details').removeClass('m-5')
 
-    }else{
+    } else {
         $('section#thread-details').addClass('m-5')
     }
 
@@ -233,7 +233,7 @@ function handleResize() {
 window.addEventListener('resize', handleResize);
 
 
-function clearModalShown(){
+function clearModalShown() {
     for (const methodName in activeModal) {
         if (activeModal.hasOwnProperty(methodName)) {
             activeModal[methodName]()
@@ -242,7 +242,74 @@ function clearModalShown(){
     activeModal = {}
 }
 
+function pushToastMessage(title, body, status) {
+    const now = moment();
+
+    const pastTime = now.subtract(2, 'hours'); // Replace with your desired past time
+
+    // Calculate the duration and display the time ago
+    const duration = moment.duration(now.diff(pastTime));
+    let timeAgo = duration.humanize();
+    timeAgo = timeAgo + ' ago'
+
+    const icons = {
+        success: '<i class="fa-solid fa-square-check text-success"></i>',
+        fail: '<i class="fa-solid fa-triangle-exclamation text-danger text-warning"></i>',
+        info: '<i class="fa-solid fa-circle-info"></i>'
+    }
+    console.log(icons.success)
+    if (status === 'fail') {
+        $('#pushIcon').html(icons.fail)
+    } else if (status === 'success') {
+        $('#pushIcon').html(icons.success)
+    } else {
+        $('#pushIcon').html(icons.info)
+    }
+
+    $('#pushTitle').text(title);
+    $('#pushBody').text(body);
+    $('#pushAgo').text(timeAgo);
+    $('#pushToast').toast('show');
+}
+
+function checkQuillImage(objectRoot) {
+    let editorRoot = objectRoot
+
+    let imagesCount = editorRoot.find('img').length;
+    if (imagesCount > 1) {
+        pushToastMessage("warning", "Cannot add more than one image, we removed the bottom most", "info")
+
+        // let paragraphs = editorRoot.find('p');
+
+        // paragraphs.each(function () {
+        //     let imgElements = $(this).find('img');
+        //     imgElements.slice(1).remove();
+        //     console.log(imgElements)
+        // });
+
+        // let p_slices = paragraphs.slice(1).filter(':has(img)');
+        // p_slices.remove()
+        editorRoot.find('p:has(img)').not(':first').find('img').remove();
+
+        editorRoot.find('p:has(img)').each(function () {
+            let p = $(this);
+            p.find('img').slice(1).remove();
+        });
+
+
+        console.log("FNFONDFNNEONOEN")
+
+        $('.ql-image').off('click').on('click', function () {
+            console.log('New click event listener');
+        });
+
+    }
+}
+
 $(document).ready(() => {
+    pushToastMessage('title test', 'body test test test test test test', 'success')
+
+
     onResizeActions(window.innerWidth || document.documentElement.clientWidth, window.innerHeight || document.documentElement.clientHeight)
 
 
@@ -274,8 +341,79 @@ $(document).ready(() => {
         })
 
         quillEditor.on('text-change', function () {
+            checkQuillImage($('#answer-quill-container > .ql-editor'))
+            // console.log(imagesCount)
             console.log(quillEditor.root.innerHTML)
             $('#answer-content').html(quillEditor.root.innerHTML)
+        })
+
+    }
+    if (window.location.pathname === "/add-question") {
+        quillEditor = new Quill('#question-quill-container', {
+            modules: {
+                toolbar: [
+                    [{
+                        header: [1, 2, false]
+                    }],
+                    ['bold', 'italic'],
+                    ['link', 'blockquote', 'code-block', 'image'],
+                    [{ list: 'ordered' }, { list: 'bullet' }]
+                ]
+            },
+            placeholder: 'write your question...',
+            theme: 'snow'
+        })
+
+        var insertedImages = [];
+
+        quillEditor.on('text-change', function (delta) {
+            // var editorContent = quillEditor.getContents();
+
+            // editorContent.ops.forEach(function (op) {
+            //     if (op.insert && op.insert.image) {
+            //         insertedImages.push(op.insert.image);
+            //     }
+            // });
+
+            // // Remove the newest image if there are multiple images
+            // if (insertedImages.length > 1) {
+            //     var newestImage = insertedImages[insertedImages.length - 1];
+
+            //     var newestImageIndex = -1;
+            //     for (var i = editorContent.ops.length - 1; i >= 0; i--) {
+            //         var op = editorContent.ops[i];
+            //         if (op.insert && op.insert.image === newestImage) {
+            //             newestImageIndex = i;
+            //             break;
+            //         }
+            //     }
+
+            //     if (newestImageIndex !== -1) {
+            //         editorContent.ops.splice(newestImageIndex, 1);
+            //         quillEditor.setContents(editorContent);
+            //     }
+            // }
+
+
+            console.log(insertedImages)
+
+
+
+
+
+            checkQuillImage($('#question-quill-container > .ql-editor'))
+            ///////////////
+            // console.log(quillEditor.root.innerHTML)
+            $('#answer-content').html(quillEditor.root.innerHTML)
+
+            let questionQuillHeight = $('#question-quill-container').height()
+            if (questionQuillHeight > 200) {
+                $('#addQuestion-container').css('height', (questionQuillHeight + 317) + 'px');
+            }else{
+                $('#addQuestion-container').css('height', 511 + 'px');
+            }
+
+
         })
     }
     if (window.location.pathname === "/threads") {
@@ -387,6 +525,22 @@ $(document).ready(() => {
         backdropCloseEvokeShow()
     });
 
+    $('.hamburgerMenuAnswer-toggler').click(function () {
+        // $(this).child('hamburgerMenuAnswer')
+        let currentAnsMenu = $(this).siblings('.hamburgerMenuAnswer')
+        let currentAnsWrapper = $(this).closest('.thread-contents-items')
+        currentAnsMenu.toggleClass('show')
+        currentAnsWrapper.toggleClass('z-index100')
+
+        activeModal.hamburgerMenuToggle = () => {
+            currentAnsMenu.toggleClass('show');
+            setTimeout(function () {
+                currentAnsWrapper.toggleClass('z-index100')
+            }, 100);
+        }
+        backdropCloseEvokeShow()
+    });
+
     backdropCloseEvoke.click(function () {
         console.log("Backdrop click")
         clearModalShown()
@@ -397,6 +551,67 @@ $(document).ready(() => {
     //     readOnly: true,
     //     theme: 'snow'
     // });
+
+
+    var newQuestionTitle = $("input[name='question-title']")
+    function fetchNewQuestionCheck() {
+        let query = newQuestionTitle.val();
+
+        $.ajax({
+            url: 'https://dummyjson.com/products/search',
+            method: 'GET',
+            data: { q: query },
+            timeout: 5000,
+            success: function (response) {
+                
+                
+                if(Object.keys(response.products).length > 0){
+                    $('#step3 .fa-circle-xmark').show();
+                    $('#step3 .fa-circle-check').hide();
+                    pushToastMessage('Failed', 'Title is unavailable', 'fail')
+                    $("#nextButton").attr("isDisabled", "true");
+                }else if(Object.keys(response.products).length <= 0){
+                    $('#step3 .fa-circle-xmark').hide();
+                    $('#step3 .fa-circle-check').show();
+                    pushToastMessage('Success', 'Title is available', 'success')
+                    $("#nextButton").attr("isDisabled", "false");
+                }
+                
+            },
+            error: function () {
+                pushToastMessage('failed', 'fail to request to the server', 'fail')
+                $('#step3 .fa-circle-check').hide();
+                $('#step3 .fa-circle-xmark').hide();
+            },
+            beforeSend: function () {
+                animateProgressBar(true)
+
+                $('#step3 .fa-circle-check').hide();
+                $('#step3 .fa-circle-xmark').hide();
+                $('#step3 .fa-ellipsis').show();
+            },
+            complete: function () {
+                $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                $('.progress-bar').addClass('opacity-0')
+                $('.progress-bar').removeClass('opacity-100')
+
+                $('#step3 .fa-ellipsis').hide();
+            },
+        });
+
+    }
+    newQuestionTitle.on('input', () => {
+        // searchResults.empty();
+        $('#step3 .fa-ellipsis').show();
+        $('#step3 .fa-circle-check').hide();
+        $('#step3 .fa-circle-xmark').hide();
+        
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(fetchNewQuestionCheck, debounceDelay);
+        console.log("GOT DEBOUNCE")
+    })
+
+
 
 
     var r = document.querySelector(':root');
@@ -476,9 +691,11 @@ $(document).ready(() => {
             timeout: 5000,
             success: function (response) {
                 displayNonHeaderSearchResults(response);
+                pushToastMessage('success', 'data has been loaded successfully', 'success')
             },
             error: function () {
                 nonHeaderSearchResults.html('<div class="alert alert-danger">Failed to fetch search results.</div>');
+                pushToastMessage('failed', 'fail to request to the server', 'fail')
             },
             beforeSend: function () {
                 animateProgressBar(true)
@@ -602,9 +819,11 @@ $(document).ready(() => {
             data: { q: query },
             success: function (response) {
                 displaySearchResults(response);
+                pushToastMessage('success', 'data has been loaded successfully', 'success')
             },
             error: function () {
                 searchResults.html('<div class="alert alert-danger">Failed to fetch search results.</div>');
+                pushToastMessage('failed', 'fail to request to the server', 'fail')
             }
         });
     }
@@ -1133,7 +1352,7 @@ $(document).ready(() => {
     const avatarInput = $('#user-pic-update');
     const avatarPreview = $('#upload-avatar-preview');
 
-    $('#upload-avatar-btn').on('click', function() {
+    $('#upload-avatar-btn').on('click', function () {
         avatarInput.trigger('click');
     })
 

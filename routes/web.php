@@ -23,9 +23,13 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/test', [HomeController::class, 'test'])->name('test');
 
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+
 Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 
 Route::get('/threads', [HomeController::class, 'threads'])->name('threads');
+
+Route::get('/add-question', [HomeController::class, 'addQuestion'])->name('addQuestion');
 
 // Route::middleware(['guest'])->group(function () {
 //     Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');

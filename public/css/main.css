@@ -95,7 +95,7 @@ html {
 body {
     text-rendering: optimizelegibility;
     line-height: 1;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif !important;
 
     scroll-behavior: smooth;
     color: var(--display-font-color) !important;
@@ -204,7 +204,7 @@ section {
     bottom: -21px;
     font-family: 'Chivo', sans-serif;
     font-size: 10px;
-    z-index: -1;
+    /* z-index: -1; */
 }
 
 .logo h1 {
@@ -562,7 +562,7 @@ p {
 }
 
 .section-child p {
-    font-size: 18px !important;
+    font-size: 16px !important;
     line-height: 1.5em;
 }
 
@@ -572,7 +572,7 @@ section#section-2 {
 
 section#section-2 h2 {
     letter-spacing: -1px;
-    font-size: 2.8em;
+    font-size: 2.4em;
 }
 
 section.section-child .section-text {
@@ -739,9 +739,13 @@ footer i:hover {
     white-space: nowrap;
     background: rgb(0, 0, 168);
     background: var(--yellow);
-    transition: background .3s ease, box-shadow .2s ease;
+    transition: background .3s ease, box-shadow .2s ease, opacity .3s ease;
     box-shadow: 0 8px 16px rgba(50, 73, 251, 0.123);
     font-family: inherit;
+}
+
+.button[isDisabled="true"]{
+    opacity: .5;
 }
 
 .button.border-btn {
@@ -752,7 +756,7 @@ footer i:hover {
 }
 
 
-.button:hover {
+.button:not(.button[isDisabled="true"]):hover {
     opacity: .8;
 }
 
@@ -1485,6 +1489,13 @@ h3>.divider {
 
 
 #chips-filter .badge {
+    border: none !important;
+    padding: 1.2em;
+    margin: 0 .4em !important;
+    font-size: .85em !important;
+}
+
+.tags-badge .badge {
     border: none !important;
     padding: 1.2em;
     margin: 0 .4em !important;

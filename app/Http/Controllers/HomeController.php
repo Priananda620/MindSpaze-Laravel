@@ -16,6 +16,29 @@ class HomeController extends Controller
         }
     }
 
+    public function about(Request $request)
+    {
+        if(auth()->check()){
+            return view('about');
+            // $subjects = Subject::where('tutor_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+            // return view('mainPage', compact('subjects'));
+        }else{
+            return view('about');
+        }
+    }
+
+    public function addQuestion(Request $request)
+    {
+        if(auth()->check()){
+            return view('addQuestion');
+            // $subjects = Subject::where('tutor_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+            // return view('mainPage', compact('subjects'));
+        }else{
+            return view('addQuestion');
+        }
+    }
+
+
     public function test(Request $request)
     {
         if(auth()->check()){

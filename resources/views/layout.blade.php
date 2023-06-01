@@ -9,10 +9,11 @@
     <title>MindSpaze</title>
 
     @include('headLinks')
+    @yield('aditionalHead')
 </head>
 
 
-<body>
+<body class="t">
 
     {{-- @yield('loginRegister') --}}
     {{-- @yield('addCourse') --}}
@@ -56,8 +57,8 @@
             <div class="d-flex justify-content-center">
                 <h2 class="fw-bold text-center px-2">Take a look at our threads.</h2>
             </div>
-            <div class="mt-5 text-center section-text">
-                <p>For more details — you can click button provided below</p>
+            <div class="mt-1 text-center section-text">
+                <p class="mb-4">For more details — you can click button provided below</p>
                 <a style="width: 15em; margin:auto" class="button"
                     href="https://www.linkedin.com/in/priananda-azhar/" target="_blank"
                     rel="noopener noreferrer">BROWSE</a>
@@ -69,14 +70,15 @@
         @include('footer')
     </div>
     <div id="fixed-botton-right" class="p-3">
-        <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="pushToast" class="toast fade" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
-              <img src="..." class="rounded me-2" alt="...">
-              <strong class="me-auto">Bootstrap</strong>
-              <small class="text-muted">11 mins ago</small>
+              {{-- <img src="..." class="rounded me-2" alt="..."> --}}
+              <div class="me-2" id="pushIcon"></div>
+              <strong class="me-auto" id="pushTitle">Bootstrap</strong>
+              <small class="text-muted" id="pushAgo">11 mins ago</small>
               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <div class="toast-body">
+            <div class="toast-body" id="pushBody">
               Hello, world! This is a toast message.
             </div>
           </div>
