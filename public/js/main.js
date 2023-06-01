@@ -366,7 +366,9 @@ $(document).ready(() => {
         })
 
         var insertedImages = [];
-
+        
+        
+        var addQuestionContainer = $('#addQuestion-container').height()
         quillEditor.on('text-change', function (delta) {
             // var editorContent = quillEditor.getContents();
 
@@ -407,8 +409,9 @@ $(document).ready(() => {
             // console.log(quillEditor.root.innerHTML)
             $('#answer-content').html(quillEditor.root.innerHTML)
 
+            
             let questionQuillHeight = $('#question-quill-container').height()
-            if (questionQuillHeight > (viewportHeight*0.42)) {
+            if (questionQuillHeight > (addQuestionContainer*0.72)) {
                 $('#addQuestion-container').css('height', (questionQuillHeight-70 + (viewportHeight*0.42)) + 'px');
             }else{
                 $('#addQuestion-container').css('height', 75 + 'vh');
