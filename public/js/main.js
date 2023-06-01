@@ -366,9 +366,12 @@ $(document).ready(() => {
         })
 
         var insertedImages = [];
-        
-        
-        var addQuestionContainer = $('#addQuestion-container').height()
+
+
+        var addQuestionContainer = $('#addQuestion-container').innerHeight()
+
+        var currquestionQuillHeight = $('#question-quill-container').height()
+        var additionalheight = $("#step4 > div:nth-of-type(2)").outerHeight(true) + $("#step4 > div:nth-of-type(3)").outerHeight(true) + $("#step4 > h2").outerHeight(true)+110;
         quillEditor.on('text-change', function (delta) {
             // var editorContent = quillEditor.getContents();
 
@@ -409,13 +412,25 @@ $(document).ready(() => {
             // console.log(quillEditor.root.innerHTML)
             $('#answer-content').html(quillEditor.root.innerHTML)
 
-            
+            let curraddQuestionContainer = $('#addQuestion-container').height()
             let questionQuillHeight = $('#question-quill-container').height()
-            if (questionQuillHeight > (addQuestionContainer*0.72)) {
-                $('#addQuestion-container').css('height', (questionQuillHeight-70 + (viewportHeight*0.42)) + 'px');
+            console.log(addQuestionContainer-additionalheight)
+
+            if(currquestionQuillHeight < questionQuillHeight && questionQuillHeight > (addQuestionContainer-additionalheight)){
+                let currHeightChange = questionQuillHeight-currquestionQuillHeight
+
+                $('#addQuestion-container').css('height', (currHeightChange + curraddQuestionContainer) + 'px');
+                // console.log(1)
+            }else if(currquestionQuillHeight > questionQuillHeight && questionQuillHeight > (addQuestionContainer-additionalheight)){
+                let currHeightChange = currquestionQuillHeight-questionQuillHeight
+                $('#addQuestion-container').css('height', (curraddQuestionContainer - currHeightChange) + 'px');
+                // console.log(2)
             }else{
                 $('#addQuestion-container').css('height', 75 + 'vh');
+                // console.log(3)
             }
+
+            currquestionQuillHeight=questionQuillHeight
 
 
         })
