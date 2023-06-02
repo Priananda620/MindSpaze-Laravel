@@ -77,7 +77,7 @@
 
 </style>
 <div id="addQuestion-container" class="container mt-5">
-    {{-- <div id="step1" class="step active p-4">
+    <div id="step1" class="step active p-4">
         <object class="mb-5" style="width: 21vw;" data="assets/svg/undraw_welcoming_re_x0qo.svg" type="image/svg+xml"></object>
         <h2 class="">Thank you for interested in a part of our community!
         </h2>
@@ -103,8 +103,8 @@
         <i class="fa-regular fa-circle-xmark fa-2xl fs-2 text-danger" style="display: none"></i>
       </div>
 
-    </div> --}}
-    <div id="step4" class="step active p-5" style="justify-content: start;">
+    </div>
+    <div id="step4" class="step p-5" style="justify-content: start;">
         <h2>Fill Your Question Details</h2>
         {{-- <img src="placeholder3.jpg" alt="Step 3 Image"> --}}
 
@@ -172,6 +172,7 @@ $(document).ready(function() {
         }
         if((currentStep+1) === 5){
           $("#nextButton").html("SUBMIT&nbsp;<i class='fa-regular fa-circle-check'></i>")
+          $('#addQuestion-container').css('height', 75 + 'vh');
         }
         if (currentStep < totalSteps) {
             var $currentStep = $('#step' + currentStep);

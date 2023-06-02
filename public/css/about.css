@@ -3415,12 +3415,12 @@ ul.rj li.ib::after {
 	.ii .nm {
 		position: relative
 	}
-	.ii .nm:nth-child(3n+2) {
+	/* .ii .nm:nth-child(3n+2) {
 		top: 32px
 	}
 	.ii .nm:nth-child(3n+3) {
 		top: 64px
-	}
+	} */
 }
 
 .if .ng {

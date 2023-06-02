@@ -24,10 +24,7 @@ class UserTableSeeder extends Seeder
                 'password' => Hash::make("Azhar20062001"),
                 'phone' => '87875587801',
                 'country_code' => 'id',
-                'last_ip' => '111.94.63.54',
-                // 'classification_status' => true,
                 'user_profile_img' => '/',
-                'address' => "address address address address address address "
             ],
         ]);
     }

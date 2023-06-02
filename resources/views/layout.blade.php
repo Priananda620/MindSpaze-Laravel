@@ -17,7 +17,7 @@
 
     {{-- @yield('loginRegister') --}}
     {{-- @yield('addCourse') --}}
-    <div id="overlay-outter" class="d-flex position-fixed align-items-start">
+    <div id="overlay-outter" class="d-flex position-fixed align-items-start hide-scrollbar1 hide-scrollbar2">
         <div id="overlay-wrapper" class="p-4">
 
             <div class="xmark-button">

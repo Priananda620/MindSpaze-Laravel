@@ -41,7 +41,7 @@
 
                 <ul class="nav flex-row justify-content-between mb-4 fs-3">
                     <li class="nav-item bg-lifted rounded-pill">
-                        <a class="nav-link px-3" href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a class="nav-link px-3" href="#"><i class="fa-brands fa-facebook-f unfocus-text"></i></a>
                     </li>
                     <li class="nav-item bg-lifted rounded-pill">
                         <a class="nav-link px-3" href="#"><i class="fa-brands fa-twitter"></i></a>
@@ -114,11 +114,6 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-4 label">Company</div>
-                                                <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
-                                            </div>
-
-                                            <div class="row">
                                                 <div class="col-lg-3 col-md-4 label">Job</div>
                                                 <div class="col-lg-9 col-md-8">Web Designer</div>
                                             </div>
@@ -129,8 +124,8 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-4 label">Address</div>
-                                                <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
+                                                <div class="col-lg-3 col-md-4 label">Last Login IP</div>
+                                                <div class="col-lg-9 col-md-8">111.111.111.111</div>
                                             </div>
 
                                             <div class="row">
@@ -180,20 +175,12 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="row mb-3">
+                                                {{-- <div class="row mb-3">
                                                     <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                                                     <div class="col-md-8 col-lg-9">
                                                         <textarea name="about" class="" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
                                                     </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
-                                                    <div class="col-md-8 col-lg-9">
-                                                        <input name="company" type="text" class="" id="company"
-                                                            value="Lueilwitz, Wisoky and Leuschke">
-                                                    </div>
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="row mb-3">
                                                     <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
@@ -206,16 +193,8 @@
                                                 <div class="row mb-3">
                                                     <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
                                                     <div class="col-md-8 col-lg-9">
-                                                        <input name="country" type="text" class="" id="Country"
+                                                        <input type="text" class="" id="Country" disabled
                                                             value="USA">
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                                                    <div class="col-md-8 col-lg-9">
-                                                        <input name="address" type="text" class="" id="Address"
-                                                            value="A108 Adam Street, New York, NY 535022">
                                                     </div>
                                                 </div>
 

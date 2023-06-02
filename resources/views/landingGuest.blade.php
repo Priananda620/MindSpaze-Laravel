@@ -143,7 +143,7 @@
 				<div class="part2-card">
 					<h2>Meet Our Team</h2>
 					<p>How do we keep up in a modern workplace? Collaboratively building and sharing beautiful peace of work that combines design and logical thinking that outcomes indispensable things.</p>
-					<p onclick="location.href='about.php'"><strong>Learn More</strong>&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i></p>
+					<p onclick="location.href='about'"><strong>Learn More</strong>&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i></p>
 				</div>
             </div>
 		</div>

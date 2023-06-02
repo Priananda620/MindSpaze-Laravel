@@ -195,9 +195,11 @@ function onResizeActions(viewportWidth, viewportHeight) {
 
     if (viewportWidth < 720) {
         $('section#thread-details').removeClass('m-5')
+        $('#addQuestion-container object').css('width', '40vw')
 
     } else {
         $('section#thread-details').addClass('m-5')
+        $('#addQuestion-container object').css('width', '25vw')
     }
 
     if (viewportWidth < 1024) {
@@ -207,6 +209,12 @@ function onResizeActions(viewportWidth, viewportHeight) {
         threadDetails.addClass('flex-column')
         threadDetails.removeClass('flex-row')
         threadDetailsChilds.addClass('w-100')
+        $('#header-nav').addClass("w-100")
+        $('#header-nav > form').addClass("w-100")
+        $('#newTitle').css('width', '95%')
+        $('#step5 p').addClass('w-90')
+        $('#step5 p').removeClass('w-50')
+        console.log("SMALLER")
     } else {
         $('.suggestion-container ').css('top', '');
         part2Childs.removeClass('flex-column')
@@ -214,6 +222,13 @@ function onResizeActions(viewportWidth, viewportHeight) {
         threadDetails.removeClass('flex-column')
         threadDetails.addClass('flex-row')
         threadDetailsChilds.removeClass('w-100')
+        $('#header-nav').removeClass("w-100")
+        $('#header-nav > form').removeClass("w-100")
+        $('#newTitle').css('width', '52%')
+        $('#step5 p').removeClass('w-90')
+        $('#step5 p').addClass('w-50')
+        
+        console.log("BIGGER")
     }
 }
 
@@ -223,11 +238,13 @@ var viewportHeight = window.innerHeight || document.documentElement.clientHeight
 
 function handleResize() {
     clearTimeout(resizeTimeout);
+    let viewportWidth2 = window.innerWidth || document.documentElement.clientWidth;
+    let viewportHeight2 = window.innerHeight || document.documentElement.clientHeight;
 
     resizeTimeout = setTimeout(function () {
 
 
-        onResizeActions(viewportWidth, viewportHeight);
+        onResizeActions(viewportWidth2, viewportHeight2);
     }, 100);
 }
 
@@ -372,7 +389,7 @@ $(document).ready(() => {
         var addQuestionContainer = $('#addQuestion-container').innerHeight()
 
         var currquestionQuillHeight = $('#question-quill-container').height()
-        var additionalheight = $("#step4 > div:nth-of-type(2)").outerHeight(true) + $("#step4 > div:nth-of-type(3)").outerHeight(true) + $("#step4 > h2").outerHeight(true) + 110;
+        var additionalheight = $("#step4 > div:nth-of-type(2)").outerHeight(true) + $("#step4 > div:nth-of-type(3)").outerHeight(true) + $("#step4 > h2").outerHeight(true) + 120;
         quillEditor.on('text-change', function (delta) {
             // var editorContent = quillEditor.getContents();
 
@@ -415,20 +432,21 @@ $(document).ready(() => {
 
             let curraddQuestionContainer = $('#addQuestion-container').height()
             let questionQuillHeight = $('#question-quill-container').height()
+            
             // console.log(addQuestionContainer - additionalheight)
 
             if (currquestionQuillHeight < questionQuillHeight && questionQuillHeight > (addQuestionContainer - additionalheight)) {
                 let currHeightChange = questionQuillHeight - currquestionQuillHeight
 
                 $('#addQuestion-container').css('height', (currHeightChange + curraddQuestionContainer) + 'px');
-                console.log(1)
+                // console.log(1)
             } else if (currquestionQuillHeight > questionQuillHeight && questionQuillHeight > (addQuestionContainer - additionalheight)) {
                 let currHeightChange = currquestionQuillHeight - questionQuillHeight
                 $('#addQuestion-container').css('height', (curraddQuestionContainer - currHeightChange) + 'px');
-                console.log(2)
+                // console.log(2)
             } else if (questionQuillHeight < (addQuestionContainer - additionalheight)) {
                 $('#addQuestion-container').css('height', 75 + 'vh');
-                console.log(3)
+                // console.log(3)
             } else {
                 setTimeout(function () {
                     let currHeightChange = questionQuillHeight - currquestionQuillHeight
@@ -440,10 +458,29 @@ $(document).ready(() => {
 
             currquestionQuillHeight = questionQuillHeight
 
+            setTimeout(function () {
+                if (checkOverflow($('#addQuestion-container'), $('#addQuestion-container > div:nth-of-type(4) > div:last-child'))) {
+                    let childHeight = $('#addQuestion-container > div:nth-of-type(4) > div:last-child').position().top + $('#addQuestion-container > div:nth-of-type(4) > div:last-child').outerHeight()
+                    let parentHeight = $('#addQuestion-container').position().top + $('#addQuestion-container').outerHeight()
+
+                    let overflowHeight = (childHeight - parentHeight)
+                    $('#addQuestion-container').css('height', (overflowHeight + curraddQuestionContainer + 150) + 'px');
+
+                    console.log("is overfowing")
+                }else{
+                    console.log("not overfowing")
+                }
+            }, 100);
         })
     }
 
+    function checkOverflow(parent, child) {
+        var parentHeight = parent.height();
+        var childTop = child.position().top;
+        var childBottom = childTop + child.outerHeight();
 
+        return childTop < 0 || childBottom > parentHeight;
+    };
     ///////////////////////////////////////////////////////
 
     // var parentElement = $('#question-quill-container > .ql-editor');
@@ -471,7 +508,7 @@ $(document).ready(() => {
     //             };
 
     //             // Push the change object into the array
-                
+
     //             childChanges.push(change);
     //         }
     //     });

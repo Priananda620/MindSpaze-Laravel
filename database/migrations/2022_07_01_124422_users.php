@@ -27,7 +27,11 @@ class Users extends Migration
             $table->ipAddress('last_ip')->nullable();
             $table->boolean('is_bolt_user')->default(false);
             $table->string('user_profile_img', 255)->nullable();
-            $table->text('address')->nullable();
+            $table->text('job')->nullable();
+            $table->text('instagram_link')->nullable();
+            $table->text('twitter_link')->nullable();
+            $table->text('facebook_link')->nullable();
+            $table->text('linkedin_link')->nullable();
             $table->smallInteger('user_role')->default(0);//0 user, 1 admin
             $table->timestamp('created_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
