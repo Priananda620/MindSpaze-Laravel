@@ -8,33 +8,33 @@
 
                     {{ csrf_field() }}
 
-                    <label for="fullName">full name<span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span></label>
-                    @error('fullName')
+                    <label for="username">Username<span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span></label>
+                    @error('username')
                         <div class="form_message"><strong>{{ $message }}</strong></div>
                     @enderror
-                    <input value="{{ !empty(old('fullName')) ? old('fullName') : '' }}" type="text" name="fullName" class="form-input" required="" autocomplete="off">
+                    <input value="{{ !empty(old('username')) ? old('username') : '' }}" type="text" name="username" class="form-input mb-3" required="" autocomplete="off">
 
-                    <label for="email">email<span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span></label>
+                    <label for="email">Email<span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span></label>
                     @error('email')
                         <div class="form_message"><strong>{{ $message }}</strong></div>
                     @enderror
                     <input value="{{ !empty(old('email')) ? old('email') : '' }}" type="email" name="email"
-                        class="form-input" required="" autocomplete="off">
+                        class="form-input mb-3" required="" autocomplete="off">
 
 
-                    <label for="phone">phone<span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span></label>
+                    <label for="phone">Phone<span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span></label>
                     @error('phone')
                         <div class="form_message"><strong>{{ $message }}</strong></div>
                     @enderror
                     <input value="{{ !empty(old('phone')) ? old('phone') : '' }}" type="text" name="phone"
-                        class="form-input" required="" autocomplete="off">
+                        class="form-input mb-3" required="" autocomplete="off">
 
 
                     <label for="address">address<span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span></label>
                     @error('address')
                         <div class="form_message"><strong>{{ $message }}</strong></div>
                     @enderror
-                    <textarea autocomplete="off" name="address" class="form-input" required="" rows="6" cols="50">{{ !empty(old('address')) ? old('address') : '' }}</textarea>
+                    <textarea autocomplete="off" name="address" class="form-input mb-3" required="" rows="6" cols="50">{{ !empty(old('address')) ? old('address') : '' }}</textarea>
 
 
                     <label for="state"><span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span>Choose a state:</label>
@@ -55,7 +55,7 @@
                     @error('password')
                         <div class="form_message"><strong>{{ $message }}</strong></div>
                     @enderror
-                    <input type="password" name="password" class="form-input" required="" autocomplete="off">
+                    <input type="password" name="password" class="form-input mb-3" required="" autocomplete="off">
 
 
                     <label for="verPass">Retype Password<span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span><span
@@ -64,7 +64,7 @@
                     @error('verPass')
                         <div class="form_message"><strong>{{ $message }}</strong></div>
                     @enderror
-                    <input type="password" name="verPass" class="form-input" required="" autocomplete="off">
+                    <input type="password" name="verPass" class="form-input mb-3" required="" autocomplete="off">
 
 
                     @if (session('status') == 'ok')

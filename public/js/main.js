@@ -117,10 +117,12 @@ function debounce(callback, delay) {
 
 function appendNewReaction(emoji, count) {
     let withoutPrefix = emoji.substring(2);
-    let container = $('.thread-reaction > div:nth-child(2) > button')
+    let container = $('.picmoInit').closest('.thread-reaction').find('.reacted-emoji-container').find('button');
+    // let container = $('.thread-reaction > div:nth-child(2) > button')
     let isExist = false
     let existObj;
     container.each(function () {
+        console.log($(this).attr('decodedEmoji'))
         if ($(this).attr('decodedEmoji') == withoutPrefix) {
             isExist = true;
             existObj = $(this)
@@ -128,16 +130,18 @@ function appendNewReaction(emoji, count) {
     })
     console.log(isExist)
     if (isExist) {
-        let currCount = existObj.find('span').html();
+        let currCount = existObj.find('span').attr('data-emoji-count');
         currCount++
 
         if (currCount >= 100) {
             existObj.find('span').html('99+');
+            existObj.find('span').attr('data-emoji-count', currCount);
         } else {
             existObj.find('span').html(currCount);
+            existObj.find('span').attr('data-emoji-count', currCount);
         }
     } else {
-        addNewReaction(emoji, count)
+        addNewReaction(emoji, 1)
     }
 }
 
@@ -150,11 +154,11 @@ function addNewReaction(emoji, count) {
     let newReactionButton = $('<button>', {
         'type': 'button',
         'class': 'btn bg-light position-relative rounded-pill hide',
-        'html': decodedEmoji + ' <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">' + count + '</span>'
+        'html': decodedEmoji + ' <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" data-emoji-count="'+count+'">' + count + '</span>'
     });
-    newReactionButton.attr('decodedEmoji', withoutPrefix);
+    newReactionButton.attr('decodedEmoji', withoutPrefix)
 
-    let container = $('.thread-reaction > div:nth-child(2)')
+    let container = $('.picmoInit').closest('.thread-reaction').find('.reacted-emoji-container')
 
     container.append(newReactionButton)
 
@@ -227,7 +231,7 @@ function onResizeActions(viewportWidth, viewportHeight) {
         $('#newTitle').css('width', '52%')
         $('#step5 p').removeClass('w-90')
         $('#step5 p').addClass('w-50')
-        
+
         console.log("BIGGER")
     }
 }
@@ -432,7 +436,7 @@ $(document).ready(() => {
 
             let curraddQuestionContainer = $('#addQuestion-container').height()
             let questionQuillHeight = $('#question-quill-container').height()
-            
+
             // console.log(addQuestionContainer - additionalheight)
 
             if (currquestionQuillHeight < questionQuillHeight && questionQuillHeight > (addQuestionContainer - additionalheight)) {
@@ -464,10 +468,10 @@ $(document).ready(() => {
                     let parentHeight = $('#addQuestion-container').position().top + $('#addQuestion-container').outerHeight()
 
                     let overflowHeight = (childHeight - parentHeight)
-                    $('#addQuestion-container').css('height', (overflowHeight + curraddQuestionContainer + 150) + 'px');
+                    $('#addQuestion-container').css('height', (overflowHeight + curraddQuestionContainer + 210) + 'px');
 
                     console.log("is overfowing")
-                }else{
+                } else {
                     console.log("not overfowing")
                 }
             }, 100);
@@ -550,52 +554,85 @@ $(document).ready(() => {
 
     }
 
-    const rootElement = $('#picmo-picker-container');
-    const picker = picmo.createPicker({ rootElement });
-    const emojiInput = $('#emoji-input > input');
-    const emojiRegex = /\p{Extended_Pictographic}/u
-    picker.addEventListener('emoji:select', event => {
-        backdropCloseEvoke.click()
-        emojiInput.val(event.emoji)
-        console.log('Emoji selected:', emojiInput.val())
+    function initAllPicmo() {
+        const rootElement = $('.picmoInit');
+        const picker = picmo.createPicker({ rootElement });
+        const emojiInput = $('.picmoInit').siblings('input');
+        const emojiRegex = /\p{Extended_Pictographic}/u
 
-        const escapeSequence = '\\u' + emojiInput.val().codePointAt(0).toString(16);
-        console.log(escapeSequence); // Outputs \uD83D\uDE09
+        picker.addEventListener('emoji:select', event => {
+            backdropCloseEvoke.click()
+            emojiInput.val(event.emoji)
+            console.log('Emoji selected:', emojiInput.val())
 
-        // let encodedEmoji = encodeURIComponent(emojiInput.val());
-        // console.log(encodedEmoji)
-        appendNewReaction(escapeSequence, 1)
+            const escapeSequence = '\\u' + emojiInput.val().codePointAt(0).toString(16);
+            console.log(escapeSequence); // Outputs \uD83D\uDE09
 
-        rootElement.addClass('d-none')
-    });
+            // let encodedEmoji = encodeURIComponent(emojiInput.val());
+            // console.log(encodedEmoji)
+            appendNewReaction(escapeSequence, 1)
 
-    emojiInput.on('input', function () {
-        const inputVal = $(this).val().trim();
+            rootElement.addClass('d-none')
+        });
 
-        if (!emojiRegex.test(inputVal)) {
-            $(this).val("")
-            console.log("BBBBBBBBBBBBBB")
-        } else {
-            console.log("AAAAAAAAAAAAAA")
-        }
+        emojiInput.on('input', function () {
+            const inputVal = $(this).val().trim();
 
-    });
+            if (!emojiRegex.test(inputVal)) {
+                $(this).val("")
+                console.log("BBBBBBBBBBBBBB")
+            } else {
+                console.log("AAAAAAAAAAAAAA")
+            }
 
-    function emojiSelectorToggle() {
-        rootElement.toggleClass('d-none')
-        rootElement.toggleClass("z-index100")
+        });
+
+
+        rootElement.on('click', (e) => {
+            e.stopPropagation()
+        })
     }
 
-    $('#emoji-input').on('click', (e) => {
-        emojiSelectorToggle()
-        activeModal.answerBoxToggle = () => emojiSelectorToggle()
+    initAllPicmo()
+
+
+
+    var currPicmoSelector = $()
+    function emojiSelectorToggle() {
+
+    }
+
+
+    $('.emoji-input').on('click', function () {
+        console.log("fewfewfefeff")
+        currPicmoSelector = $(this).children('.picmo-picker-container');
+        // currPicmoSelector.replaceWith($('.picmoInit'));
+
+        if (!currPicmoSelector.hasClass('picmoInit')) {
+            // let elementAContent = $('.picmoInit').html();
+            // currPicmoSelector.empty().html(elementAContent);
+            currPicmoSelector.empty()
+            $('.picmoInit').empty()
+            $('.picmoInit').removeClass('picmoInit')
+            currPicmoSelector.addClass('picmoInit')
+            initAllPicmo()
+        }
+
+        currPicmoSelector.toggleClass('d-none')
+        currPicmoSelector.toggleClass("z-index100")
+        console.log(currPicmoSelector)
+
+        activeModal.emojiSelectorToggle = () => {
+            let currPicmoSelector2 = currPicmoSelector
+            currPicmoSelector2.toggleClass('d-none')
+            currPicmoSelector2.toggleClass("z-index100")
+            $('.picmoInit').replaceWith(currPicmoSelector2);
+        }
         backdropCloseEvokeShow()
     })
 
-    rootElement.on('click', (e) => {
-        e.stopPropagation()
-    })
 
+/////////////////////////////////////
 
     $('#chips-filter .badge').on('click', function () {
         $(this).toggleClass('bg-dark');

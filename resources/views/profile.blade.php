@@ -109,7 +109,7 @@
                                             <h4 class="card-title mt-4">Profile Details</h4>
 
                                             <div class="row">
-                                                <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                                                <div class="col-lg-3 col-md-4 label ">Username</div>
                                                 <div class="col-lg-9 col-md-8">Kevin Anderson</div>
                                             </div>
 
@@ -154,12 +154,12 @@
                                                                 title="Remove my profile image">
                                                                 <i class="fa-solid fa-square-minus"></i>
                                                             </a>
-                                                            
+
                                                             <input style="display: none" id="user-pic-update" type="file" name="user-pic-update" required="">
                                                             <a id="upload-avatar-btn" class="btn bg-lifted-1 btn-sm"
                                                                 title="Upload new profile image">
-                                                                    
-                                                                
+
+
                                                                 <i class="fa-solid fa-images"></i>
                                                             </a>
                                                         </div>
@@ -167,10 +167,9 @@
                                                 </div>
 
                                                 <div class="row mb-3">
-                                                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full
-                                                        Name</label>
+                                                    <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
                                                     <div class="col-md-8 col-lg-9">
-                                                        <input name="fullName" type="text" class="" id="fullName"
+                                                        <input name="username" type="text" class="" id="username"
                                                             value="Kevin Anderson">
                                                     </div>
                                                 </div>
@@ -263,7 +262,7 @@
                                             <form>
 
                                                 <div class="row mb-3">
-                                                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email
+                                                    <label for="username" class="col-md-4 col-lg-3 col-form-label">Email
                                                         Notifications</label>
                                                     <div class="col-md-8 col-lg-9">
                                                         <div class="d-flex align-items-center py-2">

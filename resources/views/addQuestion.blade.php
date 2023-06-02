@@ -89,6 +89,7 @@
         <object class="mb-5" style="width: 21vw;" data="assets/svg/undraw_complete_design_re_h75h.svg" type="image/svg+xml"></object>
         <h3 class="text-muted-color">Keep In Mind</h3>
         <h2 class="">You Have to Follow Our Community Guidelines</h2>
+        <a target="_blank" rel="noopener noreferrer" href="/about#community-guidelines">read&nbsp;<i class="fa-solid fa-angles-right"></i></a>
 
     </div>
     <div id="step3" class="step p-5" style="justify-content: start;">

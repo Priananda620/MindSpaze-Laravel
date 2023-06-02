@@ -6,12 +6,12 @@
         {!! file_get_contents('assets/svg/svg2.svg') !!}
         <div class="position-absolute" style="height:100%">
             <div class="d-flex flex-column h4 position-sticky" style="margin-left:-1em;top:50%">
-                <a href="" class="my-3" style="width:fit-content"><i class="fa-brands fa-instagram"></i></a>
-                <a href="" class="my-3" style="width:fit-content"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.instagram.com/mindspaze.qa/" class="my-3" style="width:fit-content"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://github.com/Priananda620/MindSpaze-Laravel" class="my-3" style="width:fit-content"><i class="fa-brands fa-github"></i></a>
                 <a href="" class="my-3" style="width:fit-content"><i class="fa-solid fa-envelope"></i></a>
             </div>
         </div>
-        
+
         <div class="d-flex justify-content-around align-items-center">
 
             <div id="landing-display-text">
@@ -105,7 +105,7 @@
 				<h2>
 					Work on your curiosity — we’ll <div style="display: inline-block;"><span class="red-backdrop">take&nbsp;care</span></div> of the rest.
 				</h2>
-				
+
 			</div>
 			<div>
 				{!! file_get_contents('assets/svg/svg11.svg') !!}
@@ -117,7 +117,7 @@
 			</div>
 			<div>
 				<h2>
-					There are <div style="display: inline-block;"><span class="red-backdrop">no&nbsp;limits</span></div> to how and with whom — you can ask. 
+					There are <div style="display: inline-block;"><span class="red-backdrop">no&nbsp;limits</span></div> to how and with whom — you can ask.
 				</h2>
 				<p></p>
 			</div>
@@ -129,7 +129,7 @@
 			<p>
 			Knowledge isn’t static — what should your curiousity be? We provide with the tools you rely on every day to keep information and conversations up-to-date, turning curiousity into interaction.
 			</p>
-			
+
 		</div>
 		<div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 g-6">
             <div class="col mt-5">
@@ -199,19 +199,19 @@
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
+                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>
                                     <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
                                 </div>
-                                <h5 class="card-title">Card title ard title card title ard title card title</h5>            
+                                <h5 class="card-title">Card title ard title card title ard title card title</h5>
                                 <div class="d-inline-flex">
                                     {{-- <h6 class="card-subtitle text-muted mb-2">azhar620</h6> --}}
                                     <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                </div>                      
+                                </div>
                                 {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
                                 <div>
                                     <span class="badge bg-light text-dark">5 answers</span>
                                     <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>                       
+                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>
                                 </div>
                             </div>
                         </div>
@@ -221,19 +221,19 @@
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
+                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>
                                     <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
                                 </div>
-                                <h5 class="card-title">Card title ard title card title ard title card title</h5>            
+                                <h5 class="card-title">Card title ard title card title ard title card title</h5>
                                 <div class="d-inline-flex">
                                     {{-- <h6 class="card-subtitle text-muted mb-2">azhar620</h6> --}}
                                     <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                </div>                      
+                                </div>
                                 {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
                                 <div>
                                     <span class="badge bg-light text-dark">5 answers</span>
                                     <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>                       
+                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>
                                 </div>
                             </div>
                         </div>
@@ -243,19 +243,19 @@
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
+                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>
                                     <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
                                 </div>
-                                <h5 class="card-title">Card title ard title card title ard title card title</h5>            
+                                <h5 class="card-title">Card title ard title card title ard title card title</h5>
                                 <div class="d-inline-flex">
                                     {{-- <h6 class="card-subtitle text-muted mb-2">azhar620</h6> --}}
                                     <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                </div>                      
+                                </div>
                                 {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
                                 <div>
                                     <span class="badge bg-light text-dark">5 answers</span>
                                     <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>                       
+                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>
                                 </div>
                             </div>
                         </div>
@@ -265,19 +265,19 @@
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
+                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>
                                     <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
                                 </div>
-                                <h5 class="card-title">Card title ard title card title ard title card title</h5>            
+                                <h5 class="card-title">Card title ard title card title ard title card title</h5>
                                 <div class="d-inline-flex">
                                     {{-- <h6 class="card-subtitle text-muted mb-2">azhar620</h6> --}}
                                     <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                </div>                      
+                                </div>
                                 {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
                                 <div>
                                     <span class="badge bg-light text-dark">5 answers</span>
                                     <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>                       
+                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>
                                 </div>
                             </div>
                         </div>
@@ -287,26 +287,26 @@
                             <div class="card-body">
                                 <div class="d-inline-flex align-items-center mb-2">
                                     <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>    
+                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>
                                     <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
                                 </div>
-                                <h5 class="card-title">Card title ard title card title ard title card title</h5>            
+                                <h5 class="card-title">Card title ard title card title ard title card title</h5>
                                 <div class="d-inline-flex">
                                     {{-- <h6 class="card-subtitle text-muted mb-2">azhar620</h6> --}}
                                     <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                </div>                      
+                                </div>
                                 {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
                                 <div>
                                     <span class="badge bg-light text-dark">5 answers</span>
                                     <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>                       
+                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
 
             {{-- <nav aria-label="...">
                 <ul class="pagination justify-content-center">

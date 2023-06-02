@@ -14,17 +14,17 @@
         <div style="width: 22em;">
             <p>All contents, website design, FE, BE are fully self made (except <span class="fw-bold">fontAwesome icons</span> and svg flat illustrations are from <span class="fw-bold">unDraw</span>). Using JQUERY, AJAX, native JS, self CSS, Bootstrap CSS framework, FontAwesome icons, unDraw svg illustrations.</p>
         </div>
-        
+
         <div style="margin: 0 3em;">
             <p style="margin-bottom: 1em; text-align: center; font-weight:600">Follow Us</p>
             <div class="d-flex flex-wrap justify-content-center">
-                <a href="https://www.linkedin.com/in/priananda-azhar/" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">
                     <i class="fa-brands fa-linkedin"></i>
                 </a>
-                <a href="https://github.com/Priananda620/" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/Priananda620/MindSpaze-Laravel" target="_blank" rel="noopener noreferrer">
                     <i class="fa-brands fa-github mx-2"></i>
                 </a>
-                <a href="https://www.instagram.com/azhar620/" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.instagram.com/mindspaze.qa/" target="_blank" rel="noopener noreferrer">
                     <i class="fa-brands fa-instagram"></i>
                 </a>
 
