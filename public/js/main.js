@@ -303,8 +303,9 @@ function checkQuillImage(objectRoot) {
         $('.ql-image').off('click').on('click', function () {
             console.log('New click event listener');
         });
-
+        return true;
     }
+    return false;
 }
 
 $(document).ready(() => {
@@ -371,7 +372,7 @@ $(document).ready(() => {
         var addQuestionContainer = $('#addQuestion-container').innerHeight()
 
         var currquestionQuillHeight = $('#question-quill-container').height()
-        var additionalheight = $("#step4 > div:nth-of-type(2)").outerHeight(true) + $("#step4 > div:nth-of-type(3)").outerHeight(true) + $("#step4 > h2").outerHeight(true)+110;
+        var additionalheight = $("#step4 > div:nth-of-type(2)").outerHeight(true) + $("#step4 > div:nth-of-type(3)").outerHeight(true) + $("#step4 > h2").outerHeight(true) + 110;
         quillEditor.on('text-change', function (delta) {
             // var editorContent = quillEditor.getContents();
 
@@ -414,27 +415,86 @@ $(document).ready(() => {
 
             let curraddQuestionContainer = $('#addQuestion-container').height()
             let questionQuillHeight = $('#question-quill-container').height()
-            console.log(addQuestionContainer-additionalheight)
+            // console.log(addQuestionContainer - additionalheight)
 
-            if(currquestionQuillHeight < questionQuillHeight && questionQuillHeight > (addQuestionContainer-additionalheight)){
-                let currHeightChange = questionQuillHeight-currquestionQuillHeight
+            if (currquestionQuillHeight < questionQuillHeight && questionQuillHeight > (addQuestionContainer - additionalheight)) {
+                let currHeightChange = questionQuillHeight - currquestionQuillHeight
 
                 $('#addQuestion-container').css('height', (currHeightChange + curraddQuestionContainer) + 'px');
-                // console.log(1)
-            }else if(currquestionQuillHeight > questionQuillHeight && questionQuillHeight > (addQuestionContainer-additionalheight)){
-                let currHeightChange = currquestionQuillHeight-questionQuillHeight
+                console.log(1)
+            } else if (currquestionQuillHeight > questionQuillHeight && questionQuillHeight > (addQuestionContainer - additionalheight)) {
+                let currHeightChange = currquestionQuillHeight - questionQuillHeight
                 $('#addQuestion-container').css('height', (curraddQuestionContainer - currHeightChange) + 'px');
-                // console.log(2)
-            }else{
+                console.log(2)
+            } else if (questionQuillHeight < (addQuestionContainer - additionalheight)) {
                 $('#addQuestion-container').css('height', 75 + 'vh');
-                // console.log(3)
+                console.log(3)
+            } else {
+                setTimeout(function () {
+                    let currHeightChange = questionQuillHeight - currquestionQuillHeight
+
+                    $('#addQuestion-container').css('height', (currHeightChange + curraddQuestionContainer) + 'px');
+                    // console.log(11)
+                }, 200);
             }
 
-            currquestionQuillHeight=questionQuillHeight
-
+            currquestionQuillHeight = questionQuillHeight
 
         })
     }
+
+
+    ///////////////////////////////////////////////////////
+
+    // var parentElement = $('#question-quill-container > .ql-editor');
+    // var childChanges = [];
+
+    // // Create a new MutationObserver
+    // var observer = new MutationObserver(function (mutations) {
+    //     childChanges = []
+    //     mutations.forEach(function (mutation) {
+    //         // Check if the childList or characterData property changed
+    //         if (mutation.type === 'childList' || mutation.type === 'characterData') {
+    //             // Log the new child count
+    //             // console.log('Child count changed:', parentElement.children().length);
+
+    //             var childCount = parentElement.children().length;
+
+    //             // Log the inner HTML of each child
+    //             var childHTMLs = parentElement.children().map(function (index, child) {
+    //                 return $(child).html();
+    //             }).get();
+
+    //             var change = {
+    //                 childCount: childCount,
+    //                 childHTMLs: childHTMLs
+    //             };
+
+    //             // Push the change object into the array
+                
+    //             childChanges.push(change);
+    //         }
+    //     });
+    //     console.log(childChanges)
+    // });
+
+    // // Configure the observer to watch for changes in the childList and characterData
+    // var observerConfig = {
+    //     childList: true,
+    //     characterData: true,
+    //     subtree: true // Set to true if you want to observe changes in all descendant elements as well
+    // };
+
+    // // Start observing the parent element
+    // observer.observe(parentElement[0], observerConfig);
+
+
+
+
+
+
+
+    ///////////////////////////////////////////////////////
     if (window.location.pathname === "/threads") {
         const urlParams = new URLSearchParams(window.location.search);
         const params = {};
@@ -584,12 +644,12 @@ $(document).ready(() => {
             success: function (response) {
 
 
-                if(Object.keys(response.products).length > 0){
+                if (Object.keys(response.products).length > 0) {
                     $('#step3 .fa-circle-xmark').show();
                     $('#step3 .fa-circle-check').hide();
                     pushToastMessage('Failed', 'Title is unavailable', 'fail')
                     $("#nextButton").attr("isDisabled", "true");
-                }else if(Object.keys(response.products).length <= 0){
+                } else if (Object.keys(response.products).length <= 0) {
                     $('#step3 .fa-circle-xmark').hide();
                     $('#step3 .fa-circle-check').show();
                     pushToastMessage('Success', 'Title is available', 'success')
