@@ -21,31 +21,29 @@ use App\Models\Tutor;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/test', [HomeController::class, 'test'])->name('test');
+Route::get('/thread-detail', [HomeController::class, 'test'])->name('threaddetail');
+
+Route::get('/test', [AuthController::class, 'test'])->name('test');
 
 Route::get('/about', [HomeController::class, 'about'])->name('about');
-
-Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 
 Route::get('/threads', [HomeController::class, 'threads'])->name('threads');
 
 Route::get('/add-question', [HomeController::class, 'addQuestion'])->name('addQuestion');
 
-// Route::middleware(['guest'])->group(function () {
-//     Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
-//     Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
+    Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
 
-//     Route::post('/doLogin', [AuthController::class, 'login'])->name('doLogin');
-//     Route::post('/doRegister', [TutorController::class, 'createTutor'])->name('doRegister');
-// });
+    Route::post('/doLogin', [AuthController::class, 'loginWeb'])->name('doLogin');
+    Route::post('/doRegister', [TutorController::class, 'createTutor'])->name('doRegister');
+});
 
 
-// Route::middleware(['checkLoginSession'])->group(function () {
-//     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::middleware(['checkLoginSession'])->group(function () {
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-//     Route::get('/addCourse', [SubjectController::class, 'viewAddCourse'])->name('addCourse');
-
-//     Route::post('/doAddCourse', [SubjectController::class, 'doAddCourse'])->name('doAddCourse');
-// });
+    Route::get('/profile/{param}', [HomeController::class, 'profile'])->name('profile');
+});
 
 

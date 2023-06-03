@@ -7,12 +7,19 @@
                 <div class="text-center">
                     <div class="d-flex justify-content-center">
                         <div class="user-avatar-rounded"
-                            style="background-image:url('{{ asset('assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg') }}');width: 6.3em;height: 6.3em;">
+                            style="background-image:url('{{ asset('assets/user_images/')}}/{{ $currentUser->user_profile_img }}');width: 6.3em;height: 6.3em;">
                         </div>
                     </div>
-
-                    <h2 class="fw-bold mt-3">azhar620</h2>
-                    <p class="text-muted-color">Joined 11 November 2022
+                    @php
+                        $timestampFromDb = $currentUser->created_at; // Assuming this is the timestamp from your database
+                        $formattedTimestamp = \Carbon\Carbon::parse($timestampFromDb)->formatLocalized('%e %B %Y');
+                        setlocale(LC_TIME, 'en_US');
+                        $formattedTimestamp = str_replace(' 0', ' ', $formattedTimestamp);
+                        $formattedTimestamp = ltrim($formattedTimestamp, '0');
+                    @endphp
+                
+                    <h2 class="fw-bold mt-3">{{ $currentUser->username }}</h2>
+                    <p class="text-muted-color">Joined {{$formattedTimestamp}}
                     </p>
                 </div>
 
@@ -41,16 +48,16 @@
 
                 <ul class="nav flex-row justify-content-between mb-4 fs-3">
                     <li class="nav-item bg-lifted rounded-pill">
-                        <a class="nav-link px-3" href="#"><i class="fa-brands fa-facebook-f unfocus-text"></i></a>
+                        <a target="_blank" rel="noopener noreferrer" class="nav-link px-3" {{$currentUser->facebook_username ? "href=https://www.facebook.com/".$currentUser->facebook_username: ''}}><i class="fa-brands fa-facebook-f {{$currentUser->facebook_username ? $currentUser->facebook_username: 'unfocus-text'}}"></i></a>
                     </li>
                     <li class="nav-item bg-lifted rounded-pill">
-                        <a class="nav-link px-3" href="#"><i class="fa-brands fa-twitter"></i></a>
+                        <a target="_blank" rel="noopener noreferrer" class="nav-link px-3" {{$currentUser->twitter_username ? "href=https://www.twitter.com/".$currentUser->twitter_username: ''}}><i class="fa-brands fa-twitter {{$currentUser->twitter_username ? $currentUser->twitter_username: 'unfocus-text'}}"></i></a>
                     </li>
                     <li class="nav-item bg-lifted rounded-pill">
-                        <a class="nav-link px-3" href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a target="_blank" rel="noopener noreferrer" class="nav-link px-3" {{$currentUser->instagram_username ? "href=https://www.instagram.com/".$currentUser->instagram_username: ''}}><i class="fa-brands fa-instagram {{$currentUser->instagram_username ? $currentUser->instagram_username: 'unfocus-text'}}"></i></a>
                     </li>
                     <li class="nav-item bg-lifted rounded-pill">
-                        <a class="nav-link px-3" href="#"><i class="fa-brands fa-linkedin"></i></a>
+                        <a target="_blank" rel="noopener noreferrer" class="nav-link px-3" {{$currentUser->linkedin_username ? "href=https://linkedin.com/in/".$currentUser->linkedin_username: ''}}><i class="fa-brands fa-linkedin {{$currentUser->linkedin_username ? $currentUser->linkedin_username: 'unfocus-text'}}"></i></a>
                     </li>
                 </ul>
 
@@ -110,32 +117,32 @@
 
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-4 label ">Username</div>
-                                                <div class="col-lg-9 col-md-8">Kevin Anderson</div>
+                                                <div class="col-lg-9 col-md-8">{{ $currentUser->username }}</div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-4 label">Job</div>
-                                                <div class="col-lg-9 col-md-8">Web Designer</div>
+                                                <div class="col-lg-9 col-md-8">{{!! $currentUser->job == null ? "<span id='threadList-totalData' class='badge bg-secondary'>empty</span>": $currentUser->job !!}}</div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-4 label">Country</div>
-                                                <div class="col-lg-9 col-md-8">USA</div>
+                                                <div class="col-lg-9 col-md-8">{{$country[0]['id']}}</div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-4 label">Last Login IP</div>
-                                                <div class="col-lg-9 col-md-8">111.111.111.111</div>
+                                                <div class="col-lg-9 col-md-8">{{!! $currentUser->job == null? "<span id='threadList-totalData' class='badge bg-secondary'>empty</span>": $currentUser->last_ip !!}}</div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-4 label">Phone</div>
-                                                <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
+                                                <div class="col-lg-9 col-md-8">({{$country[0]['phonecode']}}){{$currentUser->phone}}</div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-4 label">Email</div>
-                                                <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+                                                <div class="col-lg-9 col-md-8">{{$currentUser->email}}</div>
                                             </div>
 
                                         </div>
@@ -148,7 +155,7 @@
                                                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
                                                         Image</label>
                                                     <div class="col-md-8 col-lg-9">
-                                                        <img id="upload-avatar-preview" class="w-50" src="http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg" alt="Profile">
+                                                        <img id="upload-avatar-preview" class="w-50" src="{{ asset('assets/user_images/')}}/{{ $currentUser->user_profile_img }}" alt="Profile">
                                                         <div class="pt-2">
                                                             <a href="#" class="btn btn-danger btn-sm"
                                                                 title="Remove my profile image">
@@ -170,7 +177,7 @@
                                                     <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
                                                     <div class="col-md-8 col-lg-9">
                                                         <input name="username" type="text" class="" id="username"
-                                                            value="Kevin Anderson">
+                                                            value="{{ $currentUser->username }}">
                                                     </div>
                                                 </div>
 
@@ -184,68 +191,71 @@
                                                 <div class="row mb-3">
                                                     <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
                                                     <div class="col-md-8 col-lg-9">
-                                                        <input name="job" type="text" class="" id="Job"
-                                                            value="Web Designer">
+                                                        <input name="job" type="text" class="mt-0" id="Job"
+                                                            value="{{ $currentUser->job }}">
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-3">
                                                     <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
                                                     <div class="col-md-8 col-lg-9">
-                                                        <input type="text" class="" id="Country" disabled
-                                                            value="USA">
+                                                        <input type="text" class="mt-0" id="Country" disabled
+                                                            value="{{ $currentUser->country_code }}">
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-3">
                                                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                                                     <div class="col-md-8 col-lg-9">
-                                                        <input name="phone" type="text" class="" id="Phone"
-                                                            value="(436) 486-3538 x29071">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">+{{$country[0]['phonecode']}}</span>
+                                                            <input id="Phone" name="phone" type="text" style="border: none;"
+                                                            class="form-control w-auto mt-0" placeholder="Phone number" value="{{$currentUser->phone}}">
+                                                        </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-3">
                                                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                                     <div class="col-md-8 col-lg-9">
-                                                        <input name="email" type="email" class="" id="Email"
-                                                            value="k.anderson@example.com">
+                                                        <input name="email" type="email" class="mt-0" id="Email"
+                                                            value="{{ $currentUser->email }}">
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-3">
                                                     <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter
-                                                        Profile</label>
+                                                        Username</label>
                                                     <div class="col-md-8 col-lg-9">
-                                                        <input name="twitter" type="text" class="" id="Twitter"
-                                                            value="https://twitter.com/#">
+                                                        <input name="twitter" type="text" class="mt-0" id="Twitter"
+                                                            value="{{ $currentUser->twitter_username }}">
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-3">
                                                     <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook
-                                                        Profile</label>
+                                                        Username</label>
                                                     <div class="col-md-8 col-lg-9">
-                                                        <input name="facebook" type="text" class="" id="Facebook"
-                                                            value="https://facebook.com/#">
+                                                        <input name="facebook" type="text" class="mt-0" id="Facebook"
+                                                            value="{{ $currentUser->facebook_username }}">
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-3">
                                                     <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram
-                                                        Profile</label>
+                                                        Username</label>
                                                     <div class="col-md-8 col-lg-9">
-                                                        <input name="instagram" type="text" class="" id="Instagram"
-                                                            value="https://instagram.com/#">
+                                                        <input name="instagram" type="text" class="mt-0" id="Instagram"
+                                                            value="{{ $currentUser->instagram_username }}">
                                                     </div>
                                                 </div>
 
                                                 <div class="row mb-3">
                                                     <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin
-                                                        Profile</label>
+                                                        Username</label>
                                                     <div class="col-md-8 col-lg-9">
-                                                        <input name="linkedin" type="text" class="" id="Linkedin"
-                                                            value="https://linkedin.com/#">
+                                                        <input name="linkedin" type="text" class="mt-0" id="Linkedin"
+                                                            value="{{ $currentUser->linkedin_username }}">
                                                     </div>
                                                 </div>
 

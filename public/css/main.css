@@ -752,7 +752,7 @@ footer i:hover {
     background: none;
     box-shadow: none;
     color: var(--display-font-color) !important;
-    border: 1px solid rgb(0, 0, 168);
+    border: 2px solid var(--yellow)
 }
 
 
@@ -927,7 +927,7 @@ form textarea,
 form input,
 form select {
     margin-top: 1em;
-    color: var(--display-font-color);
+    color: var(--display-font-color) !important;
     border: 0;
     font-family: inherit;
     outline: none;

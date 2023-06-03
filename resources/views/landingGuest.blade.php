@@ -70,13 +70,13 @@
 
                 @auth
                     <div id="hero-buttons-wrap" class="d-inline-flex mt-3">
-                        <a href="#view-subjects" class="button me-2">View Subjects</a>
-                        <a class="button me-2 logout-action" href="api/logout.php">Logout</a>
+                        <a href="{{url('/threads')}}" class="button me-2">Explore Threads</a>
+                        <a class="button me-2 logout-action" href="{{url('/about')}}">About</a>
                     </div>
                 @else
                     <div id="hero-buttons-wrap" class="d-inline-flex mt-3">
-                        <a class="button me-2 login-show">Login</a>
-                        <a class="button register-show">Register</a>
+                        <a id="login-hero-btn" class="button me-2 login-show">Login</a>
+                        <a id="register-hero-btn" class="button register-show">Register</a>
                         {{-- {{url("register")}} --}}
                     </div>
                 @endauth
@@ -136,7 +136,7 @@
 				<div class="part2-card" style="margin-right:1em">
 					<h2>Start Using<br>Our Services</h2>
 					<p>Start participating in our spaze now. You can start by exploring. And say hi to everyone if you have logged in 👋</p>
-					<p onclick="location.href='questions.php?latest=true'"><strong>View Latest Question</strong>&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i></p>
+					<p onclick="location.href='{{url('/threads')}}'"><strong>View Threads</strong>&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i></p>
 				</div>
             </div>
             <div class="col mt-5">

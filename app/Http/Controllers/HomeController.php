@@ -1,7 +1,10 @@
 <?php
 namespace App\Http\Controllers;
+
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -61,14 +64,30 @@ class HomeController extends Controller
         }
     }
 
-    public function profile(Request $request)
+    public function profile(Request $request, $param)
     {
         if(auth()->check()){
-            return view('profile');
-            // $subjects = Subject::where('tutor_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
-            // return view('mainPage', compact('subjects'));
+            
+
+            $currentUser = User::where('username', $param)->first();
+
+            if(!empty($currentUser)){
+                $country = DB::table('countries')
+                ->select(DB::raw('*'))
+                ->where('id', $currentUser->country_code)
+                ->get();
+
+                $country = json_decode($country, true);
+
+                return view('profile', compact('country', 'currentUser'));
+            }else{
+                return redirect('/profile/'.auth()->user()->username);
+            }
+            
         }else{
-            return view('profile');
+            return redirect('/');
         }
     }
+
+    
 }

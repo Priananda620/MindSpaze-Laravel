@@ -12,6 +12,7 @@ function clearMsgOutput() {
     $('#SUCCESS-login').css('display', 'none')
     $('#SUCCESS-regis').css('display', 'none')
 }
+var urlHash = window.location.hash;
 
 
 function createNewCard(title, username, dateAgo, profileImgUrl, answerCount, isGotAnsVerified, threadUrl) {
@@ -154,7 +155,7 @@ function addNewReaction(emoji, count) {
     let newReactionButton = $('<button>', {
         'type': 'button',
         'class': 'btn bg-light position-relative rounded-pill hide',
-        'html': decodedEmoji + ' <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" data-emoji-count="'+count+'">' + count + '</span>'
+        'html': decodedEmoji + ' <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" data-emoji-count="' + count + '">' + count + '</span>'
     });
     newReactionButton.attr('decodedEmoji', withoutPrefix)
 
@@ -330,6 +331,15 @@ function checkQuillImage(objectRoot) {
 }
 
 $(document).ready(() => {
+    // Check if the URL contains a specific #id
+    setTimeout(function () {
+        
+        if (urlHash === '#login') {
+            $('#login-hero-btn').click()
+        } else if(urlHash === '#register'){
+            $('#register-hero-btn').click()
+        }
+    }, 100);
     pushToastMessage('title test', 'body test test test test test test', 'success')
 
 
@@ -632,7 +642,7 @@ $(document).ready(() => {
     })
 
 
-/////////////////////////////////////
+    /////////////////////////////////////
 
     $('#chips-filter .badge').on('click', function () {
         $(this).toggleClass('bg-dark');

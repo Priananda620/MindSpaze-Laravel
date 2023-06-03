@@ -29,10 +29,10 @@ class User extends Authenticatable
         'is_bolt_user',
         'user_profile_img',
         'job',
-        'linkedin_link',
-        'facebook_link',
-        'twitter_link',
-        'instagram_link',
+        'linkedin_username',
+        'facebook_username',
+        'twitter_username',
+        'instagram_username',
         'user_role',
         'created_at',
         'updated_at'
@@ -62,10 +62,10 @@ class User extends Authenticatable
         'last_ip' => 'string',
         'user_profile_img' => 'string',
         'job' => 'string',
-        'linkedin_link' => 'string',
-        'facebook_link' => 'string',
-        'twitter_link' => 'string',
-        'instagram_link' => 'string',
+        'linkedin_username' => 'string',
+        'facebook_username' => 'string',
+        'twitter_username' => 'string',
+        'instagram_username' => 'string',
         'user_role' => 'integer',
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp'
@@ -82,4 +82,31 @@ class User extends Authenticatable
     public function reaction(){
         return $this->hasMany(Reaction::class);
     }
+
+    public function getRememberToken()
+    {
+        return $this->remember_token;
+    }
+
+    /**
+     * Set the token value for the "remember me" session.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setRememberToken($value)
+    {
+        $this->remember_token = $value;
+    }
+
+    /**
+     * Get the column name for the "remember me" token.
+     *
+     * @return string
+     */
+    public function getRememberTokenName()
+    {
+        return 'remember_token';
+    }
+
 }

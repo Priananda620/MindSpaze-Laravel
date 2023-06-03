@@ -24,7 +24,6 @@ class UserTableSeeder extends Seeder
                 'password' => Hash::make("Azhar20062001"),
                 'phone' => '87875587801',
                 'country_code' => 'id',
-                'user_profile_img' => '/',
             ],
         ]);
     }

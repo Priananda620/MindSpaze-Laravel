@@ -19,12 +19,16 @@ use App\Http\Controllers\AuthController;
 //     return $request->user();
 // });
 
-Route::post('/login', [AuthController::class, 'Login']);
+Route::post('/login', [AuthController::class, 'Login'])->name('loginApi');
 
 Route::post('/loginWeb', [AuthController::class, 'LoginWeb']);
 
 
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
 
-    Route::post('/test', [AuthController::class, 'viewLogin']);
+//     Route::get('/user', [AuthController::class, 'viewLogin']);
+// });
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });

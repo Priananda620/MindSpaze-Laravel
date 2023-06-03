@@ -18,7 +18,7 @@ class Users extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('email', 255);
+            $table->string('email', 255)->unique();
             $table->string('username', 50)->unique();
             $table->text('password');
             $table->string('phone', 13);
@@ -26,13 +26,14 @@ class Users extends Migration
             $table->foreign('country_code')->references('id')->on('countries');
             $table->ipAddress('last_ip')->nullable();
             $table->boolean('is_bolt_user')->default(false);
-            $table->string('user_profile_img', 255)->nullable();
+            $table->string('user_profile_img', 255)->default('default.jpg');
             $table->text('job')->nullable();
-            $table->text('instagram_link')->nullable();
-            $table->text('twitter_link')->nullable();
-            $table->text('facebook_link')->nullable();
-            $table->text('linkedin_link')->nullable();
+            $table->text('instagram_username')->nullable();
+            $table->text('twitter_username')->nullable();
+            $table->text('facebook_username')->nullable();
+            $table->text('linkedin_username')->nullable();
             $table->smallInteger('user_role')->default(0);//0 user, 1 admin
+            $table->rememberToken();
             $table->timestamp('created_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
         });

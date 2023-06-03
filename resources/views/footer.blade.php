@@ -5,7 +5,7 @@
                 <span>{!! file_get_contents('assets/logo/svgMindspaze.svg') !!}</span>
                 <span style="color:#f5bc00" class="position-relative">
                     Mind
-                    <p>AI Integrated</p>
+                    <p style="width: max-content;">AI Integrated</p>
                 </span>
                 <span class="logoSpaZe">Spaze</span></h1>
         </a>

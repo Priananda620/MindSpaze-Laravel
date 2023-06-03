@@ -46,12 +46,12 @@
         <div class="row row-cols-lg-3 row-cols-1 row-cols-md-2 mt-3">
             <form class="d-flex align-items-center justify-content-center">
                 <input name="search" type="search" placeholder="search..." class="bg-lifted search-not-header mt-0">
-                <span id="threadList-totalData" class="badge bg-secondary ms-2">5</span>
+                <span id="threadList-totalData" class="badge bg-secondary ms-2">0</span>
             </form>
             
         </div>
         <div class="bd-callout bd-callout-info mt-3">
-            <strong>Type above or use our filter</strong> to explore our collections.
+            <strong>Type above or use filter</strong> to explore our collections.
         </div>
         <div class="my-5">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="nonHeaderSearchResults">

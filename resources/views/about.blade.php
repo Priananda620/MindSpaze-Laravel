@@ -303,7 +303,7 @@
                         <h2 class="sq ow">Convinced To<br>Use Our Service?</h2>
                         <p class="sj">Click the button below to give it a try by viewing latest questions.</p>
                     </div>
-                    <div class="cta-action reveal-scale-up" data-reveal-delay="200"><a style="width: 15em; margin:auto" class="button" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">View Threads</a></div>
+                    <div class="cta-action reveal-scale-up" data-reveal-delay="200"><a style="width: 15em; margin:auto" class="button" href="{{url('/threads')}}">View Threads</a></div>
                 </div>
             </div>
         </div>
