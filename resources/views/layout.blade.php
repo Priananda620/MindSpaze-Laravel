@@ -15,7 +15,7 @@
 
 
 <body class="t">
-    
+
     {{-- @yield('loginRegister') --}}
     {{-- @yield('addCourse') --}}
     <div id="overlay-outter" class="d-flex position-fixed align-items-start hide-scrollbar1 hide-scrollbar2">
@@ -41,7 +41,7 @@
         @yield('content')
 
 
-        <section id="section-2" class="section-child py-5">
+        <section id="section-2" class="section-child py-5 mt-5">
             {{-- <svg width="720" height="480" viewBox="0 0 1360 578" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="illustration-01">

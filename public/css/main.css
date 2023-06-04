@@ -567,7 +567,7 @@ p {
 }
 
 section#section-2 {
-    background: var(--section-bg);
+    background: var(--base-color-lifted-1);
 }
 
 section#section-2 h2 {
@@ -703,7 +703,7 @@ section.section-child .section-text {
 }
 
 footer {
-    background-color: var(--base-color-lifted-1);
+    background-color: var(--section-bg);
 }
 
 footer i {
@@ -927,7 +927,7 @@ form textarea,
 form input,
 form select {
     margin-top: 1em;
-    color: var(--display-font-color) !important;
+    color: var(--display-font-color);
     border: 0;
     font-family: inherit;
     outline: none;
@@ -1641,11 +1641,11 @@ button.nav-link.active{
         left: 0;
         width: 100%;
     }
-    
+
     .logo-spaze{
         display: none !important;
     }
-    
+
     .logo-mind{
         display: none !important;
     }
@@ -1662,6 +1662,10 @@ button.nav-link.active{
         width: 200%;
         height: 450%;
         z-index: 1000;
+    }
+
+    footer>div:nth-of-type(2)>div{
+        width: 100%;
     }
 
 }

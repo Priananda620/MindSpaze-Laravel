@@ -18,7 +18,7 @@ class Questions extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
 
-            $table->string('title', 255);
+            $table->string('title', 255)->unique();
             $table->longText('question_synopsis');
             $table->string('attached_img', 255)->nullable();
             $table->boolean('isHotThread')->default(false);

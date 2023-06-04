@@ -40,19 +40,20 @@
                     <div id="user-dropdown-wrap" class="position-absolute p-0 d-flex align-items-center justify-content-center">
                         <ul class="p-0 m-0 d-flex justify-content-start flex-column">
                             <li>
-                                My Profile
+                                <a href="{{url('/profile').'/'.auth()->user()->username}}">My Profile</a>
                             </li>
                             <li>
-                                Add Question 
+                                <a href="{{url('/add-question')}}">Add Question</a>
                             </li>
                             <li>
-                                Account Settings
+                                <a href="{{url('/profile').'/'.auth()->user()->username}}">Account Settings</a>
                             </li>
                             <li>
-                                Help Answer Questions
+                                <a href="{{url('/threads')}}">Help Answer Questions</a>
+
                             </li>
                             <li>
-                                Sign Out
+                                <a class="logout-action" href="{{url('/logout')}}">Sign Out</a>
                             </li>
                         </ul>
                     </div>
@@ -65,7 +66,7 @@
                 </a>
             </div>
 
-            <a class="button me-2" href="{{url('/logout')}}">Logout</a>
+            <a class="button me-2 logout-action" href="{{url('/logout')}}">Logout</a>
             {{-- <div class="user-avatar-rounded me-2" style="background-image:url('assets/tutors/{{auth()->user()->id}}.jpg')"></div> --}}
         @else
 
@@ -74,7 +75,7 @@
                 <a class="button register-show">Register</a>
             </div>
 
-            
+
         @endauth
         <div id="header-inner-right">
             <div class="dark-switch">
@@ -82,7 +83,7 @@
                 <label for="dark-switch-input"></label>
             </div>
         </div>
-        
+
     </div>
     <div class="progress" style="height: .5em;">
         <div class="progress-bar progress-bar-striped progress-bar-animated opacity-0" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>

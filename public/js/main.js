@@ -331,9 +331,21 @@ function checkQuillImage(objectRoot) {
 }
 
 $(document).ready(() => {
+
+
+    $('.logout-action').on('click', function (e) {
+        e.preventDefault()
+        console.log("LOGOUT")
+
+        $.removeCookie('api_plain_token', { path: '/' });
+
+
+        window.location.href = $(this).attr('href');
+    })
+
     // Check if the URL contains a specific #id
     setTimeout(function () {
-        
+
         if (urlHash === '#login') {
             $('#login-hero-btn').click()
         } else if(urlHash === '#register'){
@@ -357,7 +369,7 @@ $(document).ready(() => {
 
     const backdropCloseEvoke = $("#backdrop-close-evoke")
 
-    if (window.location.pathname === "/test") {
+    if (window.location.pathname === "/thread-detail") {
         quillEditor = new Quill('#answer-quill-container', {
             modules: {
                 toolbar: [
@@ -716,24 +728,31 @@ $(document).ready(() => {
     // });
 
 
+
     var newQuestionTitle = $("input[name='question-title']")
     function fetchNewQuestionCheck() {
         let query = newQuestionTitle.val();
+        let requestHeaders = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer '+$.cookie('api_plain_token')
+        };
 
         $.ajax({
-            url: 'https://dummyjson.com/products/search',
+            url: window.location.origin+"/api/"+'get-thread-title',
             method: 'GET',
-            data: { q: query },
+            headers: requestHeaders,
+            data: { query: query },
             timeout: 5000,
             success: function (response) {
 
-
-                if (Object.keys(response.products).length > 0) {
+                // Object.keys(response.threads).length
+                if (response.total > 0) {
                     $('#step3 .fa-circle-xmark').show();
                     $('#step3 .fa-circle-check').hide();
                     pushToastMessage('Failed', 'Title is unavailable', 'fail')
                     $("#nextButton").attr("isDisabled", "true");
-                } else if (Object.keys(response.products).length <= 0) {
+                } else if (response.total <= 0) {
                     $('#step3 .fa-circle-xmark').hide();
                     $('#step3 .fa-circle-check').show();
                     pushToastMessage('Success', 'Title is available', 'success')

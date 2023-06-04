@@ -17,7 +17,7 @@
                         $formattedTimestamp = str_replace(' 0', ' ', $formattedTimestamp);
                         $formattedTimestamp = ltrim($formattedTimestamp, '0');
                     @endphp
-                
+
                     <h2 class="fw-bold mt-3">{{ $currentUser->username }}</h2>
                     <p class="text-muted-color">Joined {{$formattedTimestamp}}
                     </p>
@@ -209,7 +209,7 @@
                                                     <div class="col-md-8 col-lg-9">
                                                         <div class="input-group">
                                                             <span class="input-group-text">+{{$country[0]['phonecode']}}</span>
-                                                            <input id="Phone" name="phone" type="text" style="border: none;"
+                                                            <input id="Phone" name="phone" type="text" style="border: none;color: var(--display-font-color);"
                                                             class="form-control w-auto mt-0" placeholder="Phone number" value="{{$currentUser->phone}}">
                                                         </div>
                                                     </div>

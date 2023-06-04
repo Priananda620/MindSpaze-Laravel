@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\ThreadController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,11 +24,9 @@ Route::post('/login', [AuthController::class, 'Login'])->name('loginApi');
 Route::post('/loginWeb', [AuthController::class, 'LoginWeb']);
 
 
-// Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
 
-//     Route::get('/user', [AuthController::class, 'viewLogin']);
-// });
+    Route::get('/user', [AuthController::class, 'getUser']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::get('/get-thread-title', [ThreadController::class, 'getTitle']);
 });

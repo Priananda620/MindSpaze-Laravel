@@ -1,5 +1,5 @@
 <footer class="p-5">
-    <div style="border-bottom: 1px solid var(--display-font-color-2nd);" class="logo mb-4 pb-3">
+    <div class="logo mb-4 pb-3 border-bottom border-secondary">
         <a href="{{url('/')}}">
             <h1 class="fw-bold d-flex align-items-center">
                 <span>{!! file_get_contents('assets/logo/svgMindspaze.svg') !!}</span>
@@ -12,7 +12,7 @@
     </div>
     <div class="d-flex justify-content-between">
         <div style="width: 22em;">
-            <p>All contents, website design, FE, BE are fully self made (except <span class="fw-bold">fontAwesome icons</span> and svg flat illustrations are from <span class="fw-bold">unDraw</span>). Using JQUERY, AJAX, native JS, self CSS, Bootstrap CSS framework, FontAwesome icons, unDraw svg illustrations.</p>
+            <p style="text-align: justify">All contents, website design, FE, BE are fully self made (except <span class="fw-bold">fontAwesome icons</span> and svg flat illustrations are from <span class="fw-bold">unDraw</span>). Using JQUERY, AJAX, native JS, self CSS, Bootstrap CSS framework, FontAwesome icons, unDraw svg illustrations.</p>
         </div>
 
         <div style="margin: 0 3em;">

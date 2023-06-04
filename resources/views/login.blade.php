@@ -91,7 +91,7 @@
                     remember: remember
                     // _token: csrf
                 };
-                
+
                 $.ajax({
                     url: "{{route('loginApi')}}",
                     method: 'POST',
@@ -104,6 +104,7 @@
                     success: function (response) {
                         console.log(response)
                         // $(this).off('submit');
+                        $.cookie('api_plain_token', response.token, { expires: 7, path: '/' });
                         $('#login-body > form').submit();
                     },
                     error: function (xhr, status, error) {

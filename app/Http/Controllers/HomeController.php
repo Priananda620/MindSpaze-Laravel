@@ -67,7 +67,7 @@ class HomeController extends Controller
     public function profile(Request $request, $param)
     {
         if(auth()->check()){
-            
+
 
             $currentUser = User::where('username', $param)->first();
 
@@ -83,11 +83,11 @@ class HomeController extends Controller
             }else{
                 return redirect('/profile/'.auth()->user()->username);
             }
-            
+
         }else{
             return redirect('/');
         }
     }
 
-    
+
 }

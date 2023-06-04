@@ -23,7 +23,8 @@ class AuthController extends Controller
             return $userrrr;
         }
     }
-    public function viewLogin()
+
+    public function getUser()
     {
         return [
             'user' => auth()->user()
@@ -151,7 +152,7 @@ class AuthController extends Controller
         } else {
             echo "NOT FOUND";
         }
-        
+
     }
 
     public function testtemp(Request $request)
