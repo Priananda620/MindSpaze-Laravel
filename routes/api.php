@@ -25,6 +25,10 @@ Route::post('/loginWeb', [AuthController::class, 'LoginWeb']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('thread')->group(function () {
+        Route::post('/post', [ThreadController::class, 'addQuestion']);
+    });
+
 
     Route::get('/user', [AuthController::class, 'getUser']);
 

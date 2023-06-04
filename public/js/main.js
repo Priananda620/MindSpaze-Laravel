@@ -14,6 +14,40 @@ function clearMsgOutput() {
 }
 var urlHash = window.location.hash;
 
+function animateProgressBar(isStepping) {
+    let progress = 20;
+    let increment = 10;
+    let delay = 300;
+    let progressBar = $('.progress-bar');
+
+    progressBar.css('width', progress + '%').attr('aria-valuenow', progress);
+
+
+    if (isStepping) {
+        progressBar.removeClass('opacity-0')
+        progressBar.addClass('opacity-100')
+
+        var interval = setInterval(function () {
+            let currProgress = parseInt(progressBar.attr('aria-valuenow'))
+            currProgress += increment;
+            progressBar.css('width', currProgress + '%').attr('aria-valuenow', currProgress);
+            console.log(currProgress)
+            if (currProgress >= 100) {
+
+                clearInterval(interval);
+                progressBar.css('width', '100%').attr('aria-valuenow', '100');
+            }
+        }, delay);
+    } else {
+        progressBar.css('width', '20%').attr('aria-valuenow', '20');
+
+        progressBar.removeClass('opacity-0')
+        progressBar.addClass('opacity-100')
+    }
+
+
+}
+
 
 function createNewCard(title, username, dateAgo, profileImgUrl, answerCount, isGotAnsVerified, threadUrl) {
     // var col = $('.col');
@@ -302,16 +336,6 @@ function checkQuillImage(objectRoot) {
     if (imagesCount > 1) {
         pushToastMessage("warning", "Cannot add more than one image, we removed the bottom most", "info")
 
-        // let paragraphs = editorRoot.find('p');
-
-        // paragraphs.each(function () {
-        //     let imgElements = $(this).find('img');
-        //     imgElements.slice(1).remove();
-        //     console.log(imgElements)
-        // });
-
-        // let p_slices = paragraphs.slice(1).filter(':has(img)');
-        // p_slices.remove()
         editorRoot.find('p:has(img)').not(':first').find('img').remove();
 
         editorRoot.find('p:has(img)').each(function () {
@@ -409,89 +433,38 @@ $(document).ready(() => {
             theme: 'snow'
         })
 
-        var insertedImages = [];
-
 
         var addQuestionContainer = $('#addQuestion-container').innerHeight()
 
         var currquestionQuillHeight = $('#question-quill-container').height()
         var additionalheight = $("#step4 > div:nth-of-type(2)").outerHeight(true) + $("#step4 > div:nth-of-type(3)").outerHeight(true) + $("#step4 > h2").outerHeight(true) + 120;
         quillEditor.on('text-change', function (delta) {
-            // var editorContent = quillEditor.getContents();
-
-            // editorContent.ops.forEach(function (op) {
-            //     if (op.insert && op.insert.image) {
-            //         insertedImages.push(op.insert.image);
-            //     }
-            // });
-
-            // // Remove the newest image if there are multiple images
-            // if (insertedImages.length > 1) {
-            //     var newestImage = insertedImages[insertedImages.length - 1];
-
-            //     var newestImageIndex = -1;
-            //     for (var i = editorContent.ops.length - 1; i >= 0; i--) {
-            //         var op = editorContent.ops[i];
-            //         if (op.insert && op.insert.image === newestImage) {
-            //             newestImageIndex = i;
-            //             break;
-            //         }
-            //     }
-
-            //     if (newestImageIndex !== -1) {
-            //         editorContent.ops.splice(newestImageIndex, 1);
-            //         quillEditor.setContents(editorContent);
-            //     }
-            // }
-
-
-            console.log(insertedImages)
-
-
-
 
 
             checkQuillImage($('#question-quill-container > .ql-editor'))
-            ///////////////
-            // console.log(quillEditor.root.innerHTML)
-            $('#answer-content').html(quillEditor.root.innerHTML)
-
             let curraddQuestionContainer = $('#addQuestion-container').height()
             let questionQuillHeight = $('#question-quill-container').height()
-
-            // console.log(addQuestionContainer - additionalheight)
-
             if (currquestionQuillHeight < questionQuillHeight && questionQuillHeight > (addQuestionContainer - additionalheight)) {
                 let currHeightChange = questionQuillHeight - currquestionQuillHeight
-
                 $('#addQuestion-container').css('height', (currHeightChange + curraddQuestionContainer) + 'px');
-                // console.log(1)
             } else if (currquestionQuillHeight > questionQuillHeight && questionQuillHeight > (addQuestionContainer - additionalheight)) {
                 let currHeightChange = currquestionQuillHeight - questionQuillHeight
                 $('#addQuestion-container').css('height', (curraddQuestionContainer - currHeightChange) + 'px');
-                // console.log(2)
             } else if (questionQuillHeight < (addQuestionContainer - additionalheight)) {
                 $('#addQuestion-container').css('height', 75 + 'vh');
-                // console.log(3)
             } else {
                 setTimeout(function () {
                     let currHeightChange = questionQuillHeight - currquestionQuillHeight
-
                     $('#addQuestion-container').css('height', (currHeightChange + curraddQuestionContainer) + 'px');
-                    // console.log(11)
                 }, 200);
             }
-
             currquestionQuillHeight = questionQuillHeight
-
             setTimeout(function () {
                 if (checkOverflow($('#addQuestion-container'), $('#addQuestion-container > div:nth-of-type(4) > div:last-child'))) {
                     let childHeight = $('#addQuestion-container > div:nth-of-type(4) > div:last-child').position().top + $('#addQuestion-container > div:nth-of-type(4) > div:last-child').outerHeight()
                     let parentHeight = $('#addQuestion-container').position().top + $('#addQuestion-container').outerHeight()
-
                     let overflowHeight = (childHeight - parentHeight)
                     $('#addQuestion-container').css('height', (overflowHeight + curraddQuestionContainer + 210) + 'px');
-
                     console.log("is overfowing")
                 } else {
                     console.log("not overfowing")
@@ -788,6 +761,8 @@ $(document).ready(() => {
         $('#step3 .fa-circle-check').hide();
         $('#step3 .fa-circle-xmark').hide();
 
+        $("#nextButton").attr("isDisabled", "true");
+        
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(fetchNewQuestionCheck, debounceDelay);
         console.log("GOT DEBOUNCE")
@@ -909,40 +884,6 @@ $(document).ready(() => {
                 // }, 600);
             },
         });
-
-    }
-
-    function animateProgressBar(isStepping) {
-        var progress = 20;
-        var increment = 10;
-        var delay = 300;
-        var progressBar = $('.progress-bar');
-
-        progressBar.css('width', progress + '%').attr('aria-valuenow', progress);
-
-
-        if (isStepping) {
-            progressBar.removeClass('opacity-0')
-            progressBar.addClass('opacity-100')
-
-            var interval = setInterval(function () {
-                let currProgress = parseInt(progressBar.attr('aria-valuenow'))
-                currProgress += increment;
-                progressBar.css('width', currProgress + '%').attr('aria-valuenow', currProgress);
-                console.log(currProgress)
-                if (currProgress >= 100) {
-
-                    clearInterval(interval);
-                    progressBar.css('width', '100%').attr('aria-valuenow', '100');
-                }
-            }, delay);
-        } else {
-            progressBar.css('width', '20%').attr('aria-valuenow', '20');
-
-            progressBar.removeClass('opacity-0')
-            progressBar.addClass('opacity-100')
-        }
-
 
     }
 

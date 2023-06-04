@@ -156,6 +156,9 @@
       <object class="mb-5" style="width: 25vw;" data="assets/svg/undraw_done_re_oak4.svg" type="image/svg+xml"></object>
       <h2 class="mb-3 mt-4 fw-bold">All Good</h2>
       <p class="w-50 lh-sm unfocus-text">Click submit below to finish — then you will be redirected to your question thread details.</p>
+      <div class="mt-3">
+        <i class="fa-solid fa-ellipsis fa-beat-fade fa-2xl fs-1" style="display: none"></i>
+      </div>
     </div>
 </div>
 <div class="navigation mb-5">
@@ -163,40 +166,89 @@
 </div>
 <script>
 $(document).ready(function() {
-    var currentStep = 1;
-    var totalSteps = $('.step').length;
+  var currentStep = 1;
+  var totalSteps = $('.step').length;
 
-    $('#nextButton').on('click', function() {
-      if($("#nextButton").attr("isDisabled") === "false"){
-        if((currentStep+1) === 3){
-          $("#nextButton").attr("isDisabled", "true")
-        }
-        if((currentStep+1) === 5){
-          $("#nextButton").html("SUBMIT&nbsp;<i class='fa-regular fa-circle-check'></i>")
-          $('#addQuestion-container').css('height', 75 + 'vh');
-        }
-        if (currentStep < totalSteps) {
-            var $currentStep = $('#step' + currentStep);
-            var $nextStep = $('#step' + (currentStep + 1));
-
-            $currentStep.removeClass('active').addClass('slide-curr-step');
-            $nextStep.addClass('active').addClass('slide-next-step');
-
-            setTimeout(function() {
-                $currentStep.removeClass('slide-curr-step');
-                $nextStep.removeClass('slide-next-step');
-            }, 500);
-
-            setTimeout(function() {
-                $currentStep.removeClass('slide-curr-step');
-                $nextStep.removeClass('slide-next-step');
-            }, 500);
-
-            currentStep++;
-        }
+  $('#nextButton').on('click', function() {
+    if($("#nextButton").attr("isDisabled") === "false"){
+      if((currentStep+1) === 3){
+        $("#nextButton").attr("isDisabled", "true")
       }
+      if((currentStep+1) === 5){
+        $("#nextButton").html("SUBMIT&nbsp;<i class='fa-regular fa-circle-check'></i>")
+        $('#addQuestion-container').css('height', 75 + 'vh');
+        $("#nextButton").attr('id', 'add-question-submit')
 
-    });
+        $('#add-question-submit').on('click', function() {
+          
+          console.log($("input[name='question-title']").val())
+          console.log(quillEditor.getContents())
+
+          let newTitle = $("input[name='question-title']").val()
+          let quillData = JSON.stringify(quillEditor.getContents()); 
+          let requestHeaders = {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer '+$.cookie('api_plain_token')
+          };
+
+          $.ajax({
+              url: window.location.origin+"/api/"+'thread/post',
+              method: 'POST',
+              headers: requestHeaders,
+              data: JSON.stringify({
+                  title: newTitle,
+                  quillData: quillData
+              }),
+
+              timeout: 5000,
+              success: function (response) {
+
+                console.log(response)
+
+              },
+              error: function () {
+                  pushToastMessage('failed', 'fail to request to the server', 'fail')
+              },
+              beforeSend: function () {
+                  animateProgressBar(true)
+
+                  $('#step5 .fa-ellipsis').show();
+              },
+              complete: function () {
+                  $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                  $('.progress-bar').addClass('opacity-0')
+                  $('.progress-bar').removeClass('opacity-100')
+
+                  $('#step5 .fa-ellipsis').hide();
+              },
+          });
+
+
+        })
+      }
+      if (currentStep < totalSteps) {
+          var $currentStep = $('#step' + currentStep);
+          var $nextStep = $('#step' + (currentStep + 1));
+
+          $currentStep.removeClass('active').addClass('slide-curr-step');
+          $nextStep.addClass('active').addClass('slide-next-step');
+
+          setTimeout(function() {
+              $currentStep.removeClass('slide-curr-step');
+              $nextStep.removeClass('slide-next-step');
+          }, 500);
+
+          setTimeout(function() {
+              $currentStep.removeClass('slide-curr-step');
+              $nextStep.removeClass('slide-next-step');
+          }, 500);
+
+          currentStep++;
+      }
+    }
+
+  });
 
   $('#newTitle > input').keypress(function(event) {
     if (event.which === 13 || event.keyCode === 13) {

@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TutorController;
 use App\Models\Tutor;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +31,6 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 
 Route::get('/threads', [HomeController::class, 'threads'])->name('threads');
 
-Route::get('/add-question', [HomeController::class, 'addQuestion'])->name('addQuestion');
-
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
     Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
@@ -44,6 +44,19 @@ Route::middleware(['checkLoginSession'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/profile/{param}', [HomeController::class, 'profile'])->name('profile');
+
+    Route::get('/profile', function () {
+        $username = Auth::user()->username;
+        return redirect('/profile/'.$username);
+    });
+    
+
+    Route::get('/add-question', [HomeController::class, 'addQuestion'])->name('addQuestion');
 });
 
 
+// $id = Crypt::decryptString($param);
+// if (!$profile) {
+//     abort(404);
+// }
+// $encryptedId = Crypt::encryptString($id);
