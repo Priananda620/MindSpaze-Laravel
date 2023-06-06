@@ -27,10 +27,12 @@ Route::post('/loginWeb', [AuthController::class, 'LoginWeb']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('thread')->group(function () {
         Route::post('/post', [ThreadController::class, 'addQuestion']);
+        // Route::post('/upload-image', [ThreadController::class, 'addQuestionImage']);
     });
 
 
     Route::get('/user', [AuthController::class, 'getUser']);
 
-    Route::get('/get-thread-title', [ThreadController::class, 'getTitle']);
+    // Route::get('/get-threads', [ThreadController::class, 'getThreads']);
+    Route::match(['GET', 'POST'], '/get-threads', [ThreadController::class, 'getThreads']);
 });

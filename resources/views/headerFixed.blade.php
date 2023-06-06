@@ -61,7 +61,7 @@
 
             </div>
             <div class="d-flex flex-row me-3">
-                <a href="" class="h3 m-0">
+                <a href="{{url('/add-question')}}" class="h3 m-0">
                     <i class="fa-solid fa-square-plus"></i>
                 </a>
             </div>

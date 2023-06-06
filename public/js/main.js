@@ -49,7 +49,7 @@ function animateProgressBar(isStepping) {
 }
 
 
-function createNewCard(title, username, dateAgo, profileImgUrl, answerCount, isGotAnsVerified, threadUrl) {
+function createNewCard(title, username, dateAgo, profileImgUrl, answerCount, hasAnswerVerified, threadUrl, isBoltUser, isHotThread) {
     // var col = $('.col');
     let col = $('<div>', { class: 'col' });
 
@@ -65,15 +65,18 @@ function createNewCard(title, username, dateAgo, profileImgUrl, answerCount, isG
     let cardSubtitle = $('<h6>', { class: 'card-subtitle text-muted me-2' }).text(username);
 
     let boltIcon = $('<i>', {
-        class: 'fa-solid fa-bolt mb-2 orange',
+        class: 'fa-solid fa-bolt mb-1 orange',
         style: 'color:var(--yellow)',
         'data-bs-toggle': 'tooltip',
         'data-bs-placement': 'right',
-        title: 'Hot Thread'
+        title: 'Bolt User'
     });
 
+    var hotBadge = $('<span></span>').addClass('ms-2 badge bg-light text-dark me-1 mb-1 border border-warning').text('Hot');
+
+
     let dInlineFlex = $('<div>', { class: 'd-inline-flex align-items-center mb-2' });
-    dInlineFlex.append(userAvatar, cardSubtitle, boltIcon);
+    dInlineFlex.append(userAvatar, cardSubtitle, isBoltUser ? boltIcon : '', isHotThread ? hotBadge : '');
 
     let cardTitle = $('<h5>', { class: 'card-title' }).text(title);
 
@@ -83,7 +86,7 @@ function createNewCard(title, username, dateAgo, profileImgUrl, answerCount, isG
 
     let badgeAnsVerif;
 
-    if (isGotAnsVerified) {
+    if (hasAnswerVerified) {
         badgeAnsVerif = $('<span>', { class: 'badge bg-light text-dark' }).text('answer verified ').append($('<i>', { class: 'fa-solid fa-circle-check' }))
     } else {
         badgeAnsVerif = $('<span>', { class: 'badge bg-light text-dark' }).text('no verified answer ').append($('<i>', { class: 'fa-solid fa-triangle-exclamation' }))
@@ -372,7 +375,7 @@ $(document).ready(() => {
 
         if (urlHash === '#login') {
             $('#login-hero-btn').click()
-        } else if(urlHash === '#register'){
+        } else if (urlHash === '#register') {
             $('#register-hero-btn').click()
         }
     }, 100);
@@ -628,11 +631,20 @@ $(document).ready(() => {
 
 
     /////////////////////////////////////
+    var tagsSelectedEncID = [];
 
     $('#chips-filter .badge').on('click', function () {
         $(this).toggleClass('bg-dark');
         $(this).toggleClass('bg-secondary');
         $(this).toggleClass('chips-first-select');
+
+        $('.search-not-header').trigger('input');
+
+        tagsSelectedEncID = []
+        $('.chips-first-select').each(function () {
+
+            tagsSelectedEncID.push($(this).attr('data-tag-id'));
+        })
     });
 
 
@@ -708,11 +720,11 @@ $(document).ready(() => {
         let requestHeaders = {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': 'Bearer '+$.cookie('api_plain_token')
+            'Authorization': 'Bearer ' + $.cookie('api_plain_token')
         };
 
         $.ajax({
-            url: window.location.origin+"/api/"+'get-thread-title',
+            url: window.location.origin + "/api/" + 'get-threads',
             method: 'GET',
             headers: requestHeaders,
             data: { query: query },
@@ -762,7 +774,7 @@ $(document).ready(() => {
         $('#step3 .fa-circle-xmark').hide();
 
         $("#nextButton").attr("isDisabled", "true");
-        
+
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(fetchNewQuestionCheck, debounceDelay);
         console.log("GOT DEBOUNCE")
@@ -819,7 +831,6 @@ $(document).ready(() => {
             console.log("GOT DEBOUNCE")
         }
 
-
     });
 
     //////////////////////////////////////////////////////////////////////////
@@ -841,10 +852,23 @@ $(document).ready(() => {
 
         setUrlSearchParams(query)
 
+
+        let tagsSelectedEncIDJSON = JSON.stringify(tagsSelectedEncID);
+
+        let requestHeaders = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+        };
+
         $.ajax({
-            url: 'https://dummyjson.com/products/search',
-            method: 'GET',
-            data: { q: query },
+            url: window.location.origin + "/api/" + 'get-threads',
+            method: 'POST',
+            headers: requestHeaders,
+            data: JSON.stringify({
+                query: query,
+                tags: tagsSelectedEncIDJSON
+            }),
             timeout: 5000,
             success: function (response) {
                 displayNonHeaderSearchResults(response);
@@ -906,19 +930,22 @@ $(document).ready(() => {
     function displayNonHeaderSearchResults(results) {
         nonHeaderSearchResults.empty();
 
-        let total = Object.keys(results.products).length
+        let total = Object.keys(results.threads).length
 
         $('#threadList-totalData').html(total)
 
         if (total > 0) {
             for (var i = 0; i < total; i++) {
-                let result = results.products[i];
+                let result = results.threads[i];
 
                 // if(result.title === null){
                 //     console.log('---------------'+i)
                 // }
                 try {
-                    var resultItem = createNewCard(result.title, result.brand, '5 days ago', result.thumbnail, result.stock, true, result.images[0]);
+                    var resultItem = createNewCard(result.title, result.user.username, result.elapsed_time,
+                        window.location.origin + '/assets/user_images/' + result.user.user_profile_img,
+                        result.answer.length, result.hasAnswerVerified, "/", result.user.is_bolt_user, result.isHotThread);
+
                 } catch (error) {
                     console.log('---------------' + i)
                     console.log(result)
@@ -936,10 +963,17 @@ $(document).ready(() => {
         let query = searchInput.val();
         searchResults.html('<div class="skeleton-row skeleton"></div>'.repeat(5)); // Show skeleton loadin
 
+        let requestHeaders = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+        };
+
         $.ajax({
-            url: 'https://dummyjson.com/products/search',
+            url: window.location.origin + "/api/" + 'get-threads',
             method: 'GET',
-            data: { q: query },
+            headers: requestHeaders,
+            data: { query: query },
             success: function (response) {
                 displaySearchResults(response);
                 pushToastMessage('success', 'data has been loaded successfully', 'success')
@@ -954,13 +988,54 @@ $(document).ready(() => {
     function displaySearchResults(results) {
         searchResults.empty();
 
-        let total = Object.keys(results.products).length
+        let total = Object.keys(results.threads).length
 
         if (total > 0) {
             for (var i = 0; i < total; i++) {
-                var result = results.products[i];
-                var resultItem = $('<div class="card mb-3"><div class="card-body"><h5 class="card-title">' + result.title + '</h5><p class="card-text">' + result.description + '</p></div></div>');
-                searchResults.append(resultItem);
+                var result = results.threads[i];
+                // var resultItem = $('<div class="card mb-3"><div class="card-body"><h5 class="card-title">' + result.title + '</h5><p class="card-text">' + result.user.username + '</p>' + '</div></div>');
+                var cardDiv = $('<div>', {
+                    class: 'card mb-3'
+                });
+
+                var cardBodyDiv = $('<div>', {
+                    class: 'card-body'
+                });
+
+                var cardTitle = $('<h5>', {
+                    class: 'card-title',
+                    text: result.title
+                });
+
+                var cardText = $('<p>', {
+                    class: 'card-text',
+                    text: result.user.username
+                });
+
+                if (result.hasAnswerVerified) {
+                    var spanBadge = $('<span>', {
+                        class: 'badge bg-light text-dark',
+                    });
+                    var checkIcon = $('<i>', {
+                        class: 'fa-solid fa-circle-check'
+                    });
+                    var spanText = ' answer verified';
+                    spanBadge.append(checkIcon, spanText);
+                } else {
+                    var spanBadge = $('<span>', {
+                        class: 'badge bg-light text-dark',
+                    });
+                    var checkIcon = $('<i>', {
+                        class: 'fa-solid fa-triangle-exclamation'
+                    });
+                    var spanText = ' no verified answer';
+                    spanBadge.append(checkIcon, spanText);
+                }
+
+                cardBodyDiv.append(cardTitle, cardText, spanBadge);
+                cardDiv.append(cardBodyDiv);
+
+                searchResults.append(cardDiv);
             }
         } else {
             searchResults.append('<div class="alert alert-info">No results found.</div>');

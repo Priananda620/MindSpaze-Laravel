@@ -2,9 +2,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Tags;
+use Illuminate\Support\Facades\Crypt;
 
 class HomeController extends Controller
 {
@@ -30,17 +33,6 @@ class HomeController extends Controller
         }
     }
 
-    public function addQuestion(Request $request)
-    {
-        if(auth()->check()){
-            return view('addQuestion');
-            // $subjects = Subject::where('tutor_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
-            // return view('mainPage', compact('subjects'));
-        }else{
-            return view('addQuestion');
-        }
-    }
-
 
     public function test(Request $request)
     {
@@ -50,17 +42,6 @@ class HomeController extends Controller
             // return view('mainPage', compact('subjects'));
         }else{
             return view('threadDetails');
-        }
-    }
-
-    public function threads(Request $request)
-    {
-        if(auth()->check()){
-            return view('threadList');
-            // $subjects = Subject::where('tutor_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
-            // return view('mainPage', compact('subjects'));
-        }else{
-            return view('threadList');
         }
     }
 
@@ -84,6 +65,49 @@ class HomeController extends Controller
                 return redirect('/profile/'.auth()->user()->username);
             }
 
+        }else{
+            return redirect('/');
+        }
+    }
+
+    public function addQuestion(Request $request)
+    {
+        if(auth()->check()){
+
+            // orderBy('created_at', 'DESC')->get()
+            $tags = Tag::all();
+
+            if(!empty($tags)){
+                foreach ($tags as $tag) {
+                    $encryptedId = Crypt::encryptString($tag->id);
+                    $tag->encryptedId = $encryptedId;
+                }
+                return view('addQuestion', compact('tags'));
+            }else{
+                return redirect('/');
+            }
+
+        }else{
+            return redirect('/');
+        }
+    }
+
+    public function threads(Request $request)
+    {
+        if(auth()->check()){
+            $tags = Tag::all();
+
+            if(!empty($tags)){
+                foreach ($tags as $tag) {
+                    $encryptedId = Crypt::encryptString($tag->id);
+                    $tag->encryptedId = $encryptedId;
+                }
+                return view('threadList', compact('tags'));
+            }else{
+                return redirect('/');
+            }
+            // $subjects = Subject::where('tutor_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+            // return view('mainPage', compact('subjects'));
         }else{
             return redirect('/');
         }

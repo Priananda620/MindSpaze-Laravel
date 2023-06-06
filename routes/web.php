@@ -7,7 +7,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TutorController;
 use App\Models\Tutor;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\ThreadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +29,6 @@ Route::get('/test', [AuthController::class, 'test'])->name('test');
 
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 
-Route::get('/threads', [HomeController::class, 'threads'])->name('threads');
-
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
     Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
@@ -49,7 +47,18 @@ Route::middleware(['checkLoginSession'])->group(function () {
         $username = Auth::user()->username;
         return redirect('/profile/'.$username);
     });
-    
+
+    Route::prefix('thread')->group(function () {
+        Route::post('/upload-image', [ThreadController::class, 'addQuestionImage']);
+        // Route::post('/upload-image2', [ThreadController::class, 'addQuestionImage2']);
+    });
+
+    Route::get('/threads', [HomeController::class, 'threads'])->name('threads');
+
+    Route::get('/test-form', function () {
+        return view('TEST');
+    });
+
 
     Route::get('/add-question', [HomeController::class, 'addQuestion'])->name('addQuestion');
 });

@@ -22,7 +22,7 @@ class CheckLoginSession
         if(Auth::check()){
             return $next($request);
         }
-        return redirect('/login')->with(['status' => 'forbidden', 'msg' => "must login first !!!!"]);
+        return redirect('/')->with(['status' => 'forbidden', 'msg' => "must login first !!!!"]);
 
         // abort(403);
     }

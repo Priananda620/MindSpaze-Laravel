@@ -13,7 +13,7 @@ class QuestionTags extends Migration
      */
     public function up()
     {
-        Schema::create('questiontags', function (Blueprint $table) {
+        Schema::create('question_tags', function (Blueprint $table) {
             $table->id();
             $table->foreignId('question_id')->constrained();
             $table->foreignId('tag_id')->constrained();
