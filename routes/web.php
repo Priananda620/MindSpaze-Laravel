@@ -30,11 +30,11 @@ Route::get('/test', [AuthController::class, 'test'])->name('test');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 
 Route::middleware(['guest'])->group(function () {
-    Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
-    Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
+    // Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
+    // Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
 
-    Route::post('/doLogin', [AuthController::class, 'loginWeb'])->name('doLogin');
-    Route::post('/doRegister', [TutorController::class, 'createTutor'])->name('doRegister');
+    Route::post('/loginWeb', [AuthController::class, 'loginWeb'])->name('loginWeb');
+    Route::post('/registerWeb', [AuthController::class, 'registerWeb'])->name('registerWeb');
 });
 
 
@@ -50,6 +50,8 @@ Route::middleware(['checkLoginSession'])->group(function () {
 
     Route::prefix('thread')->group(function () {
         Route::post('/upload-image', [ThreadController::class, 'addQuestionImage']);
+
+        Route::get('/details', [ThreadController::class, 'getThreadDetails']);
         // Route::post('/upload-image2', [ThreadController::class, 'addQuestionImage2']);
     });
 

@@ -49,13 +49,13 @@ function animateProgressBar(isStepping) {
 }
 
 
-function createNewCard(title, username, dateAgo, profileImgUrl, answerCount, hasAnswerVerified, threadUrl, isBoltUser, isHotThread) {
+function createNewCard(encrypted_id, title, username, dateAgo, profileImgUrl, answerCount, hasAnswerVerified, threadUrl, isBoltUser, isHotThread) {
     // var col = $('.col');
-    let col = $('<div>', { class: 'col' });
+    let col = $('<div>', { class: 'col', 'href-thread-id': encrypted_id });
 
     let card = $('<div>', { class: 'card position-relative w-100' });
 
-    let cardBody = $('<div>', { class: 'card-body' });
+    let cardBody = $('<div>', { class: 'card-body pb-2' });
 
     let userAvatar = $('<div>', {
         class: 'user-avatar-rounded me-2',
@@ -78,11 +78,11 @@ function createNewCard(title, username, dateAgo, profileImgUrl, answerCount, has
     let dInlineFlex = $('<div>', { class: 'd-inline-flex align-items-center mb-2' });
     dInlineFlex.append(userAvatar, cardSubtitle, isBoltUser ? boltIcon : '', isHotThread ? hotBadge : '');
 
-    let cardTitle = $('<h5>', { class: 'card-title' }).text(title);
+    let cardTitle = $('<h5>', { class: 'card-title mt-2' }).text(title);
 
-    let cardSubtitle2 = $('<h6>', { class: 'card-subtitle text-muted mb-3' }).text(dateAgo);
+    let cardSubtitle2 = $('<h6>', { class: 'card-subtitle text-muted' }).text(dateAgo);
 
-    let badges = $('<div>');
+    let badges = $("<div style='padding: 0 2rem 2rem 2rem !important;'>");
 
     let badgeAnsVerif;
 
@@ -100,9 +100,9 @@ function createNewCard(title, username, dateAgo, profileImgUrl, answerCount, has
         $('<a>', { class: 'card-link float-end', href: threadUrl }).append($('<i>', { class: 'fa-solid fa-share-from-square' }))
     );
 
-    cardBody.append(dInlineFlex, cardTitle, cardSubtitle2, badges);
+    cardBody.append(dInlineFlex, cardTitle, cardSubtitle2);
 
-    card.append(cardBody);
+    card.append(cardBody, badges);
 
     col.append(card);
 
@@ -238,10 +238,12 @@ function onResizeActions(viewportWidth, viewportHeight) {
     if (viewportWidth < 720) {
         $('section#thread-details').removeClass('m-5')
         $('#addQuestion-container object').css('width', '40vw')
+        $('#addQuestion-container #step3 object').css('width', '65vw')
 
     } else {
         $('section#thread-details').addClass('m-5')
-        $('#addQuestion-container object').css('width', '25vw')
+        $('#addQuestion-container object').css('width', '20vw')
+        $('#addQuestion-container #step3 object').css('width', '30vw')
     }
 
     if (viewportWidth < 1024) {
@@ -360,6 +362,35 @@ function checkQuillImage(objectRoot) {
 $(document).ready(() => {
 
 
+
+    $(window).on('scroll', function () {
+        var scrollTop = $(window).scrollTop();
+
+
+        var stickyFilterOffset = $('.sticky-filter').offset().top;
+        var stickyFilterDistance = (stickyFilterOffset - scrollTop);
+
+        // console.log("STICKYY FILTER")
+
+        if (stickyFilterDistance <= 7 * parseFloat($('html').css('font-size'))) {
+            $('.sticky-filter').addClass('bg-dark');
+            $('.sticky-filter').addClass('border border-light');
+            $('.sticky-filter').addClass('bg-lifted');
+            $('.sticky-filter').css('transition', 'padding .1s ease-out');
+            $('.sticky-filter').addClass('p-3');
+            $('.sticky-filter').addClass('rounded');
+
+            // console.log("STICKYY FILTER")
+        } else {
+            $('.sticky-filter').removeClass('bg-dark');
+            $('.sticky-filter').removeClass('border border-secondary');
+            $('.sticky-filter').removeClass('bg-lifted');
+            $('.sticky-filter').removeClass('p-3');
+        }
+    });
+
+
+
     $('.logout-action').on('click', function (e) {
         e.preventDefault()
         console.log("LOGOUT")
@@ -396,7 +427,7 @@ $(document).ready(() => {
 
     const backdropCloseEvoke = $("#backdrop-close-evoke")
 
-    if (window.location.pathname === "/thread-detail") {
+    if (window.location.pathname === "/thread/details") {
         quillEditor = new Quill('#answer-quill-container', {
             modules: {
                 toolbar: [
@@ -942,10 +973,18 @@ $(document).ready(() => {
                 //     console.log('---------------'+i)
                 // }
                 try {
-                    var resultItem = createNewCard(result.title, result.user.username, result.elapsed_time,
+                    var resultItem = createNewCard(result.encrypted_id, result.title, result.user.username, result.elapsed_time,
                         window.location.origin + '/assets/user_images/' + result.user.user_profile_img,
                         result.answer.length, result.hasAnswerVerified, "/", result.user.is_bolt_user, result.isHotThread);
 
+                    $('div[href-thread-id]').click(function () {
+                        let questionId = $(this).attr('href-thread-id');
+                        let href = '/thread/details?question_id=' + questionId;
+                        window.location.href = window.location.origin+href;
+
+                        console.log($(this).attr('href-thread-id'))
+                        console.log("fdfsfdsfdfds")
+                    });
                 } catch (error) {
                     console.log('---------------' + i)
                     console.log(result)
@@ -973,7 +1012,10 @@ $(document).ready(() => {
             url: window.location.origin + "/api/" + 'get-threads',
             method: 'GET',
             headers: requestHeaders,
-            data: { query: query },
+            data: {
+                query: query,
+                limit: 5
+            },
             success: function (response) {
                 displaySearchResults(response);
                 pushToastMessage('success', 'data has been loaded successfully', 'success')
@@ -995,7 +1037,8 @@ $(document).ready(() => {
                 var result = results.threads[i];
                 // var resultItem = $('<div class="card mb-3"><div class="card-body"><h5 class="card-title">' + result.title + '</h5><p class="card-text">' + result.user.username + '</p>' + '</div></div>');
                 var cardDiv = $('<div>', {
-                    class: 'card mb-3'
+                    class: 'card mb-3',
+                    'href-thread-id': results.threads[i].encrypted_id
                 });
 
                 var cardBodyDiv = $('<div>', {
@@ -1036,6 +1079,15 @@ $(document).ready(() => {
                 cardDiv.append(cardBodyDiv);
 
                 searchResults.append(cardDiv);
+
+                $('div[href-thread-id]').click(function () {
+                    let questionId = $(this).attr('href-thread-id');
+                    let href = '/thread/details?question_id=' + questionId;
+                    window.location.href =  window.location.origin+href;
+
+                    console.log($(this).attr('href-thread-id'))
+                    console.log("fdfsfdsfdfds")
+                });
             }
         } else {
             searchResults.append('<div class="alert alert-info">No results found.</div>');
@@ -1232,73 +1284,73 @@ $(document).ready(() => {
         }
     })
 
-    $("button#login-action").on('click', (e) => {
-        console.log("LOGGIIIIIN")
-        clearMsgOutput()
+    // $("button#login-action").on('click', (e) => {
+    //     console.log("LOGGIIIIIN")
+    //     clearMsgOutput()
 
-        let form = $("#login-body form")[0]
-        let fd = new FormData(form)
-
-
-        if (fd.get('email') != "" && fd.get('password') != "") {
-
-            $('.fa-2x').addClass("d-block")
-            e.preventDefault();
-
-            // if(fd.get('remember') == null){
-            //     fd.set('remember') == "off"
-            // }
-
-            console.log(fd.get('remember'))
-
-            // console.log(reader.result)
-            console.log(fd.get('email'))
-            console.log(fd.get("password"))
-
-            $.ajax({
-                url: 'api/login.php',
-                method: 'POST',
-                data: fd,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    $('.fa-2x').removeClass("d-block")
-                    let json = response
-                    console.log(json)
-
-                    if (json.success) {
-                        console.log(json.success);
-                        console.log(json.account_data);
-                        $('#SUCCESS-login').css('display', 'unset')
-                        // location.reload();
-                    } else if (!json.success && json.no_data) {
-
-                        console.log(json.success)
-                        console.log("no_data:")
-                        console.log(json.no_data)
-
-                        $('#no-data').css('display', 'unset')
-                    } else if (!json.success && json.email_not_registered) {
-                        console.log(json.success);
-                        console.log("email_not_registered:")
-                        console.log(json.email_not_registered)
-
-                        $('#email_not_registered').css('display', 'unset')
-                    } else if (!json.success && json.wrong_password) {
-                        console.log(json.success);
-                        console.log("wrong_password:")
-                        console.log(json.wrong_password);
-                        $('#wrong_password').css('display', 'unset')
-                    }
-                }
-            })
+    //     let form = $("#login-body form")[0]
+    //     let fd = new FormData(form)
 
 
-        } else {
-            $('#no-data').css('display', 'unset')
-            return
-        }
-    })
+    //     if (fd.get('email') != "" && fd.get('password') != "") {
+
+    //         $('.fa-2x').addClass("d-block")
+    //         e.preventDefault();
+
+    //         // if(fd.get('remember') == null){
+    //         //     fd.set('remember') == "off"
+    //         // }
+
+    //         console.log(fd.get('remember'))
+
+    //         // console.log(reader.result)
+    //         console.log(fd.get('email'))
+    //         console.log(fd.get("password"))
+
+    //         $.ajax({
+    //             url: 'api/login.php',
+    //             method: 'POST',
+    //             data: fd,
+    //             processData: false,
+    //             contentType: false,
+    //             success: function (response) {
+    //                 $('.fa-2x').removeClass("d-block")
+    //                 let json = response
+    //                 console.log(json)
+
+    //                 if (json.success) {
+    //                     console.log(json.success);
+    //                     console.log(json.account_data);
+    //                     $('#SUCCESS-login').css('display', 'unset')
+    //                     // location.reload();
+    //                 } else if (!json.success && json.no_data) {
+
+    //                     console.log(json.success)
+    //                     console.log("no_data:")
+    //                     console.log(json.no_data)
+
+    //                     $('#no-data').css('display', 'unset')
+    //                 } else if (!json.success && json.email_not_registered) {
+    //                     console.log(json.success);
+    //                     console.log("email_not_registered:")
+    //                     console.log(json.email_not_registered)
+
+    //                     $('#email_not_registered').css('display', 'unset')
+    //                 } else if (!json.success && json.wrong_password) {
+    //                     console.log(json.success);
+    //                     console.log("wrong_password:")
+    //                     console.log(json.wrong_password);
+    //                     $('#wrong_password').css('display', 'unset')
+    //                 }
+    //             }
+    //         })
+
+
+    //     } else {
+    //         $('#no-data').css('display', 'unset')
+    //         return
+    //     }
+    // })
 
     $('#search-box form input').focus(() => {
         $('#search-suggestion').css({ display: "unset" })

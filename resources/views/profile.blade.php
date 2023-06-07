@@ -107,11 +107,10 @@
                                         <div class="tab-pane fade profile-overview active show" id="profile-overview"
                                             role="tabpanel">
                                             <h4 class="card-title mt-2">About</h4>
-                                            <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores
-                                                cumque
-                                                temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum
-                                                quae
-                                                quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+                                            <p class="small fst-italic">Your profile details should be accurate and up-to-date. 
+                                                Please ensure the information you provide is true and complete. 
+                                                We respect your privacy and will handle your profile details in accordance with your privacy regards.
+                                            </p>
 
                                             <h4 class="card-title mt-4">Profile Details</h4>
 
@@ -381,7 +380,7 @@
                                     <button class="badge bg-dark">Potential False</button>
                                 </div>
                             </div>
-                            <div class="row row-cols-2 g-3">
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-3">
                                 <!-- Card 1 -->
                                 <div class="col">
                                     <div class="card h-100">

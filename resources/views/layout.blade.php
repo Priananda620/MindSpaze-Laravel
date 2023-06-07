@@ -41,7 +41,7 @@
         @yield('content')
 
 
-        <section id="section-2" class="section-child py-5 mt-5">
+        {{-- <section id="section-2" class="section-child py-5 mt-5 container mb-4"> --}}
             {{-- <svg width="720" height="480" viewBox="0 0 1360 578" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="illustration-01">
@@ -55,14 +55,34 @@
                     <circle cx="155" cy="443" r="64"></circle>
                 </g>
             </svg> --}}
-            <div class="d-flex justify-content-center">
+            {{-- <div class="d-flex justify-content-center">
                 <h2 class="fw-bold text-center px-2">Take a look at our threads.</h2>
             </div>
             <div class="mt-1 text-center section-text">
-                <p class="mb-4">For more details — you can click button provided below</p>
+                <p class="mb-4 text-muted-color">For more details — you can click button provided below</p>
                 <a style="width: 15em; margin:auto" class="button"
                     href="https://www.linkedin.com/in/priananda-azhar/" target="_blank"
                     rel="noopener noreferrer">BROWSE</a>
+            </div>
+        </section> --}}
+        <section id="section-2" class="section-child py-5 mt-5 container mb-4 px-5">
+            <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-md-9">
+                <div class="left-content">
+                    <h2 class="fw-bold text-center text-lg-start text-md-start text-sm-center">Take a look at our threads</h2>
+                    <p class="text-muted-color fw-bold text-center text-lg-start text-md-start text-sm-center">For more details — you can click button provided here.</p>
+                </div>
+                </div>
+                <div class="col-md-2">
+                <div class="right-content d-flex justify-content-center align-items-center h-100">
+                    {{-- <button class="btn btn-primary">Button</button> --}}
+                    <a style="width: 15em; margin:auto" class="button"
+                    href="{{url('/threads')}}" target="_blank"
+                    rel="noopener noreferrer">BROWSE</a>
+                </div>
+                </div>
+            </div>
             </div>
         </section>
 

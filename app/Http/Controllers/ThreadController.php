@@ -19,6 +19,7 @@ use Exception;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\ValidationException;
 use App\Models\QuestionTag;
+use Ramsey\Uuid\Type\Integer;
 
 class ThreadController extends Controller
 {
@@ -39,11 +40,14 @@ class ThreadController extends Controller
         try {
             $validatedData = $request->validate([
                 'query' => 'nullable|string',
-                'tags' => 'nullable|json'
+                'tags' => 'nullable|json',
+                'limit' => 'nullable|integer'
             ]);
 
+            $limit = $validatedData['limit'] ?? null;
+
             $decodedTags = [];
-            if(!empty($request->input('tags'))){
+            if (!empty($request->input('tags'))) {
                 $tagsArray = json_decode($request->input('tags'), true);
 
                 foreach ($tagsArray as $tag) {
@@ -55,46 +59,37 @@ class ThreadController extends Controller
 
 
             if (!empty($request->input('query'))) {
-                // $results = Question::with('user', 'answer')->where('title', 'LIKE', '%' . $request->input('query') . '%')->get();
 
-                // $results = Question::with('user', 'answer', 'questiontag')
-                //     ->where('title', 'LIKE', '%' . $request->input('query') . '%')
-                //     ->whereHas('questiontag', function ($query) use ($tagIds) {
-                //         $query->whereIn('tags.tag_id', $tagIds);
-                //     })->get();
-
-                // $results = Question::select('questions.*')
-                //     ->join('question_tags', 'questions.id', '=', 'question_tags.question_id')
-                //     ->join('tags', 'tags.id', '=', 'question_tags.tag_id')
-                //     ->whereIn('tags.id', $tagIds)
-                //     ->get();
-
-                if(count($decodedTags) > 0){
+                if (count($decodedTags) > 0) {
                     $results = Question::with('user', 'answer')
-                    ->select('questions.*')
-                    ->join('question_tags', 'questions.id', '=', 'question_tags.question_id')
-                    ->join('tags', 'tags.id', '=', 'question_tags.tag_id')
-                    ->whereIn('tags.id', $decodedTags)
-                    ->where('title', 'LIKE', '%' . $request->input('query') . '%')
-                    ->distinct()
-                    ->get();
-                }else{
-                    $results = Question::with('user', 'answer')->where('title', 'LIKE', '%' . $request->input('query') . '%')->get();
+                        ->select('questions.*')
+                        ->join('question_tags', 'questions.id', '=', 'question_tags.question_id')
+                        ->join('tags', 'tags.id', '=', 'question_tags.tag_id')
+                        ->whereIn('tags.id', $decodedTags)
+                        ->where('title', 'LIKE', '%' . $request->input('query') . '%')
+                        ->distinct();
+                    // ->get();
+                } else {
+                    $results = Question::with('user', 'answer')->where('title', 'LIKE', '%' . $request->input('query') . '%');
+                    // ->get();
                 }
             } else {
-                if(count($decodedTags) > 0){
+                if (count($decodedTags) > 0) {
                     $results = Question::with('user', 'answer')
-                    ->select('questions.*')
-                    ->join('question_tags', 'questions.id', '=', 'question_tags.question_id')
-                    ->join('tags', 'tags.id', '=', 'question_tags.tag_id')
-                    ->whereIn('tags.id', $decodedTags)
-                    ->distinct()
-                    ->get();
-                }else{
-                    $results = Question::with('user', 'answer')->get();
+                        ->select('questions.*')
+                        ->join('question_tags', 'questions.id', '=', 'question_tags.question_id')
+                        ->join('tags', 'tags.id', '=', 'question_tags.tag_id')
+                        ->whereIn('tags.id', $decodedTags)
+                        ->distinct();
+                    // ->get();
+                } else {
+                    $results = Question::with('user', 'answer');
+                    // ->get();
                 }
-
             }
+
+            $results = $results->limit($limit);
+            $results = $results->get();
 
 
 
@@ -117,7 +112,8 @@ class ThreadController extends Controller
 
             return response()->json([
                 'threads' => $results,
-                'total' => $results->count()
+                'total' => $results->count(),
+                'limit' => $limit ? (int)$limit : 0
             ]);
         } catch (\Throwable $th) {
             throw $th;
@@ -128,6 +124,136 @@ class ThreadController extends Controller
             ], 422);
         }
     }
+
+    private function encodeQuestionImageBase64($fileName)
+    {
+        $imagePath = 'public/assets/question_images/'.$fileName;
+        $imageData = base64_encode(Storage::get($imagePath));
+        $fileExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
+        $base64Image = 'data:image/' . $fileExtension . ';base64,' . $imageData;
+
+        return $base64Image;
+    }
+
+    public function getThreadDetails(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'question_id' => 'required|string'
+            ]);
+
+            $questionThread = Question::with('user', 'answer')->where('questions.id', Crypt::decryptString($request->input('question_id')))->first();
+
+            if (!empty($questionThread)) {
+
+
+                // print_r($questionThread)
+                // echo html_entity_decode($questionThread->question_synopsis);
+
+                // echo $questionThread->first()->id;
+
+                // echo "<br>";
+                // echo $questionThread->first()->user->username;
+
+                // echo "<br>";
+                // echo $questionThread->first()->answer;
+
+                // echo "<br>";
+                // echo $questionThread->first()->answer->user->username;
+
+                // $users = $questionThread->pluck('answers.user')->unique();
+
+                // echo response()->json([
+                //     'questionThread' => $questionThread,
+                //     'user' => $users
+                // ]);
+
+                if (!empty($questionThread->attached_img)) {
+                    $base64encoded = self::encodeQuestionImageBase64($questionThread->attached_img);
+                    
+                    $question_synopsis = json_decode($questionThread->question_synopsis, true);
+
+                    if (isset($question_synopsis['ops']) && is_array($question_synopsis['ops'])) {
+                        foreach ($question_synopsis['ops'] as &$item) {
+                            if (is_array($item) && isset($item['insert']) && is_array($item['insert']) && isset($item['insert']['image'])) {
+                                $item['insert']['image'] = $base64encoded;
+                            }
+                        }
+                    }
+                    
+                    $questionThread->question_synopsis = json_encode($question_synopsis);
+
+                }
+
+                $createdAt = Carbon::parse($questionThread->created_at);
+                $diffForHumans = $createdAt->diffForHumans();
+
+
+                $tags = QuestionTag::with('tag')->where('question_id', $questionThread->id)->get();
+
+                $relatedThreads = Question::with('user', 'answer')
+                    ->where('title', 'LIKE', '%' . $questionThread->title . '%')
+                    ->where('id', '!=', $questionThread->id)
+                    ->limit(4)->withCount('answer')->get();
+
+                if ($relatedThreads->isEmpty()) {
+                    $relatedThreads = Question::with('user', 'answer')
+                        ->where('id', '!=', $questionThread->id)
+                        ->orderBy('created_at', 'desc')
+                        ->limit(4)->withCount('answer')->get();
+                }
+
+                if ($relatedThreads->count() < 4) {
+                    $addition_LIMIT = 4 - $relatedThreads->count();
+
+                    $relatedThreads2 = Question::with('user', 'answer')
+                        ->where('id', '!=', $questionThread->id)
+                        ->where('id', '!=', $relatedThreads[0]->id)
+                        ->orderBy('created_at', 'desc')
+                        ->limit($addition_LIMIT)
+                        ->withCount('answer')
+                        ->get();
+
+                    $relatedThreads = $relatedThreads->concat($relatedThreads2);
+                }
+
+                $relatedThreads = $relatedThreads->map(function ($relatedThread) {
+                    $relatedThread->encrypted_id = Crypt::encryptString($relatedThread->id);
+                    $createdAt = Carbon::parse($relatedThread->created_at);
+                    $relatedThread->elapsed_time = $createdAt->diffForHumans();
+
+
+                    $hasAnswerVerified = $relatedThread->answer->contains(function ($answer) {
+                        $ai_classification_status = $answer->ai_classification_status;
+                        $moderated_as = $answer->moderated_as;
+
+                        $boolHasVerified = strpos($ai_classification_status, 'fact') !== false || strpos($ai_classification_status, 'potential true') && $moderated_as == 'true';
+
+                        return $boolHasVerified;
+                    });
+                    $relatedThread->hasAnswerVerified = $hasAnswerVerified;
+
+                    return $relatedThread;
+                });
+
+
+
+                return view('threadDetails', compact('questionThread', 'diffForHumans', 'tags', 'relatedThreads'));
+            } else {
+                return redirect('/threads');
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        } catch (ValidationException $exception) {
+            // return response()->json([
+            //     'message' => 'The given data was invalid.',
+            //     'errors' => $exception->errors(),
+            // ], 422);
+            return redirect('/threads');
+        }
+    }
+
+
 
     public function addQuestion(Request $request)
     {
@@ -230,9 +356,9 @@ class ThreadController extends Controller
 
                 ]);
 
-                return response()->json([
-                    'message' => 'Success.'
-                ]);
+                // return response()->json([
+                //     'message' => 'Success.'
+                // ]);
             } else {
                 return response()->json([
                     'message' => 'The given data was invalid.'

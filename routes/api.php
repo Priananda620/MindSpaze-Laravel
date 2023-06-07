@@ -20,8 +20,9 @@ use App\Http\Controllers\ThreadController;
 // });
 
 Route::post('/login', [AuthController::class, 'Login'])->name('loginApi');
+Route::post('/register', [AuthController::class, 'register'])->name('registerApi');
 
-Route::post('/loginWeb', [AuthController::class, 'LoginWeb']);
+// Route::post('/loginWeb', [AuthController::class, 'LoginWeb']);
 
 
 Route::middleware('auth:sanctum')->group(function () {

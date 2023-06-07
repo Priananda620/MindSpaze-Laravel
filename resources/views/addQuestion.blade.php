@@ -78,7 +78,7 @@
         }
     </style>
     <div id="addQuestion-container" class="container mt-5">
-        <div id="step1" class="step active p-4">
+        <div id="step1" class="step active p-4 rounded-3">
             <object class="mb-5" style="width: 21vw;" data="assets/svg/undraw_welcoming_re_x0qo.svg"
                 type="image/svg+xml"></object>
             <h2 class="">Thank you for interested in a part of our community!
@@ -87,7 +87,7 @@
                 We're here to help answer your questions and provide valuable insights.
             </p>
         </div>
-        <div id="step2" class="step p-4">
+        <div id="step2" class="step p-4 rounded-3">
             <object class="mb-5" style="width: 21vw;" data="assets/svg/undraw_complete_design_re_h75h.svg"
                 type="image/svg+xml"></object>
             <h3 class="text-muted-color">Keep In Mind</h3>
@@ -96,7 +96,7 @@
                     class="fa-solid fa-angles-right"></i></a>
 
         </div>
-        <div id="step3" class="step p-5" style="justify-content: start;">
+        <div id="step3" class="step p-5 rounded-3" style="justify-content: start;">
             <object class="mb-5 mt-3" style="width: 25vw;" data="assets/svg/undraw_text_field_htlv.svg"
                 type="image/svg+xml"></object>
             <h2 class="mb-3 mt-4">Write Your Title</h2>
@@ -111,7 +111,7 @@
             </div>
 
         </div>
-        <div id="step4" class="step p-5" style="justify-content: start;">
+        <div id="step4" class="step p-5 rounded-3" style="justify-content: start;">
             <h2>Fill Your Question Details</h2>
             {{-- <img src="placeholder3.jpg" alt="Step 3 Image"> --}}
             <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -125,12 +125,6 @@
 
             <div style="width: 92%;" class="mt-4">
                 <div id="question-quill-container">
-                    <p> </p>
-                    <p> </p>
-                    <p> </p>
-                    <p> </p>
-                    <p> </p>
-                    <p> </p>
                     <p> </p>
                     <p> </p>
                     <p> </p>
@@ -153,7 +147,7 @@
                 </div>
             </div>
         </div>
-        <div id="step5" class="step p-5">
+        <div id="step5" class="step p-5 rounded-3">
             <object class="mb-5" style="width: 25vw;" data="assets/svg/undraw_done_re_oak4.svg"
                 type="image/svg+xml"></object>
             <h2 class="mb-3 mt-4 fw-bold">All Good</h2>
@@ -164,7 +158,7 @@
             </div>
         </div>
     </div>
-    <div class="navigation mb-5">
+    <div class="navigation mb-5 rounded-3">
         <a id="nextButton" isDisabled="false" style="width: 15em; margin:auto" class="button cursor-pointer">Next&nbsp;<i
                 class="fa-solid fa-caret-right"></i></a>
     </div>
@@ -373,7 +367,10 @@
                                                 'input[name="imageUpload"]').val() !== "") {
                                             imageUpload()
                                         }
-
+                                        if (response.question_id !== null){
+                                            window.location.href = window.location.origin + '/thread/details?question_id='+response.question_id;
+                                        }
+                                        
                                     },
                                     error: function() {
                                         pushToastMessage('failed',

@@ -5,7 +5,7 @@
 
             <div id="login-body" class="m-5">
                 <h2>Login</h2>
-                <form method="POST" enctype="multipart/form-data" class="d-flex flex-column" action="{{route('doLogin')}}">
+                <form method="POST" enctype="multipart/form-data" class="d-flex flex-column" action="{{route('loginWeb')}}">
 
                     {{ csrf_field() }}
 

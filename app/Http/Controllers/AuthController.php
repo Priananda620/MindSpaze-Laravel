@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -71,6 +73,75 @@ class AuthController extends Controller
         ], 401);
     }
 
+    public function register(Request $request)
+    {
+        $rules = [
+            'username' => 'required|min:6|max:255|unique:users',
+            'password' => 'required|min:8|max:255',
+            'phone' => 'required|integer|digits_between:1,15|unique:users',
+            'email' => 'required|email:rfc,dns|unique:users',
+        ];
+
+        $messages = [
+            'username.required' => 'The username field is required.',
+            'username.unique' => 'The username has already been taken.',
+            'username.min' => 'The username must be at least :min characters.',
+            'username.max' => 'The username may not be greater than :max characters.',
+            'password.required' => 'The password field is required.',
+            'password.min' => 'The password must be at least :min characters.',
+            'password.max' => 'The password may not be greater than :max characters.',
+            'email.required' => 'The email field is required.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'The email address has already been registered.',
+            'phone.required' => 'The phone field is required.',
+            'phone.integer' => 'The phone number must be an integer.',
+            'phone.unique' => 'The phone has already been registered.',
+            'phone.digits_between' => 'Please enter a phone number with 1 to 15 digits.'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            // Validation failed
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        if (empty(User::where('email', $request->input('email'))->first()) && empty(User::where('username', $request->input('username'))->first())) {
+            $user = new User();
+            $user->username = $request->input('username');
+            $user->email = $request->input('email');
+            $user->country_code = 'id';
+            $user->phone = $request->input('phone');
+            $user->password = bcrypt($request->input('password'));
+            $user->save();
+
+            $credentials = $request->only('email', 'password');
+
+            Auth::attempt($credentials);
+
+            $userObj = Auth::user();
+
+            $newTokenName = time();
+
+            /** @var \App\Models\User $userObj **/
+            $accessToken = $userObj->createToken($newTokenName);
+
+            $cookie1 = cookie('api_token', $accessToken->plainTextToken, 1440);
+            $cookie2 = cookie('token_name', $newTokenName, 1440);
+
+            Session::put('user', $user);
+
+            return response()->json([
+                'token_object' => $accessToken->accessToken,
+                'token' => $accessToken->plainTextToken,
+            ])->withCookie($cookie1)->withCookie($cookie2);
+        } else {
+            return response()->json([
+                'message' => 'username or email is exist',
+            ], 401);
+        }
+    }
+
     public function generateToken(Request $request)
     {
         $token = $request->user()->createToken('API Token')->accessToken;
@@ -98,33 +169,33 @@ class AuthController extends Controller
     }
 
 
-    public function createTutor(Request $request)
-    {
-        $validated = $request->validate([
-            'fullName' => 'required|max:255',
-            'email' => 'required|email:rfc,dns|unique:tutors',
-            'phone' => 'required|digits_between:0,10|numeric',
-            'address' => 'required',
-            'state' => 'required|exists:states,id',
-            'password' => 'required|min:8|alpha_num',
-            'verPass' => 'required|same:password'
-        ]);
+    // public function createTutor(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'fullName' => 'required|max:255',
+    //         'email' => 'required|email:rfc,dns|unique:tutors',
+    //         'phone' => 'required|digits_between:0,10|numeric',
+    //         'address' => 'required',
+    //         'state' => 'required|exists:states,id',
+    //         'password' => 'required|min:8|alpha_num',
+    //         'verPass' => 'required|same:password'
+    //     ]);
 
-        $tutor = new Tutor();
+    //     $tutor = new Tutor();
 
-        $tutor->full_name = $request->fullName;
-        $tutor->email = $request->email;
-        $tutor->phone = $request->phone;
-        $tutor->mailing_address = $request->address;
-        $tutor->state_id = $request->state;
+    //     $tutor->full_name = $request->fullName;
+    //     $tutor->email = $request->email;
+    //     $tutor->phone = $request->phone;
+    //     $tutor->mailing_address = $request->address;
+    //     $tutor->state_id = $request->state;
 
-        $hashed_pass = Hash::make($request->password);
-        $tutor->password = $hashed_pass;
+    //     $hashed_pass = Hash::make($request->password);
+    //     $tutor->password = $hashed_pass;
 
-        $tutor->save();
+    //     $tutor->save();
 
-        return redirect()->back()->with(['status' => 'ok', 'msg' => 'Tutor '.$tutor->full_name.' has been created'])->withInput();
-    }
+    //     return redirect()->back()->with(['status' => 'ok', 'msg' => 'Tutor '.$tutor->full_name.' has been created'])->withInput();
+    // }
 
 
 
@@ -163,7 +234,18 @@ class AuthController extends Controller
         }
     }
 
-    public function test(Request $request)
+    public function test()
+    {
+        $imagePath = 'public/assets/question_images/4ea5523e-61f9-4e67-816b-46c01ba395bb_azhar620_12.png';
+        $imageData = base64_encode(Storage::get($imagePath));
+        $fileExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
+        $base64Image = 'data:image/' . $fileExtension . ';base64,' . $imageData;
+
+        // Output the base64-encoded image with prefix
+        echo $base64Image;
+    }
+
+    public function test2(Request $request)
     {
         $plainTextToken = Cookie::get('api_token');
         $tokenParts = explode('|', $plainTextToken);
@@ -183,7 +265,6 @@ class AuthController extends Controller
         } else {
             echo "NOT FOUND";
         }
-
     }
 
     public function testtemp(Request $request)

@@ -21,8 +21,8 @@
             <h4 class="my-0">Written In&nbsp;&nbsp;<i class="fa-brands fa-python"></i>&nbsp;<i class="fa-brands fa-laravel"></i></h4>
         </div>
         <div class="d-flex flex-row me-3 position-relative" id="header-nav">
-            <form method="GET">
-                <input id="search-input" type="search" name="search-query" class="bg-inherit-text form-control ds-input" placeholder="search mindspaze..." value="" required="">
+            <form method="GET" action="{{url('/threads')}}">
+                <input id="search-input" type="search" name="query" class="bg-inherit-text form-control ds-input" placeholder="search mindspaze..." value="" required="">
             </form>
             <div class="suggestion-container p-4 d-none rounded-3">
                 <h5 class="start-typing-h5">Start typing to see results...</h5>
@@ -49,7 +49,7 @@
                                 <a href="{{url('/profile').'/'.auth()->user()->username}}">Account Settings</a>
                             </li>
                             <li>
-                                <a href="{{url('/threads')}}">Help Answer Questions</a>
+                                <a href="{{url('/threads')}}">Browse Threads</a>
 
                             </li>
                             <li>

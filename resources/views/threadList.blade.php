@@ -2,7 +2,7 @@
 @section('content')
     <section id="threads-with-filter">
         <div>
-            <div class="filter-header d-flex flex-row align-items-center">
+            <div class="filter-header d-flex flex-row align-items-center sticky-filter">
                 <div class="dropdown me-3">
                     <input type="hidden" id="selected-option">
                     <button selected-value="Latest" class="btn btn-secondary dropdown-toggle" type="button"

@@ -10,14 +10,14 @@
                     <h2 style="line-height: 1.5em;" class="pb-3 fw-bold">Question Details<div class="divider"></div>
                     </h2>
                     <div class="user-wrapper"
-                        style="background-image:url({{ asset('assets/user_images/1111111_3452fd55-fff9-4a4a-8b9b-832ba3c0e1fc.png') }})">
+                        style="background-image:url('{{asset('assets/user_images/'.$questionThread->user->user_profile_img)}}')">
                         <a class="d-flex align-items-center" href="profile.php?user_id=555">
                             <div class="image-evoke-update image-form-evoke user-avatar-rounded"
-                                style="background-image:url({{asset('assets/user_images/1111111_3452fd55-fff9-4a4a-8b9b-832ba3c0e1fc.png')}})">
+                                style="background-image:url('{{asset('assets/user_images/'.$questionThread->user->user_profile_img)}}')">
                             </div>
                             <div class="user-data">
-                                <h5><span class="unfocus-text fw-bold">by</span> jkhe.yyy</h5>
-                                <p class="unfocus-text m-0 fw-bold">on November 11</p>
+                                <h5><span class="unfocus-text fw-bold">by</span>&nbsp;{{$questionThread->user->username}}</h5>
+                                <p class="unfocus-text m-0 fw-bold">{{$diffForHumans}}</p>
                             </div>
                         </a>
                         <div class="afterMenu">
@@ -46,35 +46,18 @@
                             <i class="fa-solid fa-tags"></i>
                         </button>
                         <div class="overflow-scroll d-flex hide-scrollbar1 hide-scrollbar2 tags-badge">
-                            <button class="badge bg-dark">Primary</button>
-                            <button class="badge bg-dark">Secondary</button>
-                            <button class="badge bg-dark">Success</button>
-                            <button class="badge bg-dark">Danger</button>
-                            <button class="badge bg-dark">Warning</button>
-                            <button class="badge bg-dark">Info</button>
-                            <button class="badge bg-dark">Light</button>
-                            <button class="badge bg-dark">Dark</button>
-                            <button class="badge bg-dark">Primary</button>
-                            <button class="badge bg-dark">Secondary</button>
-                            <button class="badge bg-dark">Success</button>
-                            <button class="badge bg-dark">Danger</button>
-                            <button class="badge bg-dark">Warning</button>
-                            <button class="badge bg-dark">Info</button>
-                            <button class="badge bg-dark">Light</button>
-                            <button class="badge bg-dark">Dark</button>
-                            <button class="badge bg-dark">Secondary</button>
-                            <button class="badge bg-dark">Success</button>
-                            <button class="badge bg-dark">Danger</button>
-                            <button class="badge bg-dark">Warning</button>
-                            <button class="badge bg-dark">Info</button>
-                            <button class="badge bg-dark">Light</button>
-                            <button class="badge bg-dark">Dark</button>
+                            @foreach ($tags as $tag)
+                                
+                                <button class="badge bg-dark">{{$tag->tag->tag_name}}</button>
+                            @endforeach
+                            {{-- <button class="badge bg-dark">Primary</button> --}}
+                            
                         </div>
                     </div>
-                    <h2 class="lh-sm border-start border-3 ps-3">A very serious question </h2>
+                    <h2 class="lh-sm border-start border-3 ps-3">{{$questionThread->title}}</h2>
 
                     <div class="ql-snow">
-                        <div class="ql-editor p-0" id="question-content" contenteditable="false">
+                        <div class="p-0 ql-snow border-0" id="question-content" contenteditable="false">
                             <h1><strong>Heading</strong></h1><p>Lorem ipsum dolor sit amet, <em>consectetur adipiscing elit</em>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat?</p><p><br></p><ul><li>Lorem ipsum</li><li>Lorem ipsum</li><li>Lorem ipsum</li><li>Lorem ipsum</li></ul><p><br></p><blockquote>Code here</blockquote><pre spellcheck="false">function backdropCloseEvokeHide() {
                                 &nbsp; &nbsp; const backdropCloseEvoke = $("#backdrop-close-evoke")
                                 &nbsp; &nbsp; backdropCloseEvoke.removeClass('semi-transparent-bg')
@@ -340,102 +323,85 @@
                         <h2 class="fw-700">Related Threads</h2>
                     </div>
 
-
                     <div class="row row-cols-1 row-cols-md-1 g-4">
-                        <div class="col">
-                          <div class="card h-100">
-                            <div class="card-body">
-                                <div class="d-inline-flex align-items-center mb-2">
-                                    <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>
-                                    <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                                </div>
-                                <h5 class="card-title">Card title ard title card title ard title card title</h5>
-                                <div class="d-inline-flex">
+                        @php
+                            // $relatedThreads=[]
+                        @endphp
+                        @forelse ($relatedThreads as $relatedThread)
+                        <div class="col" href-thread-id="{{$relatedThread->encrypted_id}}">
+                            <div class="card h-100">
+                              <div class="card-body">
+                                  <div class="d-inline-flex align-items-center mb-2">
+                                      <div class="user-avatar-rounded me-2" style="background-image:url('{{asset('assets/user_images/'.$relatedThread->user->user_profile_img)}}');width: 2em;height: 2em;"></div>
+                                      <h6 class="card-subtitle text-muted me-2">{{$relatedThread->user->username}}</h6>
+                                      @if ($relatedThread->user->is_bolt_user)
+                                        <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
+                                      @endif
+                                      
+                                  </div>
+                                  <h5 class="card-title">{{$relatedThread->title}}</h5>
+                                  <div class="d-inline-flex">
+  
+                                      <h6 class="card-subtitle text-muted mb-3">{{$relatedThread->elapsed_time}}</h6>
+                                  </div>
+  
+                                  <div>
+                                        <span class="badge bg-light text-dark">{{$relatedThread->answer_count}} answer{{$relatedThread->answer_count > 1 ? 's' : ''}}</span>
+                                        @if ($relatedThread->hasAnswerVerified)
+                                            <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
+                                        @else
+                                            <span class="badge bg-light text-dark">no verified answer <i class="fa-solid fa-triangle-exclamation"></i></span>
+                                        @endif
 
-                                    <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                </div>
-
-                                <div>
-                                    <span class="badge bg-light text-dark">5 answers</span>
-                                    <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>
-                                </div>
+                                        @if($relatedThread->isHotThread == 1)
+                                            <span class="ms-2 badge bg-light text-dark me-1 mb-1 border border-warning">Hot</span>
+                                        @endif
+                                        
+                                        <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>
+                                  </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="col">
-                          <div class="card h-100">
-                            <div class="card-body">
-                                <div class="d-inline-flex align-items-center mb-2">
-                                    <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>
-                                    <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                                </div>
-                                <h5 class="card-title">Card title ard title card title ard title card title</h5>
-                                <div class="d-inline-flex">
+                        @empty
+                        <h4 class="mb-0">EMPTY</h4>
+                        <p class="mt-2 text-muted-color">the total of data might be insufficient</p>
+                        @endforelse
 
-                                    <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                </div>
-
-                                <div>
-                                    <span class="badge bg-light text-dark">5 answers</span>
-                                    <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col">
-                          <div class="card h-100">
-                            <div class="card-body">
-                                <div class="d-inline-flex align-items-center mb-2">
-                                    <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>
-                                    <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                                </div>
-                                <h5 class="card-title">Card title ard title card title ard title card title</h5>
-                                <div class="d-inline-flex">
-
-                                    <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                </div>
-
-                                <div>
-                                    <span class="badge bg-light text-dark">5 answers</span>
-                                    <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col">
-                          <div class="card h-100">
-                            <div class="card-body">
-                                <div class="d-inline-flex align-items-center mb-2">
-                                    <div class="user-avatar-rounded me-2" style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;"></div>
-                                    <h6 class="card-subtitle text-muted me-2">azhar620</h6>
-                                    <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                                </div>
-                                <h5 class="card-title">Card title ard title card title ard title card title</h5>
-                                <div class="d-inline-flex">
-
-                                    <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                </div>
-
-                                <div>
-                                    <span class="badge bg-light text-dark">5 answers</span>
-                                    <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
-                                    <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
                     </div>
-
-
+                    
                 </div>
             </div>
         </div>
     </section>
+    <script>
+        var contentJson = {!! json_encode($questionThread->question_synopsis) !!};
+        var parsedJson = JSON.parse(contentJson);
+
+        // var htmlContent = '';
+        // parsedJson.ops.forEach(function(op) {
+        //     if (typeof op.insert === 'string') {
+        //         htmlContent += op.insert;
+        //     } else if (op.insert.image) {
+        //         htmlContent += '<img src="' + op.insert.image + '" alt="Quill Image">';
+        //     }
+        // });
+
+        $(document).ready(function() {
+            
+            var tempQuill = new Quill('#question-content', { readOnly: true });
+            tempQuill.setContents(parsedJson);
+
+            $('div[href-thread-id]').click(function () {
+                let questionId = $(this).attr('href-thread-id');
+                let href = '/thread/details?question_id=' + questionId;
+                window.location.href = window.location.origin+href;
+
+                console.log($(this).attr('href-thread-id'))
+                console.log("fdfsfdsfdfds")
+            });
+
+
+        });
+    </script>
 
 @endsection

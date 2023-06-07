@@ -147,7 +147,8 @@ a {
 
 
 .thread-contents-header .user-data {
-    mix-blend-mode: exclusion;
+    mix-blend-mode: color-dodge;
+    /* mix-blend-mode: exclusion; */
 }
 
 
@@ -297,6 +298,7 @@ a {
     /* filter: brightness(3); */
     background-color: var(--base-color);
     letter-spacing: 1px;
+    font-family: inherit !important;
 }
 
 .ql-editor{
