@@ -277,8 +277,9 @@
                         data: formData,
                         processData: false,
                         contentType: false,
-                        success: function() {
+                        success: function(response) {
                             console.log("SUCCESS IMAGE")
+                            window.location.href = window.location.origin + '/thread/details?question_id='+response.question_id;
                         },
                         error: function(xhr, status, error) {
                             pushToastMessage('failed',
@@ -366,11 +367,10 @@
                                         if (response.question_id !== null && $(
                                                 'input[name="imageUpload"]').val() !== "") {
                                             imageUpload()
-                                        }
-                                        if (response.question_id !== null){
+                                        }else{
                                             window.location.href = window.location.origin + '/thread/details?question_id='+response.question_id;
                                         }
-                                        
+
                                     },
                                     error: function() {
                                         pushToastMessage('failed',
