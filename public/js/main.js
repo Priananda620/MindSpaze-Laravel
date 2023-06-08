@@ -364,28 +364,30 @@ $(document).ready(() => {
 
 
     $(window).on('scroll', function () {
-        var scrollTop = $(window).scrollTop();
+        if (window.location.pathname === "/threads") {
+            var scrollTop = $(window).scrollTop();
 
 
-        var stickyFilterOffset = $('.sticky-filter').offset().top;
-        var stickyFilterDistance = (stickyFilterOffset - scrollTop);
-
-        // console.log("STICKYY FILTER")
-
-        if (stickyFilterDistance <= 7 * parseFloat($('html').css('font-size'))) {
-            $('.sticky-filter').addClass('bg-dark');
-            $('.sticky-filter').addClass('border border-light');
-            $('.sticky-filter').addClass('bg-lifted');
-            $('.sticky-filter').css('transition', 'padding .1s ease-out');
-            $('.sticky-filter').addClass('p-3');
-            $('.sticky-filter').addClass('rounded');
+            var stickyFilterOffset = $('.sticky-filter').offset().top;
+            var stickyFilterDistance = (stickyFilterOffset - scrollTop);
 
             // console.log("STICKYY FILTER")
-        } else {
-            $('.sticky-filter').removeClass('bg-dark');
-            $('.sticky-filter').removeClass('border border-secondary');
-            $('.sticky-filter').removeClass('bg-lifted');
-            $('.sticky-filter').removeClass('p-3');
+
+            if (stickyFilterDistance <= 7 * parseFloat($('html').css('font-size'))) {
+                $('.sticky-filter').addClass('bg-dark');
+                $('.sticky-filter').addClass('border border-light');
+                $('.sticky-filter').addClass('bg-lifted');
+                $('.sticky-filter').css('transition', 'padding .1s ease-out');
+                $('.sticky-filter').addClass('p-3');
+                $('.sticky-filter').addClass('rounded');
+
+                // console.log("STICKYY FILTER")
+            } else {
+                $('.sticky-filter').removeClass('bg-dark');
+                $('.sticky-filter').removeClass('border border-secondary');
+                $('.sticky-filter').removeClass('bg-lifted');
+                $('.sticky-filter').removeClass('p-3');
+            }
         }
     });
 

@@ -11,6 +11,8 @@ class DownVote extends Model
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
+    protected $table = 'downvotes';
+
     protected $fillable = [
         'answer_id',
         'user_id',

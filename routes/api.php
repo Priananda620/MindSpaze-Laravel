@@ -28,6 +28,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('registerApi
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('thread')->group(function () {
         Route::post('/post', [ThreadController::class, 'addQuestion']);
+
+        Route::get('/answers', [ThreadController::class, 'getAnswers']);
         // Route::post('/upload-image', [ThreadController::class, 'addQuestionImage']);
     });
 

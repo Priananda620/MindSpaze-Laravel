@@ -11,6 +11,9 @@ class UpVote extends Model
     const UPDATED_AT = null;
     const CREATED_AT = null;
 
+    protected $table = 'upvotes';
+
+
     protected $fillable = [
         'answer_id',
         'user_id',

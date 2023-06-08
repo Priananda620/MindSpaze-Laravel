@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\Question;
@@ -135,6 +136,30 @@ class ThreadController extends Controller
         return $base64Image;
     }
 
+    public function getAnswers(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'question_id' => 'required|string'
+            ]);
+
+            $answers = Answer::with('user', 'upvote', 'downvote', 'reaction')->where('question_id', Crypt::decryptString($request->input('question_id')))->get();
+
+            return response()->json([
+                'answers' => $answers,
+                'question_id' => $request->input('question_id'),
+                'total' => $answers->count()
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
+    }
+
     public function getThreadDetails(Request $request)
     {
         try {
@@ -142,7 +167,8 @@ class ThreadController extends Controller
                 'question_id' => 'required|string'
             ]);
 
-            $questionThread = Question::with('user', 'answer')->where('questions.id', Crypt::decryptString($request->input('question_id')))->first();
+            $questionIdEncrypted = $request->input('question_id');
+            $questionThread = Question::with('user', 'answer')->where('questions.id', Crypt::decryptString($request->input('question_id')))->withCount('answer')->first();
 
             if (!empty($questionThread)) {
 
@@ -238,7 +264,7 @@ class ThreadController extends Controller
 
 
 
-                return view('threadDetails', compact('questionThread', 'diffForHumans', 'tags', 'relatedThreads'));
+                return view('threadDetails', compact('questionThread', 'diffForHumans', 'tags', 'relatedThreads', 'questionIdEncrypted'));
             } else {
                 return redirect('/threads');
             }
