@@ -51,9 +51,10 @@
 
 
                     {{-- </select> --}}
+                    <label for="username" class="mb-3">Phone<span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span></label>
                     <div class="input-group">
                         <span class="input-group-text">+62</span>
-                        <input id="Phone" name="phone" type="text" style="border: none;color: var(--display-font-color);" class="form-control w-auto mt-0" placeholder="Phone number" value="87875587801">
+                        <input id="Phone" name="phone" type="text" style="border: none;color: var(--display-font-color);" class="form-control w-auto mt-0" placeholder="Phone number" required>
                     </div>
 
                     <label for="password">password<span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span><span
