@@ -47,11 +47,11 @@
                         </button>
                         <div class="overflow-scroll d-flex hide-scrollbar1 hide-scrollbar2 tags-badge">
                             @foreach ($tags as $tag)
-                                
+
                                 <button class="badge bg-dark">{{$tag->tag->tag_name}}</button>
                             @endforeach
                             {{-- <button class="badge bg-dark">Primary</button> --}}
-                            
+
                         </div>
                     </div>
                     <h2 class="lh-sm border-start border-3 ps-3">{{$questionThread->title}}</h2>
@@ -117,7 +117,7 @@
                 <div class="skeleton-row p-4 skeleton w-50 me-auto mt-3"></div>
                 <div class="skeleton-row p-4 skeleton w-100"></div>
                 <div class="skeleton-row p-4 skeleton w-100"></div>
-                
+
                 {{-- <div class="thread-contents-items isTopAnswer" answer-id="41">
 
                     <div class="thread-contents-user-wrapper thread-border-bottom">
@@ -170,7 +170,7 @@
 
                     <div class="ql-snow">
                         <div class="ql-editor" contenteditable="false" id="answer-content">
-                            
+
                         </div>
                     </div>
                     <div class="thread-reaction w-100 d-inline-flex align-items-center">
@@ -211,7 +211,7 @@
                         </div>
                     </div>
                 </div> --}}
-                
+
 
             </div>
 
@@ -221,7 +221,7 @@
                         <h2 class="fw-700">Related Threads</h2>
                     </div>
 
-                    <div class="row row-cols-1 row-cols-md-1 g-4">
+                    <div class="row row-cols-1 row-cols-md-1 g-4 w-100">
                         @php
                             // $relatedThreads=[]
                         @endphp
@@ -235,14 +235,14 @@
                                       @if ($relatedThread->user->is_bolt_user)
                                         <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
                                       @endif
-                                      
+
                                   </div>
                                   <h5 class="card-title">{{$relatedThread->title}}</h5>
                                   <div class="d-inline-flex">
-  
+
                                       <h6 class="card-subtitle text-muted mb-3">{{$relatedThread->elapsed_time}}</h6>
                                   </div>
-  
+
                                   <div>
                                         <span class="badge bg-light text-dark">{{$relatedThread->answer_count}} answer{{$relatedThread->answer_count > 1 ? 's' : ''}}</span>
                                         @if ($relatedThread->hasAnswerVerified)
@@ -254,7 +254,7 @@
                                         @if($relatedThread->isHotThread == 1)
                                             <span class="ms-2 badge bg-light text-dark me-1 mb-1 border border-warning">Hot</span>
                                         @endif
-                                        
+
                                         <a href="#" class="card-link float-end"><i class="fa-solid fa-share-from-square"></i></a>
                                   </div>
                               </div>
@@ -262,11 +262,11 @@
                           </div>
                         @empty
                         <h4 class="mb-0">EMPTY</h4>
-                        <p class="mt-2 text-muted-color">the total of data might be insufficient</p>
+                        <p class="mt-2 text-muted-color">the data available may be insufficient</p>
                         @endforelse
 
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -291,9 +291,9 @@
         // });
 
         $(document).ready(function() {
-            
+
             var tempQuill = new Quill('#question-content', { readOnly: true });
-            
+
             tempQuill.setContents(parsedJson);
 
             $('div[href-thread-id]').click(function () {
@@ -306,7 +306,7 @@
             });
 
 
-            var skeletonHtml = 
+            var skeletonHtml =
             `<div class="skeleton-row p-4 skeleton w-50 me-auto"></div>
             <div class="skeleton-row p-4 skeleton w-100"></div>
             <div class="skeleton-row p-4 skeleton w-100"></div>
@@ -340,16 +340,16 @@
                             var item = response.answers[i];
                             console.log(item);
 
-                            let newAnswerItem = addAnswerItem(response.answers[i].encrypted_id, response.answers[i].user.username, 
-                            response.answers[i].elapsed_time, 
+                            let newAnswerItem = addAnswerItem(response.answers[i].encrypted_id, response.answers[i].user.username,
+                            response.answers[i].elapsed_time,
                             response.answers[i].user.user_profile_img,
                             response.answers[i].downvote.length,response.answers[i].upvote.length,
                             response.answers[i].answer_synopsis,
                             response.answers[i].ai_classification_status, response.answers[i].moderated_as)
                             $('#answer-box').after(newAnswerItem);
-                            
+
                         }
-                        
+
 
                     },
                     error: function(errors) {
@@ -377,8 +377,8 @@
         });
 
         function addAnswerItem(_encrypted_id, _username, _elapsed_time, _avatar_img, _total_down, _total_up, _answer_synopsis, _ai_classification_status, _moderated_as) {
-            var threadContents = $('<div>').addClass('thread-contents-items answer-item').attr('answer-id', '41');
-  
+            var threadContents = $('<div>').addClass('thread-contents-items answer-item').attr('answer-id', _encrypted_id);
+
             var userWrapper = $('<div>').addClass('thread-contents-user-wrapper thread-border-bottom');
             var userLink = $('<a>').attr('href', 'profile.php?user_id=564').addClass('me-auto');
             var userDiv = $('<div>').addClass('user-wrapper');
@@ -395,13 +395,13 @@
             userDiv.append(userAvatar, userData);
             userLink.append(userDiv);
             userWrapper.append(userLink);
-            
+
             var answerRightAction = $('<div>').addClass('thread-answer-right-action justify-content-end').css('width', '31em');
             var answerStats = $('<div>').addClass('answer-stats d-flex flex-row flex-wrap justify-content-end');
             // var upvotedStat = $('<div>').addClass('answer-stat-items swatch-teal').text('4 upvoted');
             // var downvotedStat = $('<div>').addClass('answer-stat-items down-grey').text('1 downvoted');
-            
-            var moderate_flag = false 
+
+            var moderate_flag = false
             if(_moderated_as !== null && _moderated_as){
                 var moderatedStat = $('<div>').addClass('answer-stat-items admin-gold').text('Moderated True ').append($('<i>').addClass('fa-solid fa-check-double'));
                 answerStats.append(moderatedStat);
@@ -420,7 +420,7 @@
                 if(!moderate_flag){
                     threadContents.addClass('isAITrue')
                 }
-                
+
             }else if(_ai_classification_status !== null && !_ai_classification_status){
                 var potentialFalseStat = $('<div>').addClass('answer-stat-items down-grey').text('Potential False');
                     answerStats.append(potentialFalseStat);
@@ -429,93 +429,187 @@
                 }
             }
 
-            
-            
-            
-            
-            
+
+
+
+
+
             // answerStats.append(upvotedStat, moderatedStat, markedFalseStat, aiVerifiedStat, downvotedStat, potentialFalseStat);
-            
+
             var votingDiv = $('<div>').addClass('up-down-voting d-flex flex-column align-items-center justify-content-center');
-            var upVoteIcon = $('<i>').addClass('fas fa-arrow-up up-vote-items isActive thread-answer-right-action-item d-inline-flex');
+            var upVoteIcon = $('<i>').addClass('fas fa-arrow-up up-vote-items thread-answer-right-action-item d-inline-flex up-vote-toggle'); //isActive
             var upvoteNumber = $('<p>').addClass('ms-1 mb-0').text(' '+_total_up)
             var downvoteNumber = $('<p>').addClass('ms-1 mb-0').text(' '+_total_down)
-            var downVoteIcon = $('<i>').addClass('fas fa-arrow-down down-vote-items thread-answer-right-action-item d-inline-flex');
-            
+            var downVoteIcon = $('<i>').addClass('fas fa-arrow-down down-vote-items thread-answer-right-action-item d-inline-flex down-vote-toggle');
+
             upVoteIcon.append(upvoteNumber)
             downVoteIcon.append(downvoteNumber)
 
             votingDiv.append(upVoteIcon, downVoteIcon);
-            
+
             var faDiv = $('<div>').addClass('fa-2x');
             var loadingIcon = $('<i>').addClass('fas fa-circle-notch fa-spin');
-            
+
             faDiv.append(loadingIcon);
-            
+
             answerRightAction.append(answerStats, votingDiv, faDiv);
-            
+
             var qlDiv = $('<div>').addClass('ql-snow');
             var qlEditor = $('<div>').addClass('ql-editor '+_encrypted_id).attr('contenteditable', 'false').attr('id', 'answer-content');
-            
+
             qlDiv.append(qlEditor);
-            
+
             var reactionDiv = $('<div>').addClass('thread-reaction w-100 d-inline-flex align-items-center');
             var emojiButtonDiv = $('<div>').addClass('me-2');
             var emojiButton = $('<button>').attr('type', 'button').addClass('btn bg-light position-relative rounded-pill position-relative emoji-input');
             var plusIcon = $('<i>').addClass('fa-solid fa-plus');
             var emojiInput = $('<input>').attr('type', 'hidden');
             var pickerContainer = $('<div>').attr('id', '').addClass('position-absolute z-index-5 d-none picmo-picker-container');
-            
+
             emojiButton.append(plusIcon, emojiInput, pickerContainer);
             emojiButtonDiv.append(emojiButton);
-            
+
             var reactedEmojiDiv = $('<div>').addClass('d-flex flex-row gap-3 py-3 pe-4 me-2 overflow-auto hide-scrollbar1 hide-scrollbar2 reacted-emoji-container');
             var emojiButton2 = $('<button>').attr('type', 'button').addClass('btn bg-light position-relative rounded-pill').attr('decodedemoji', '2620').text('☠');
             var emojiCount = $('<span>').addClass('position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger').attr('data-emoji-count', '97').text('97');
-            
+
             emojiButton2.append(emojiCount);
             reactedEmojiDiv.append(emojiButton2);
-            
+
             var msAutoDiv = $('<div>').addClass('ms-auto');
             var afterMenuDiv = $('<div>').addClass('afterMenu');
             var hamburgerIconDiv = $('<div>').addClass('hamburger-icon hamburgerMenuAnswer-toggler');
             var hamburgerLink = $('<a>').addClass('cursor-pointer');
             var caretIcon = $('<i>').addClass('fa-solid fa-square-caret-down fs-3');
-            
+
             hamburgerLink.append(caretIcon);
             hamburgerIconDiv.append(hamburgerLink);
-            
+
             var collapseDiv = $('<div>').addClass('collapse navbar-collapse position-absolute bg-lifted hamburgerMenuAnswer');
             var navbarNav = $('<ul>').addClass('navbar-nav p-2');
             var navItem1 = $('<li>').addClass('nav-item m-1');
             var navItemLink1 = $('<a>').attr('href', '#').addClass('p-2 d-block').html($('<i>').addClass('fa-solid fa-share-nodes'));
             var navItem2 = $('<li>').addClass('nav-item m-1');
             var navItemLink2 = $('<a>').attr('href', '#').addClass('p-2 d-block').html($('<i>').addClass('fa-solid fa-trash'));
-            
+
             navItem1.append(navItemLink1);
             navItem2.append(navItemLink2);
             navbarNav.append(navItem1, navItem2);
             collapseDiv.append(navbarNav);
-            
+
             afterMenuDiv.append(hamburgerIconDiv, collapseDiv);
             msAutoDiv.append(afterMenuDiv);
-            
+
             reactionDiv.append(emojiButtonDiv, reactedEmojiDiv, msAutoDiv);
-            
+
             userWrapper.append(answerRightAction)
             threadContents.append(userWrapper, qlDiv, reactionDiv);
-  
+
 
             let parsedJson = JSON.parse(_answer_synopsis);
             console.log(parsedJson)
 
             let tempQuill2 = new Quill(qlEditor[0], { readOnly: true });
-            
+
             tempQuill2.setContents(parsedJson);
 
             return threadContents;
 
         }
+
+        $(document).on('click', '.up-vote-toggle', function() {
+            console.log($(this).closest('.answer-item ').attr('answer-id'))
+
+            var currAnswerIdUpVote = $(this).closest('.answer-item ').attr('answer-id')
+
+            let requestHeaders = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+            };
+
+            $.ajax({
+                url: window.location.origin + "/api/" + 'thread/up-vote',
+                method: 'POST',
+                headers: requestHeaders,
+                data: JSON.stringify({
+                    answer_id: currAnswerIdUpVote
+                }),
+
+                timeout: 5000,
+                success: function(response) {
+
+                    console.log(response)
+                    pushToastMessage('success',
+                        'success load data', 'success')
+
+
+                },
+                error: function(errors) {
+                    pushToastMessage('failed',
+                        'failed, check console', 'fail')
+                        console.log(errors)
+                },
+                beforeSend: function() {
+                    animateProgressBar(true)
+
+                    // $('.thread-contents-items').after(skeletonHtml);
+                },
+                complete: function() {
+
+                    $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                    $('.progress-bar').addClass('opacity-0')
+                    $('.progress-bar').removeClass('opacity-100')
+                },
+            });
+        })
+
+        $(document).on('click', '.down-vote-toggle', function() {
+            console.log($(this).closest('.answer-item ').attr('answer-id'))
+
+            var currAnswerIdDownVote = $(this).closest('.answer-item ').attr('answer-id')
+
+            let requestHeaders = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+            };
+
+            $.ajax({
+                url: window.location.origin + "/api/" + 'thread/down-vote',
+                method: 'POST',
+                headers: requestHeaders,
+                data: JSON.stringify({
+                    answer_id: currAnswerIdDownVote
+                }),
+
+                timeout: 5000,
+                success: function(response) {
+
+                    console.log(response)
+                    pushToastMessage('success',
+                        'success load data', 'success')
+
+
+                },
+                error: function(errors) {
+                    pushToastMessage('failed',
+                        'failed, check console', 'fail')
+                        console.log(errors)
+                },
+                beforeSend: function() {
+                    animateProgressBar(true)
+
+                    // $('.thread-contents-items').after(skeletonHtml);
+                },
+                complete: function() {
+
+                    $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                    $('.progress-bar').addClass('opacity-0')
+                    $('.progress-bar').removeClass('opacity-100')
+                },
+            });
+        })
     </script>
 
 @endsection

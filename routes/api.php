@@ -30,7 +30,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/post', [ThreadController::class, 'addQuestion']);
 
         Route::get('/answers', [ThreadController::class, 'getAnswers']);
-        // Route::post('/upload-image', [ThreadController::class, 'addQuestionImage']);
+
+        Route::post('/up-vote', [ThreadController::class, 'upVote']);
+        Route::post('/down-vote', [ThreadController::class, 'downVote']);
     });
 
 

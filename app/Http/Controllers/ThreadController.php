@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Answer;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\UpVote;
+use App\Models\DownVote;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -128,7 +130,7 @@ class ThreadController extends Controller
 
     private function encodeQuestionImageBase64($fileName)
     {
-        $imagePath = 'public/assets/question_images/'.$fileName;
+        $imagePath = 'public/assets/question_images/' . $fileName;
         $imageData = base64_encode(Storage::get($imagePath));
         $fileExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
         $base64Image = 'data:image/' . $fileExtension . ';base64,' . $imageData;
@@ -150,6 +152,26 @@ class ThreadController extends Controller
                 $createdAt = Carbon::parse($answer->created_at);
                 $answer->elapsed_time = $createdAt->diffForHumans();
                 $answer->encrypted_id = Crypt::encryptString($answer->id);
+
+
+                $curr_upvote = $answer->upvote->contains(function ($upvote){
+                    if($upvote->user_id == auth()->user()->id){
+                        $upvote_user_bool = true;
+                    }
+
+                    return $upvote_user_bool;
+                });
+                $curr_downvote = $answer->downvote->contains(function ($downvote){
+                    if($downvote->user_id == auth()->user()->id){
+                        $downvote_user_bool = true;
+                    }
+
+                    return $downvote_user_bool;
+                });
+
+                $answer->curr_upvote = $curr_upvote;
+                $answer->curr_downvote = $curr_downvote;
+
 
 
                 return $answer;
@@ -206,7 +228,7 @@ class ThreadController extends Controller
 
                 if (!empty($questionThread->attached_img)) {
                     $base64encoded = self::encodeQuestionImageBase64($questionThread->attached_img);
-                    
+
                     $question_synopsis = json_decode($questionThread->question_synopsis, true);
 
                     if (isset($question_synopsis['ops']) && is_array($question_synopsis['ops'])) {
@@ -216,9 +238,8 @@ class ThreadController extends Controller
                             }
                         }
                     }
-                    
-                    $questionThread->question_synopsis = json_encode($question_synopsis);
 
+                    $questionThread->question_synopsis = json_encode($question_synopsis);
                 }
 
                 $createdAt = Carbon::parse($questionThread->created_at);
@@ -237,7 +258,7 @@ class ThreadController extends Controller
                         ->where('id', '!=', $questionThread->id)
                         ->orderBy('created_at', 'desc')
                         ->limit(4)->withCount('answer')->get();
-                }else if ($relatedThreads->count() < 4) {
+                } else if ($relatedThreads->count() < 4) {
                     $addition_LIMIT = 4 - $relatedThreads->count();
 
                     $relatedThreads2 = Question::with('user', 'answer')
@@ -333,6 +354,86 @@ class ThreadController extends Controller
             return response()->json([
                 'status' => 'success',
                 'question_id' => Crypt::encryptString($question->id)
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
+    }
+
+    public function upVote(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'answer_id' => 'required|string'
+            ]);
+
+            $checkUpVote = UpVote::where('answer_id', Crypt::decryptString($request->answer_id))->where('user_id', auth()->user()->id)->first();
+            $checkDownVote = DownVote::where('answer_id', Crypt::decryptString($request->answer_id))->where('user_id', auth()->user()->id)->first();
+
+            if(empty($checkUpVote) && empty($checkDownVote)){
+                $newUpvote = new UpVote();
+                $newUpvote->answer_id = Crypt::decryptString($request->answer_id);
+                $newUpvote->user_id = auth()->user()->id;
+                $newUpvote->save();
+            }else if(!empty($checkUpVote) && empty($checkDownVote)){
+                $checkUpVote->delete();
+            }else if(!empty($checkDownVote) && empty($checkUpVote)){
+                $checkDownVote->delete();
+
+                $newUpvote = new UpVote();
+                $newUpvote->answer_id = Crypt::decryptString($request->answer_id);
+                $newUpvote->user_id = auth()->user()->id;
+                $newUpvote->save();
+            }
+
+
+            return response()->json([
+                'status' => 'success'
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
+    }
+
+    public function downVote(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'answer_id' => 'required|string'
+            ]);
+
+            $checkUpVote = UpVote::where('answer_id', Crypt::decryptString($request->answer_id))->where('user_id', auth()->user()->id)->first();
+            $checkDownVote = DownVote::where('answer_id', Crypt::decryptString($request->answer_id))->where('user_id', auth()->user()->id)->first();
+
+            if(empty($checkUpVote) && empty($checkDownVote)){
+                $newDownvote = new DownVote();
+                $newDownvote->answer_id = Crypt::decryptString($request->answer_id);
+                $newDownvote->user_id = auth()->user()->id;
+                $newDownvote->save();
+            }else if(!empty($checkUpVote) && empty($checkDownVote)){
+                $checkUpVote->delete();
+
+                $newDownvote = new DownVote();
+                $newDownvote->answer_id = Crypt::decryptString($request->answer_id);
+                $newDownvote->user_id = auth()->user()->id;
+                $newDownvote->save();
+            }else if(!empty($checkDownVote) && empty($checkUpVote)){
+                $checkDownVote->delete();
+            }
+
+
+            return response()->json([
+                'status' => 'success'
             ]);
         } catch (\Throwable $th) {
             throw $th;
