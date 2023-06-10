@@ -402,8 +402,20 @@ a.button.small-bth{
 }
 
 
-.thread-contents-items.isTopAnswer{
-    border: 2px solid var(--yellow);
+.thread-contents-items.isModeratedTrue{
+    border: 2px solid gold;
+}
+
+.thread-contents-items.isModeratedFalse{
+    border: 2px solid #ec0000;
+}
+
+.thread-contents-items.isAITrue{
+    border: 2px solid #6aff00bb;
+}
+
+.thread-contents-items.isAIFalse{
+    border: 2px solid #ec0000;
 }
 
 

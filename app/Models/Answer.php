@@ -30,8 +30,8 @@ class Answer extends Model
         'attached_img' => 'string',
         'created_at' => 'timestamp',
         'updated_at' => 'timestamp',
-        'ai_classification_status' => 'string',
-        'moderated_as' => 'string',
+        'ai_classification_status' => 'boolean',
+        'moderated_as' => 'boolean',
         'isDeleted' => 'boolean',
         'question_id' => 'integer',
         'user_id' => 'integer'

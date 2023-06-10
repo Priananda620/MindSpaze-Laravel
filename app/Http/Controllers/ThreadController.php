@@ -145,6 +145,16 @@ class ThreadController extends Controller
 
             $answers = Answer::with('user', 'upvote', 'downvote', 'reaction')->where('question_id', Crypt::decryptString($request->input('question_id')))->get();
 
+
+            $answers = $answers->map(function ($answer) {
+                $createdAt = Carbon::parse($answer->created_at);
+                $answer->elapsed_time = $createdAt->diffForHumans();
+                $answer->encrypted_id = Crypt::encryptString($answer->id);
+
+
+                return $answer;
+            });
+
             return response()->json([
                 'answers' => $answers,
                 'question_id' => $request->input('question_id'),
@@ -227,9 +237,7 @@ class ThreadController extends Controller
                         ->where('id', '!=', $questionThread->id)
                         ->orderBy('created_at', 'desc')
                         ->limit(4)->withCount('answer')->get();
-                }
-
-                if ($relatedThreads->count() < 4) {
+                }else if ($relatedThreads->count() < 4) {
                     $addition_LIMIT = 4 - $relatedThreads->count();
 
                     $relatedThreads2 = Question::with('user', 'answer')

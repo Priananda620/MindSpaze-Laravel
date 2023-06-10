@@ -21,8 +21,8 @@ class Answers extends Migration
             $table->longText('answer_synopsis');
             $table->string('attached_img', 255)->nullable();
             $table->boolean('isDeleted')->default(false);
-            $table->string('ai_classification_status', 255)->nullable();
-            $table->string('moderated_as', 255)->nullable();
+            $table->boolean('ai_classification_status')->nullable();
+            $table->boolean('moderated_as')->nullable();
             $table->timestamp('created_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
         });

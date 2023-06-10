@@ -110,13 +110,13 @@
                 </div>
 
 
-                {{-- <div class="skeleton-row p-4 skeleton w-50 me-auto"></div>
+                <div class="skeleton-row p-4 skeleton w-50 me-auto"></div>
                 <div class="skeleton-row p-4 skeleton w-100"></div>
                 <div class="skeleton-row p-4 skeleton w-100"></div>
 
                 <div class="skeleton-row p-4 skeleton w-50 me-auto mt-3"></div>
                 <div class="skeleton-row p-4 skeleton w-100"></div>
-                <div class="skeleton-row p-4 skeleton w-100"></div> --}}
+                <div class="skeleton-row p-4 skeleton w-100"></div>
                 
                 {{-- <div class="thread-contents-items isTopAnswer" answer-id="41">
 
@@ -124,9 +124,9 @@
                         <a href="profile.php?user_id=564" class="me-auto">
                             <div class="user-wrapper">
                                 <div class="image-evoke-update image-form-evoke user-avatar-rounded me-2" style="background-image:url(http://127.0.0.1:8000/assets/user_images/1111111_3452fd55-fff9-4a4a-8b9b-832ba3c0e1fc.png);border: 1px solid var(--display-font-color-2nd);">
-                                </div><div class="user-data align-items-start me-2">
+                                </div>
+                                <div class="user-data align-items-start me-2">
                                     <h7>azhar1234</h7>
-
                                     <p class="unfocus-text m-0 mt-1 w-90px">4 weeks ago</p>
                                 </div>
 
@@ -159,8 +159,10 @@
                             <div class="up-down-voting d-flex flex-column align-items-center justify-content-center">
                                 <i class="fas fa-arrow-up up-vote-items isActive thread-answer-right-action-item"></i>
                                 <i class="fas fa-arrow-down down-vote-items thread-answer-right-action-item"></i>
-                            </div><div class="fa-2x"><i class="fas fa-circle-notch fa-spin"></i></div>
-
+                            </div>
+                            <div class="fa-2x">
+                                <i class="fas fa-circle-notch fa-spin"></i>
+                            </div>
 
                         </div>
 
@@ -168,14 +170,7 @@
 
                     <div class="ql-snow">
                         <div class="ql-editor" contenteditable="false" id="answer-content">
-                            <h1><strong>Heading</strong></h1><p>Lorem ipsum dolor sit amet, <em>consectetur adipiscing elit</em>, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat?</p><p><br></p><ul><li>Lorem ipsum</li><li>Lorem ipsum</li><li>Lorem ipsum</li><li>Lorem ipsum</li></ul><p><br></p><blockquote>Code here</blockquote><pre spellcheck="false">function backdropCloseEvokeHide() {
-                                &nbsp; &nbsp; const backdropCloseEvoke = $("#backdrop-close-evoke")
-                                &nbsp; &nbsp; backdropCloseEvoke.removeClass('semi-transparent-bg')
-                                &nbsp; &nbsp; setTimeout(function () {
-                                &nbsp; &nbsp; &nbsp; &nbsp; backdropCloseEvoke.removeClass('visibility-visible')
-                                &nbsp; &nbsp; }, 380);
-                                }
-                                </pre><h2><br></h2><h2>Image</h2><p><br></p><p><img src="data:image/png;base64,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"></p>
+                            
                         </div>
                     </div>
                     <div class="thread-reaction w-100 d-inline-flex align-items-center">
@@ -275,6 +270,9 @@
                 </div>
             </div>
         </div>
+        <div class="picmoInit d-none">
+
+        </div>
     </section>
     <script>
         var contentJson = {!! json_encode($questionThread->question_synopsis) !!};
@@ -308,7 +306,7 @@
             });
 
 
-            let skeletonHtml = 
+            var skeletonHtml = 
             `<div class="skeleton-row p-4 skeleton w-50 me-auto"></div>
             <div class="skeleton-row p-4 skeleton w-100"></div>
             <div class="skeleton-row p-4 skeleton w-100"></div>
@@ -316,9 +314,208 @@
             <div class="skeleton-row p-4 skeleton w-100"></div>
             <div class="skeleton-row p-4 skeleton w-100"></div>`;
 
-            $('.thread-contents-items').after(skeletonHtml);
+            let requestHeaders = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+            };
+            // setTimeout(function() {
+
+                $.ajax({
+                    url: window.location.origin + "/api/" + 'thread/answers',
+                    method: 'GET',
+                    headers: requestHeaders,
+                    data: {
+                        question_id: currentThreadID
+                    },
+
+                    timeout: 5000,
+                    success: function(response) {
+
+                        console.log(response)
+                        pushToastMessage('success',
+                            'success load data', 'success')
+
+                        for (let i = 0; i < response.answers.length; i++) {
+                            var item = response.answers[i];
+                            console.log(item);
+
+                            let newAnswerItem = addAnswerItem(response.answers[i].encrypted_id, response.answers[i].user.username, 
+                            response.answers[i].elapsed_time, 
+                            response.answers[i].user.user_profile_img,
+                            response.answers[i].downvote.length,response.answers[i].upvote.length,
+                            response.answers[i].answer_synopsis,
+                            response.answers[i].ai_classification_status, response.answers[i].moderated_as)
+                            $('#answer-box').after(newAnswerItem);
+                            
+                        }
+                        
+
+                    },
+                    error: function(errors) {
+                        pushToastMessage('failed',
+                            'failed, check console', 'fail')
+                            console.log(errors)
+                    },
+                    beforeSend: function() {
+                        animateProgressBar(true)
+
+                        $('#thread-contents-left').find('.answer-item').remove();
+
+                        // $('.thread-contents-items').after(skeletonHtml);
+                    },
+                    complete: function() {
+                        $('#thread-contents-left').find('.skeleton-row').remove();
+
+                        $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                        $('.progress-bar').addClass('opacity-0')
+                        $('.progress-bar').removeClass('opacity-100')
+                    },
+                });
+            // }, 2000);
 
         });
+
+        function addAnswerItem(_encrypted_id, _username, _elapsed_time, _avatar_img, _total_down, _total_up, _answer_synopsis, _ai_classification_status, _moderated_as) {
+            var threadContents = $('<div>').addClass('thread-contents-items answer-item').attr('answer-id', '41');
+  
+            var userWrapper = $('<div>').addClass('thread-contents-user-wrapper thread-border-bottom');
+            var userLink = $('<a>').attr('href', 'profile.php?user_id=564').addClass('me-auto');
+            var userDiv = $('<div>').addClass('user-wrapper');
+            var userAvatar = $('<div>')
+                .addClass('image-evoke-update image-form-evoke user-avatar-rounded me-2')
+                .css('background-image', 'url('+window.location.origin+'/assets/user_images/' + _avatar_img + ')')
+                .css('border', '1px solid var(--display-font-color-2nd)');
+
+            var userData = $('<div>').addClass('user-data align-items-start me-2');
+            var username = $('<h7>').text(_username);
+            var timestamp = $('<p>').addClass('unfocus-text m-0 mt-1 w-100px').text(_elapsed_time);
+
+            userData.append(username, timestamp);
+            userDiv.append(userAvatar, userData);
+            userLink.append(userDiv);
+            userWrapper.append(userLink);
+            
+            var answerRightAction = $('<div>').addClass('thread-answer-right-action justify-content-end').css('width', '31em');
+            var answerStats = $('<div>').addClass('answer-stats d-flex flex-row flex-wrap justify-content-end');
+            // var upvotedStat = $('<div>').addClass('answer-stat-items swatch-teal').text('4 upvoted');
+            // var downvotedStat = $('<div>').addClass('answer-stat-items down-grey').text('1 downvoted');
+            
+            var moderate_flag = false 
+            if(_moderated_as !== null && _moderated_as){
+                var moderatedStat = $('<div>').addClass('answer-stat-items admin-gold').text('Moderated True ').append($('<i>').addClass('fa-solid fa-check-double'));
+                answerStats.append(moderatedStat);
+                threadContents.addClass('isModeratedTrue')
+                moderate_flag = true
+            }else if(_moderated_as !== null && !_moderated_as){
+                var markedFalseStat = $('<div>').addClass('answer-stat-items false-red').text('Marked False ').append($('<i>').addClass('fa-solid fa-circle-xmark'));
+                    answerStats.append(markedFalseStat);
+                threadContents.addClass('isModeratedFalse')
+                moderate_flag = true
+            }
+
+            if(_ai_classification_status !== null && _ai_classification_status){
+                var aiVerifiedStat = $('<div>').addClass('answer-stat-items ai-blue').text('Potential True');
+                answerStats.append(aiVerifiedStat);
+                if(!moderate_flag){
+                    threadContents.addClass('isAITrue')
+                }
+                
+            }else if(_ai_classification_status !== null && !_ai_classification_status){
+                var potentialFalseStat = $('<div>').addClass('answer-stat-items down-grey').text('Potential False');
+                    answerStats.append(potentialFalseStat);
+                if(!moderate_flag){
+                    threadContents.addClass('isAIFalse')
+                }
+            }
+
+            
+            
+            
+            
+            
+            // answerStats.append(upvotedStat, moderatedStat, markedFalseStat, aiVerifiedStat, downvotedStat, potentialFalseStat);
+            
+            var votingDiv = $('<div>').addClass('up-down-voting d-flex flex-column align-items-center justify-content-center');
+            var upVoteIcon = $('<i>').addClass('fas fa-arrow-up up-vote-items isActive thread-answer-right-action-item d-inline-flex');
+            var upvoteNumber = $('<p>').addClass('ms-1 mb-0').text(' '+_total_up)
+            var downvoteNumber = $('<p>').addClass('ms-1 mb-0').text(' '+_total_down)
+            var downVoteIcon = $('<i>').addClass('fas fa-arrow-down down-vote-items thread-answer-right-action-item d-inline-flex');
+            
+            upVoteIcon.append(upvoteNumber)
+            downVoteIcon.append(downvoteNumber)
+
+            votingDiv.append(upVoteIcon, downVoteIcon);
+            
+            var faDiv = $('<div>').addClass('fa-2x');
+            var loadingIcon = $('<i>').addClass('fas fa-circle-notch fa-spin');
+            
+            faDiv.append(loadingIcon);
+            
+            answerRightAction.append(answerStats, votingDiv, faDiv);
+            
+            var qlDiv = $('<div>').addClass('ql-snow');
+            var qlEditor = $('<div>').addClass('ql-editor '+_encrypted_id).attr('contenteditable', 'false').attr('id', 'answer-content');
+            
+            qlDiv.append(qlEditor);
+            
+            var reactionDiv = $('<div>').addClass('thread-reaction w-100 d-inline-flex align-items-center');
+            var emojiButtonDiv = $('<div>').addClass('me-2');
+            var emojiButton = $('<button>').attr('type', 'button').addClass('btn bg-light position-relative rounded-pill position-relative emoji-input');
+            var plusIcon = $('<i>').addClass('fa-solid fa-plus');
+            var emojiInput = $('<input>').attr('type', 'hidden');
+            var pickerContainer = $('<div>').attr('id', '').addClass('position-absolute z-index-5 d-none picmo-picker-container');
+            
+            emojiButton.append(plusIcon, emojiInput, pickerContainer);
+            emojiButtonDiv.append(emojiButton);
+            
+            var reactedEmojiDiv = $('<div>').addClass('d-flex flex-row gap-3 py-3 pe-4 me-2 overflow-auto hide-scrollbar1 hide-scrollbar2 reacted-emoji-container');
+            var emojiButton2 = $('<button>').attr('type', 'button').addClass('btn bg-light position-relative rounded-pill').attr('decodedemoji', '2620').text('☠');
+            var emojiCount = $('<span>').addClass('position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger').attr('data-emoji-count', '97').text('97');
+            
+            emojiButton2.append(emojiCount);
+            reactedEmojiDiv.append(emojiButton2);
+            
+            var msAutoDiv = $('<div>').addClass('ms-auto');
+            var afterMenuDiv = $('<div>').addClass('afterMenu');
+            var hamburgerIconDiv = $('<div>').addClass('hamburger-icon hamburgerMenuAnswer-toggler');
+            var hamburgerLink = $('<a>').addClass('cursor-pointer');
+            var caretIcon = $('<i>').addClass('fa-solid fa-square-caret-down fs-3');
+            
+            hamburgerLink.append(caretIcon);
+            hamburgerIconDiv.append(hamburgerLink);
+            
+            var collapseDiv = $('<div>').addClass('collapse navbar-collapse position-absolute bg-lifted hamburgerMenuAnswer');
+            var navbarNav = $('<ul>').addClass('navbar-nav p-2');
+            var navItem1 = $('<li>').addClass('nav-item m-1');
+            var navItemLink1 = $('<a>').attr('href', '#').addClass('p-2 d-block').html($('<i>').addClass('fa-solid fa-share-nodes'));
+            var navItem2 = $('<li>').addClass('nav-item m-1');
+            var navItemLink2 = $('<a>').attr('href', '#').addClass('p-2 d-block').html($('<i>').addClass('fa-solid fa-trash'));
+            
+            navItem1.append(navItemLink1);
+            navItem2.append(navItemLink2);
+            navbarNav.append(navItem1, navItem2);
+            collapseDiv.append(navbarNav);
+            
+            afterMenuDiv.append(hamburgerIconDiv, collapseDiv);
+            msAutoDiv.append(afterMenuDiv);
+            
+            reactionDiv.append(emojiButtonDiv, reactedEmojiDiv, msAutoDiv);
+            
+            userWrapper.append(answerRightAction)
+            threadContents.append(userWrapper, qlDiv, reactionDiv);
+  
+
+            let parsedJson = JSON.parse(_answer_synopsis);
+            console.log(parsedJson)
+
+            let tempQuill2 = new Quill(qlEditor[0], { readOnly: true });
+            
+            tempQuill2.setContents(parsedJson);
+
+            return threadContents;
+
+        }
     </script>
 
 @endsection

@@ -633,8 +633,9 @@ $(document).ready(() => {
 
     }
 
+    $(document).on('click', '.emoji-input', function() {
 
-    $('.emoji-input').on('click', function () {
+    // $('.emoji-input').on('click', function () {
         console.log("fewfewfefeff")
         currPicmoSelector = $(this).children('.picmo-picker-container');
         // currPicmoSelector.replaceWith($('.picmoInit'));
@@ -718,7 +719,9 @@ $(document).ready(() => {
         backdropCloseEvokeShow()
     });
 
-    $('.hamburgerMenuAnswer-toggler').click(function () {
+    $(document).on('click', '.hamburgerMenuAnswer-toggler', function() {
+
+    // $('.hamburgerMenuAnswer-toggler').click(function () {
         // $(this).child('hamburgerMenuAnswer')
         let currentAnsMenu = $(this).siblings('.hamburgerMenuAnswer')
         let currentAnsWrapper = $(this).closest('.thread-contents-items')
