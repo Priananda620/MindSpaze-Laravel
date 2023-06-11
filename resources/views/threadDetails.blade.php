@@ -321,62 +321,63 @@
             };
             // setTimeout(function() {
 
-                $.ajax({
-                    url: window.location.origin + "/api/" + 'thread/answers',
-                    method: 'GET',
-                    headers: requestHeaders,
-                    data: {
-                        question_id: currentThreadID
-                    },
+            $.ajax({
+                url: window.location.origin + "/api/" + 'thread/answers',
+                method: 'GET',
+                headers: requestHeaders,
+                data: {
+                    question_id: currentThreadID
+                },
 
-                    timeout: 5000,
-                    success: function(response) {
+                timeout: 5000,
+                success: function(response) {
 
-                        console.log(response)
-                        pushToastMessage('success',
-                            'success load data', 'success')
+                    console.log(response)
+                    pushToastMessage('success',
+                        'success load data', 'success')
 
-                        for (let i = 0; i < response.answers.length; i++) {
-                            var item = response.answers[i];
-                            console.log(item);
+                    for (let i = 0; i < response.answers.length; i++) {
+                        var item = response.answers[i];
+                        console.log(item);
 
-                            let newAnswerItem = addAnswerItem(response.answers[i].encrypted_id, response.answers[i].user.username,
-                            response.answers[i].elapsed_time,
-                            response.answers[i].user.user_profile_img,
-                            response.answers[i].downvote.length,response.answers[i].upvote.length,
-                            response.answers[i].answer_synopsis,
-                            response.answers[i].ai_classification_status, response.answers[i].moderated_as)
-                            $('#answer-box').after(newAnswerItem);
+                        let newAnswerItem = addAnswerItem(response.answers[i].encrypted_id, response.answers[i].user.username,
+                        response.answers[i].elapsed_time,
+                        response.answers[i].user.user_profile_img,
+                        response.answers[i].downvote.length,response.answers[i].upvote.length,
+                        response.answers[i].answer_synopsis,
+                        response.answers[i].ai_classification_status, response.answers[i].moderated_as,
+                        response.answers[i].curr_downvote, response.answers[i].curr_upvote)
+                        $('#answer-box').after(newAnswerItem);
 
-                        }
+                    }
 
 
-                    },
-                    error: function(errors) {
-                        pushToastMessage('failed',
-                            'failed, check console', 'fail')
-                            console.log(errors)
-                    },
-                    beforeSend: function() {
-                        animateProgressBar(true)
+                },
+                error: function(errors) {
+                    pushToastMessage('failed',
+                        'failed, check console', 'fail')
+                        console.log(errors)
+                },
+                beforeSend: function() {
+                    animateProgressBar(true)
 
-                        $('#thread-contents-left').find('.answer-item').remove();
+                    $('#thread-contents-left').find('.answer-item').remove();
 
-                        // $('.thread-contents-items').after(skeletonHtml);
-                    },
-                    complete: function() {
-                        $('#thread-contents-left').find('.skeleton-row').remove();
+                    // $('.thread-contents-items').after(skeletonHtml);
+                },
+                complete: function() {
+                    $('#thread-contents-left').find('.skeleton-row').remove();
 
-                        $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
-                        $('.progress-bar').addClass('opacity-0')
-                        $('.progress-bar').removeClass('opacity-100')
-                    },
-                });
+                    $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                    $('.progress-bar').addClass('opacity-0')
+                    $('.progress-bar').removeClass('opacity-100')
+                },
+            });
             // }, 2000);
 
         });
 
-        function addAnswerItem(_encrypted_id, _username, _elapsed_time, _avatar_img, _total_down, _total_up, _answer_synopsis, _ai_classification_status, _moderated_as) {
+        function addAnswerItem(_encrypted_id, _username, _elapsed_time, _avatar_img, _total_down, _total_up, _answer_synopsis, _ai_classification_status, _moderated_as, _curr_downvote, _curr_upvote) {
             var threadContents = $('<div>').addClass('thread-contents-items answer-item').attr('answer-id', _encrypted_id);
 
             var userWrapper = $('<div>').addClass('thread-contents-user-wrapper thread-border-bottom');
@@ -438,10 +439,15 @@
 
             var votingDiv = $('<div>').addClass('up-down-voting d-flex flex-column align-items-center justify-content-center');
             var upVoteIcon = $('<i>').addClass('fas fa-arrow-up up-vote-items thread-answer-right-action-item d-inline-flex up-vote-toggle'); //isActive
+            if(_curr_upvote){
+                upVoteIcon.addClass('isActive')
+            }
             var upvoteNumber = $('<p>').addClass('ms-1 mb-0').text(' '+_total_up)
             var downvoteNumber = $('<p>').addClass('ms-1 mb-0').text(' '+_total_down)
             var downVoteIcon = $('<i>').addClass('fas fa-arrow-down down-vote-items thread-answer-right-action-item d-inline-flex down-vote-toggle');
-
+            if(_curr_downvote){
+                downVoteIcon.addClass('isActive')
+            }
             upVoteIcon.append(upvoteNumber)
             downVoteIcon.append(downvoteNumber)
 
@@ -539,10 +545,29 @@
                 timeout: 5000,
                 success: function(response) {
 
-                    console.log(response)
+                    console.log(response.upvote_is_active)
                     pushToastMessage('success',
                         'success load data', 'success')
 
+                    var downvoteCount = parseInt($('.down-vote-toggle > p').html());
+                    var upvoteCount = parseInt($('.up-vote-toggle > p').html());
+                    if(response.upvote_is_active){
+                        $('.up-vote-toggle').addClass('isActive')
+
+                        if($('.down-vote-toggle').hasClass('isActive')){
+                            $('.down-vote-toggle').removeClass('isActive')
+
+                            $('.down-vote-toggle > p').html(--downvoteCount);
+                        }
+
+                        $('.up-vote-toggle > p').html(++upvoteCount);
+                    }else if(!response.upvote_is_active){
+                        $('.up-vote-toggle').removeClass('isActive')
+                        $('.down-vote-toggle').removeClass('isActive')
+
+
+                        $('.up-vote-toggle > p').html(--upvoteCount);
+                    }
 
                 },
                 error: function(errors) {
@@ -586,11 +611,25 @@
                 timeout: 5000,
                 success: function(response) {
 
-                    console.log(response)
+                    console.log(response.downvote_is_active)
                     pushToastMessage('success',
                         'success load data', 'success')
 
+                    var downvoteCount = parseInt($('.down-vote-toggle > p').html());
+                    var upvoteCount = parseInt($('.up-vote-toggle > p').html());
+                    if(response.downvote_is_active){
+                        $('.down-vote-toggle').addClass('isActive')
+                        if($('.up-vote-toggle').hasClass('isActive')){
+                            $('.up-vote-toggle').removeClass('isActive')
 
+                            $('.up-vote-toggle > p').html(--upvoteCount);
+                        }
+                        $('.down-vote-toggle > p').html(++downvoteCount);
+                    }else if(!response.downvote_is_active){
+                        $('.down-vote-toggle').removeClass('isActive')
+                        $('.up-vote-toggle').removeClass('isActive')
+                        $('.down-vote-toggle > p').html(--downvoteCount);
+                    }
                 },
                 error: function(errors) {
                     pushToastMessage('failed',

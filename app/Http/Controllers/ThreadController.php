@@ -380,8 +380,12 @@ class ThreadController extends Controller
                 $newUpvote->answer_id = Crypt::decryptString($request->answer_id);
                 $newUpvote->user_id = auth()->user()->id;
                 $newUpvote->save();
+
+                $upvote_is_active = true;
             }else if(!empty($checkUpVote) && empty($checkDownVote)){
                 $checkUpVote->delete();
+
+                $upvote_is_active = false;
             }else if(!empty($checkDownVote) && empty($checkUpVote)){
                 $checkDownVote->delete();
 
@@ -389,11 +393,14 @@ class ThreadController extends Controller
                 $newUpvote->answer_id = Crypt::decryptString($request->answer_id);
                 $newUpvote->user_id = auth()->user()->id;
                 $newUpvote->save();
+
+                $upvote_is_active = true;
             }
 
 
             return response()->json([
-                'status' => 'success'
+                'status' => 'success',
+                'upvote_is_active' => $upvote_is_active
             ]);
         } catch (\Throwable $th) {
             throw $th;
@@ -420,6 +427,7 @@ class ThreadController extends Controller
                 $newDownvote->answer_id = Crypt::decryptString($request->answer_id);
                 $newDownvote->user_id = auth()->user()->id;
                 $newDownvote->save();
+                $downvote_is_active = true;
             }else if(!empty($checkUpVote) && empty($checkDownVote)){
                 $checkUpVote->delete();
 
@@ -427,13 +435,18 @@ class ThreadController extends Controller
                 $newDownvote->answer_id = Crypt::decryptString($request->answer_id);
                 $newDownvote->user_id = auth()->user()->id;
                 $newDownvote->save();
+
+                $downvote_is_active = true;
             }else if(!empty($checkDownVote) && empty($checkUpVote)){
                 $checkDownVote->delete();
+
+                $downvote_is_active = false;
             }
 
 
             return response()->json([
-                'status' => 'success'
+                'status' => 'success',
+                'downvote_is_active' => $downvote_is_active
             ]);
         } catch (\Throwable $th) {
             throw $th;
