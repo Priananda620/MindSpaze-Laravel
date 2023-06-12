@@ -157,6 +157,8 @@ class ThreadController extends Controller
                 $curr_upvote = $answer->upvote->contains(function ($upvote){
                     if($upvote->user_id == auth()->user()->id){
                         $upvote_user_bool = true;
+                    }else{
+                        $upvote_user_bool = false;
                     }
 
                     return $upvote_user_bool;
@@ -164,6 +166,8 @@ class ThreadController extends Controller
                 $curr_downvote = $answer->downvote->contains(function ($downvote){
                     if($downvote->user_id == auth()->user()->id){
                         $downvote_user_bool = true;
+                    }else{
+                        $downvote_user_bool = false;
                     }
 
                     return $downvote_user_bool;
