@@ -7,6 +7,7 @@ use App\Models\Tag;
 use App\Models\User;
 use App\Models\UpVote;
 use App\Models\DownVote;
+use App\Models\Reaction;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\ValidationException;
 use App\Models\QuestionTag;
 use Ramsey\Uuid\Type\Integer;
+// use Reactions;
 
 class ThreadController extends Controller
 {
@@ -105,8 +107,8 @@ class ThreadController extends Controller
                     $ai_classification_status = $answer->ai_classification_status;
                     $moderated_as = $answer->moderated_as;
 
-                    $boolHasVerified = strpos($ai_classification_status, 'fact') !== false || strpos($ai_classification_status, 'potential true') && $moderated_as == 'true';
-
+                    $boolHasVerified = $ai_classification_status && $moderated_as;
+                    // $boolHasVerified = strpos($ai_classification_status, 'fact') !== false || strpos($ai_classification_status, 'potential true') && $moderated_as == 'true';
                     return $boolHasVerified;
                 });
                 $result->hasAnswerVerified = $hasAnswerVerified;
@@ -314,8 +316,8 @@ class ThreadController extends Controller
                         $ai_classification_status = $answer->ai_classification_status;
                         $moderated_as = $answer->moderated_as;
 
-                        $boolHasVerified = strpos($ai_classification_status, 'fact') !== false || strpos($ai_classification_status, 'potential true') && $moderated_as == 'true';
-
+                        // $boolHasVerified = strpos($ai_classification_status, 'fact') !== false || strpos($ai_classification_status, 'potential true') && $moderated_as == 'true';
+                        $boolHasVerified = $ai_classification_status && $moderated_as;
                         return $boolHasVerified;
                     });
                     $relatedThread->hasAnswerVerified = $hasAnswerVerified;
@@ -340,6 +342,44 @@ class ThreadController extends Controller
         }
     }
 
+    public function addReaction(Request $request)
+    {
+        // 'user_id',
+        // 'answer_id',
+        // 'reaction_emoji',
+        try {
+            $validatedData = $request->validate([
+                'answer_id' => 'required|string',
+                'reaction_emoji' => 'required|string',
+            ]);
+
+            $answer = Answer::where('id', Crypt::decryptString($request->input('answer_id')))->first();
+
+            if(empty($answer)){
+                return response()->json([
+                    'message' => 'The given data was invalid.'
+                ], 422);
+            }else{
+                $newReaction = new Reaction;
+                $newReaction->user_id = auth()->user()->id;
+                $newReaction->answer_id = $answer->id;
+                $newReaction->reaction_emoji = $request->input('reaction_emoji');
+                $newReaction->save();
+
+                return response()->json([
+                    'status' => 'success',
+                    'reaction_emoji' => $request->input('reaction_emoji')
+                ]);
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
+    }
 
 
     public function addQuestion(Request $request)

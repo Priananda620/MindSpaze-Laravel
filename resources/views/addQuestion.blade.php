@@ -7,7 +7,7 @@
             font-family: Arial, sans-serif;
         }
 
-        .container {
+        #addQuestion-container{
             position: relative;
             width: 100%;
             height: 75vh;

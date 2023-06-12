@@ -31,6 +31,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/post-answer', [ThreadController::class, 'addAnswer']);
 
+        Route::post('/add-reaction', [ThreadController::class, 'addReaction']);
+
         Route::get('/answers', [ThreadController::class, 'getAnswers']);
 
         Route::post('/up-vote', [ThreadController::class, 'upVote']);

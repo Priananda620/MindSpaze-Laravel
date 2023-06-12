@@ -593,15 +593,16 @@ $(document).ready(() => {
 
         picker.addEventListener('emoji:select', event => {
             backdropCloseEvoke.click()
-            emojiInput.val(event.emoji)
-            console.log('Emoji selected:', emojiInput.val())
+            emojiInput.val(event.emoji).trigger('input');
 
-            const escapeSequence = '\\u' + emojiInput.val().codePointAt(0).toString(16);
-            console.log(escapeSequence); // Outputs \uD83D\uDE09
+            // console.log('Emoji selected:', emojiInput.val())
+
+            // const escapeSequence = '\\u' + emojiInput.val().codePointAt(0).toString(16);
+            // console.log(escapeSequence); // Outputs \uD83D\uDE09
 
             // let encodedEmoji = encodeURIComponent(emojiInput.val());
             // console.log(encodedEmoji)
-            appendNewReaction(escapeSequence, 1)
+            // appendNewReaction(escapeSequence, 1)
 
             rootElement.addClass('d-none')
         });
@@ -982,14 +983,7 @@ $(document).ready(() => {
                         window.location.origin + '/assets/user_images/' + result.user.user_profile_img,
                         result.answer.length, result.hasAnswerVerified, "/", result.user.is_bolt_user, result.isHotThread);
 
-                    $('div[href-thread-id]').click(function () {
-                        let questionId = $(this).attr('href-thread-id');
-                        let href = '/thread/details?question_id=' + questionId;
-                        window.location.href = window.location.origin+href;
-
-                        console.log($(this).attr('href-thread-id'))
-                        console.log("fdfsfdsfdfds")
-                    });
+                    
                 } catch (error) {
                     console.log('---------------' + i)
                     console.log(result)
@@ -997,6 +991,14 @@ $(document).ready(() => {
 
                 // console.log(resultItem)
                 nonHeaderSearchResults.append(resultItem);
+                $('div[href-thread-id]').click(function () {
+                    let questionId = $(this).attr('href-thread-id');
+                    let href = '/thread/details?question_id=' + questionId;
+                    window.location.href = window.location.origin+href;
+
+                    console.log($(this).attr('href-thread-id'))
+                    console.log("fdfsfdsfdfds")
+                });
             }
         } else {
             nonHeaderSearchResults.append('<div class="alert alert-info">No results found.</div>');

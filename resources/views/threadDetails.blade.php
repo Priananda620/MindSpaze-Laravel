@@ -113,13 +113,13 @@
                 </div>
 
 
-                <div class="skeleton-row p-4 skeleton w-50 me-auto"></div>
+                {{-- <div class="skeleton-row p-4 skeleton w-50 me-auto"></div>
                 <div class="skeleton-row p-4 skeleton w-100"></div>
                 <div class="skeleton-row p-4 skeleton w-100"></div>
 
                 <div class="skeleton-row p-4 skeleton w-50 me-auto mt-3"></div>
                 <div class="skeleton-row p-4 skeleton w-100"></div>
-                <div class="skeleton-row p-4 skeleton w-100"></div>
+                <div class="skeleton-row p-4 skeleton w-100"></div> --}}
 
                 {{-- <div class="thread-contents-items isTopAnswer" answer-id="41">
 
@@ -309,6 +309,16 @@
             });
 
 
+            
+            // setTimeout(function() {
+
+            
+            // }, 2000);
+            loadAnswerItems()
+
+        });
+
+        function loadAnswerItems() {
             var skeletonHtml =
             `<div class="skeleton-row p-4 skeleton w-50 me-auto"></div>
             <div class="skeleton-row p-4 skeleton w-100"></div>
@@ -317,12 +327,16 @@
             <div class="skeleton-row p-4 skeleton w-100"></div>
             <div class="skeleton-row p-4 skeleton w-100"></div>`;
 
+            $('#answer-box').after(skeletonHtml);
+
+            $('.answer-item').remove();
+
+
             let requestHeaders = {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + $.cookie('api_plain_token')
             };
-            // setTimeout(function() {
 
             $.ajax({
                 url: window.location.origin + "/api/" + 'thread/answers',
@@ -340,8 +354,27 @@
                         'success load data', 'success')
 
                     for (let i = 0; i < response.answers.length; i++) {
+                        var emojiCountMap = new Map();
+
+                        let currReactions = response.answers[i].reaction
+                        
+                        currReactions.forEach(function(reaction) {
+                            let emoji = reaction.reaction_emoji;
+                            if (emojiCountMap.has(emoji)) {
+                                emojiCountMap.set(emoji, emojiCountMap.get(emoji) + 1);
+                            } else {
+                                emojiCountMap.set(emoji, 1);
+                            }
+                        });
+
+                        emojiCountMap.forEach(function(count, emoji) {
+                            console.log(emoji + " -> count: " + count);
+                        });
+
+
+
                         var item = response.answers[i];
-                        console.log(item);
+                        // console.log(item);
 
                         let newAnswerItem = addAnswerItem(response.answers[i].encrypted_id, response.answers[i].user.username,
                         response.answers[i].elapsed_time,
@@ -349,7 +382,8 @@
                         response.answers[i].downvote.length,response.answers[i].upvote.length,
                         response.answers[i].answer_synopsis,
                         response.answers[i].ai_classification_status, response.answers[i].moderated_as,
-                        response.answers[i].curr_downvote, response.answers[i].curr_upvote)
+                        response.answers[i].curr_downvote, response.answers[i].curr_upvote,
+                        emojiCountMap)
                         $('#answer-box').after(newAnswerItem);
 
                     }
@@ -376,11 +410,9 @@
                     $('.progress-bar').removeClass('opacity-100')
                 },
             });
-            // }, 2000);
+        }
 
-        });
-
-        function addAnswerItem(_encrypted_id, _username, _elapsed_time, _avatar_img, _total_down, _total_up, _answer_synopsis, _ai_classification_status, _moderated_as, _curr_downvote, _curr_upvote) {
+        function addAnswerItem(_encrypted_id, _username, _elapsed_time, _avatar_img, _total_down, _total_up, _answer_synopsis, _ai_classification_status, _moderated_as, _curr_downvote, _curr_upvote, _emojiCountMap) {
             var threadContents = $('<div>').addClass('thread-contents-items answer-item').attr('answer-id', _encrypted_id);
 
             var userWrapper = $('<div>').addClass('thread-contents-user-wrapper thread-border-bottom');
@@ -431,6 +463,9 @@
                 if(!moderate_flag){
                     threadContents.addClass('isAIFalse')
                 }
+            }else{
+                var unclassified = $('<div>').addClass('answer-stat-items unclassified-grey').text('Unclassified');
+                    answerStats.append(unclassified);
             }
 
 
@@ -469,21 +504,33 @@
             qlDiv.append(qlEditor);
 
             var reactionDiv = $('<div>').addClass('thread-reaction w-100 d-inline-flex align-items-center');
-            var emojiButtonDiv = $('<div>').addClass('me-2');
+            var emojiButtonDiv = $('<div>').addClass('me-2 py-3');
             var emojiButton = $('<button>').attr('type', 'button').addClass('btn bg-light position-relative rounded-pill position-relative emoji-input');
             var plusIcon = $('<i>').addClass('fa-solid fa-plus');
             var emojiInput = $('<input>').attr('type', 'hidden');
+            emojiInput.attr('data-answer-id', _encrypted_id)
+            emojiInput.attr('name', 'add-emoji-data')
+
             var pickerContainer = $('<div>').attr('id', '').addClass('position-absolute z-index-5 d-none picmo-picker-container');
 
             emojiButton.append(plusIcon, emojiInput, pickerContainer);
             emojiButtonDiv.append(emojiButton);
 
             var reactedEmojiDiv = $('<div>').addClass('d-flex flex-row gap-3 py-3 pe-4 me-2 overflow-auto hide-scrollbar1 hide-scrollbar2 reacted-emoji-container');
-            var emojiButton2 = $('<button>').attr('type', 'button').addClass('btn bg-light position-relative rounded-pill').attr('decodedemoji', '2620').text('☠');
-            var emojiCount = $('<span>').addClass('position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger').attr('data-emoji-count', '97').text('97');
+            
+                ////////////////////
+            _emojiCountMap.forEach(function(count, emoji) {
+                let escapeSequence = '\\u' + emoji.codePointAt(0).toString(16);
+                let withoutPrefix = escapeSequence.substring(2);
 
-            emojiButton2.append(emojiCount);
-            reactedEmojiDiv.append(emojiButton2);
+                console.log(emoji + " -> count: " + count);
+                var emojiButton2 = $('<button>').attr('type', 'button').addClass('btn bg-light position-relative rounded-pill').attr('decodedemoji', withoutPrefix).text(emoji);
+                var emojiCount = $('<span>').addClass('position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger').attr('data-emoji-count', count).text(count);
+                emojiButton2.append(emojiCount);
+                reactedEmojiDiv.append(emojiButton2);
+            });
+            
+            ///////////////////////
 
             var msAutoDiv = $('<div>').addClass('ms-auto');
             var afterMenuDiv = $('<div>').addClass('afterMenu');
@@ -693,7 +740,10 @@
                     contentType: false,
                     success: function(response) {
                         console.log("SUCCESS IMAGE")
-                        
+                        loadAnswerItems()
+                        $("#backdrop-close-evoke").click()
+                        quillEditor.setText('');
+
                     },
                     error: function(xhr, status, error) {
                         pushToastMessage('failed',
@@ -755,6 +805,9 @@
                         imageUpload()
                     }else{
                         console.log("DONE NO IMAGE")
+                        loadAnswerItems()
+                        $("#backdrop-close-evoke").click()
+                        quillEditor.setText('');
                     }
 
                 },
@@ -829,6 +882,51 @@
         //         }
         //     },
         // });
+
+        $(document).on('input', "input[name='add-emoji-data']", function() {
+            console.log($(this).val())
+
+            const escapeSequence = '\\u' + $(this).val().codePointAt(0).toString(16)
+
+            let requestHeaders = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+            };
+
+            $.ajax({
+                url: window.location.origin + "/api/" + 'thread/add-reaction',
+                method: 'POST',
+                headers: requestHeaders,
+                data: JSON.stringify({
+                    answer_id: $(this).attr('data-answer-id'),
+                    reaction_emoji: $(this).val()
+                }),
+
+                timeout: 5000,
+                success: function(response) {
+                    console.log(response)
+                    appendNewReaction(escapeSequence, 1)
+                },
+                error: function() {
+                    pushToastMessage('failed',
+                        'failed, check console', 'fail')
+                },
+                beforeSend: function() {
+                    animateProgressBar(true)
+                },
+                complete: function() {
+                    $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                    $('.progress-bar').addClass('opacity-0')
+                    $('.progress-bar').removeClass('opacity-100')
+
+                    $('#step5 .fa-ellipsis').hide();
+                },
+            });
+
+
+            
+        })
     </script>
 
 @endsection
