@@ -448,8 +448,8 @@ $(document).ready(() => {
         quillEditor.on('text-change', function () {
             checkQuillImage($('#answer-quill-container > .ql-editor'))
             // console.log(imagesCount)
-            console.log(quillEditor.root.innerHTML)
-            $('#answer-content').html(quillEditor.root.innerHTML)
+            // console.log(quillEditor.root.innerHTML)
+            // $('#answer-content').html(quillEditor.root.innerHTML)
         })
 
     }

@@ -138,6 +138,16 @@ class ThreadController extends Controller
         return $base64Image;
     }
 
+    private function encodeAnswerImageBase64($fileName)
+    {
+        $imagePath = 'public/assets/answer_images/' . $fileName;
+        $imageData = base64_encode(Storage::get($imagePath));
+        $fileExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
+        $base64Image = 'data:image/' . $fileExtension . ';base64,' . $imageData;
+
+        return $base64Image;
+    }
+
     public function getAnswers(Request $request)
     {
         try {
@@ -173,6 +183,22 @@ class ThreadController extends Controller
                     return $downvote_user_bool;
                 });
 
+                if (!empty($answer->attached_img)) {
+                    $base64encoded = self::encodeAnswerImageBase64($answer->attached_img);
+    
+                    $answer_synopsis = json_decode($answer->answer_synopsis, true);
+    
+                    if (isset($answer_synopsis['ops']) && is_array($answer_synopsis['ops'])) {
+                        foreach ($answer_synopsis['ops'] as &$item) {
+                            if (is_array($item) && isset($item['insert']) && is_array($item['insert']) && isset($item['insert']['image'])) {
+                                $item['insert']['image'] = $base64encoded;
+                            }
+                        }
+                    }
+    
+                    $answer->answer_synopsis = json_encode($answer_synopsis);
+                }
+
                 $answer->curr_upvote = $curr_upvote;
                 $answer->curr_downvote = $curr_downvote;
 
@@ -180,6 +206,8 @@ class ThreadController extends Controller
 
                 return $answer;
             });
+
+            
 
             return response()->json([
                 'answers' => $answers,
@@ -369,6 +397,48 @@ class ThreadController extends Controller
         }
     }
 
+    public function addAnswer(Request $request)
+    {
+        // 'answer_synopsis',
+        // 'attached_img',
+        // 'created_at',
+        // 'updated_at',
+        // 'ai_classification_status',
+        // 'moderated_as',
+        // 'isDeleted',
+        // 'question_id',
+        // 'user_id'
+        try {
+            $validatedData = $request->validate([
+                'question_id' => 'required|string',
+                'quillData' => 'required|json'
+            ]);
+
+            $quillData = $request->input('quillData');
+
+            $answer = new Answer;
+            $answer->user_id = auth()->user()->id;
+            $answer->question_id = Crypt::decryptString($request->input('question_id'));
+            $answer->answer_synopsis = $quillData;
+
+
+            $answer->save();
+
+
+            return response()->json([
+                'status' => 'success',
+                'answer_id' => Crypt::encryptString($answer->id)
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
+    }
+
     public function upVote(Request $request)
     {
         try {
@@ -511,6 +581,67 @@ class ThreadController extends Controller
                 // return response()->json([
                 //     'message' => 'Success.'
                 // ]);
+            } else {
+                return response()->json([
+                    'message' => 'The given data was invalid.'
+                ], 422);
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
+    }
+
+
+    public function addAnswerImage(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'answer_id' => 'required|string',
+                'image_upload' => 'required|string'
+            ]);
+
+            $payload = $request->all();
+
+            $answer = Answer::where('id', Crypt::decryptString($payload['answer_id']))->first();
+
+            $createdAt = Carbon::parse($answer->created_at);
+            $now = Carbon::now();
+
+            $base64Data = substr($payload['image_upload'], strpos($payload['image_upload'], ',') + 1);
+
+
+            if (!empty($payload['image_upload']) && empty($answer->attached_img) && $createdAt->diffInSeconds($now) < 5 && base64_decode($base64Data, true) !== false) {
+
+                $binaryData = base64_decode($base64Data);
+
+                $fileExtension = '';
+                if (preg_match('/^data:image\/(\w+);base64,/', $payload['image_upload'], $matches)) {
+                    $fileExtension = $matches[1];
+                }
+
+                $unique_string = self::guidv4();
+                $fileName = $unique_string . "_" . auth()->user()->username . "_" . $answer->id . "." . $fileExtension;
+
+
+                $answer->attached_img = $fileName;
+                $answer->save();
+
+                $filePath = 'public/assets/answer_images/' . $fileName;
+
+                Storage::put($filePath, $binaryData);
+
+                return response()->json([
+                    'answer_id' => $payload['answer_id'],
+                    'image_upload' => !empty($payload['image_upload']),
+                    'payload' => base64_decode($base64Data, true) !== false,
+                    'file_extension' => $fileExtension
+                ]);
+
             } else {
                 return response()->json([
                     'message' => 'The given data was invalid.'

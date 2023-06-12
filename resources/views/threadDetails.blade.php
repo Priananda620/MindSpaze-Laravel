@@ -103,7 +103,10 @@
                     {{-- <textarea type="text" name="answer-payload" question-id="162" class="form-input" required=""
                         placeholder="write your answer..."></textarea> --}}
                     <div class="mt-3" id="submit-wrap">
-                        <a class="button" href="">Submit</a>
+                        <input type="text" name="imageUpload" class="d-none">
+                        <input type="text" name="answerID" class="d-none">
+                        <meta name="csrf-token" content="{{ csrf_token() }}" class="d-none">
+                        <a class="button">Submit</a>
                         <div class="fa-2x"><i class="fas fa-circle-notch fa-spin"></i></div>
                         <div class="form-message"></div>
                     </div>
@@ -526,6 +529,7 @@
         $(document).on('click', '.up-vote-toggle', function() {
             console.log($(this).closest('.answer-item ').attr('answer-id'))
 
+            var thisVote = $(this)
             var currAnswerIdUpVote = $(this).closest('.answer-item ').attr('answer-id')
 
             let requestHeaders = {
@@ -549,24 +553,26 @@
                     pushToastMessage('success',
                         'success load data', 'success')
 
-                    var downvoteCount = parseInt($('.down-vote-toggle > p').html());
-                    var upvoteCount = parseInt($('.up-vote-toggle > p').html());
+                    var downvoteCount = parseInt(thisVote.siblings('.down-vote-toggle').find('p').html());
+                    var upvoteCount = parseInt(thisVote.find('p').html());
+                    console.log(downvoteCount)
+                    console.log(upvoteCount)
                     if(response.upvote_is_active){
-                        $('.up-vote-toggle').addClass('isActive')
+                        thisVote.addClass('isActive')
 
-                        if($('.down-vote-toggle').hasClass('isActive')){
-                            $('.down-vote-toggle').removeClass('isActive')
+                        if(thisVote.siblings('.down-vote-toggle').hasClass('isActive')){
+                            thisVote.siblings('.down-vote-toggle').removeClass('isActive')
 
-                            $('.down-vote-toggle > p').html(--downvoteCount);
+                            thisVote.siblings('.down-vote-toggle').find('p').html(--downvoteCount);
                         }
 
-                        $('.up-vote-toggle > p').html(++upvoteCount);
+                        thisVote.find('p').html(++upvoteCount);
                     }else if(!response.upvote_is_active){
-                        $('.up-vote-toggle').removeClass('isActive')
-                        $('.down-vote-toggle').removeClass('isActive')
+                        thisVote.removeClass('isActive')
+                        thisVote.siblings('.down-vote-toggle').removeClass('isActive')
 
 
-                        $('.up-vote-toggle > p').html(--upvoteCount);
+                        thisVote.find('p').html(--upvoteCount);
                     }
 
                 },
@@ -591,6 +597,10 @@
 
         $(document).on('click', '.down-vote-toggle', function() {
             console.log($(this).closest('.answer-item ').attr('answer-id'))
+            console.log('-----'+$(this).siblings('.up-vote-toggle').find('p').html())
+            console.log('-----'+$(this).find('p').html())
+
+            var thisVote = $(this)
 
             var currAnswerIdDownVote = $(this).closest('.answer-item ').attr('answer-id')
 
@@ -615,20 +625,22 @@
                     pushToastMessage('success',
                         'success load data', 'success')
 
-                    var downvoteCount = parseInt($('.down-vote-toggle > p').html());
-                    var upvoteCount = parseInt($('.up-vote-toggle > p').html());
+                    var downvoteCount = parseInt(thisVote.find('p').html());
+                    var upvoteCount = parseInt(thisVote.siblings('.up-vote-toggle').find('p').html());
+                    console.log(downvoteCount)
+                    console.log(upvoteCount)
                     if(response.downvote_is_active){
-                        $('.down-vote-toggle').addClass('isActive')
-                        if($('.up-vote-toggle').hasClass('isActive')){
-                            $('.up-vote-toggle').removeClass('isActive')
+                        thisVote.addClass('isActive')
+                        if(thisVote.siblings('.up-vote-toggle').hasClass('isActive')){
+                            thisVote.siblings('.up-vote-toggle').removeClass('isActive')
 
-                            $('.up-vote-toggle > p').html(--upvoteCount);
+                            thisVote.siblings('.up-vote-toggle').find('p').html(--upvoteCount);
                         }
-                        $('.down-vote-toggle > p').html(++downvoteCount);
+                        thisVote.find('p').html(++downvoteCount);
                     }else if(!response.downvote_is_active){
-                        $('.down-vote-toggle').removeClass('isActive')
-                        $('.up-vote-toggle').removeClass('isActive')
-                        $('.down-vote-toggle > p').html(--downvoteCount);
+                        thisVote.removeClass('isActive')
+                        thisVote.siblings('.up-vote-toggle').removeClass('isActive')
+                        thisVote.find('p').html(--downvoteCount);
                     }
                 },
                 error: function(errors) {
@@ -649,6 +661,174 @@
                 },
             });
         })
+
+        function imageUpload() {
+
+            var base64_imageTempQuill = $('input[name="imageUpload"]').val()
+            var csrfToken = $("meta[name='csrf-token']").attr('content')
+            
+            if ($('input[name="answerID"]').val() !== "") {
+
+                // console.log(base64_imageTempQuill)
+                // console.log($('input[name="questionID"]').val() + "  -----------------------------------------------")
+                let formData = new FormData();
+
+                formData.append('_token', csrfToken);
+                formData.append('image_upload', base64_imageTempQuill);
+                formData.append('answer_id', $('input[name="answerID"]').val());
+
+                console.log(formData)
+
+                let requestHeaders = {
+                    'X-CSRF-TOKEN': csrfToken
+                };
+
+                $.ajax({
+                    // url: window.location.origin + "/api/" + 'thread/upload-image',
+                    url: window.location.origin + "/" +'thread/upload-image-answer',
+                    method: 'POST',
+                    headers: requestHeaders,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        console.log("SUCCESS IMAGE")
+                        
+                    },
+                    error: function(xhr, status, error) {
+                        pushToastMessage('failed',
+                            'failed, check console (image)', 'fail')
+                    },
+                    beforeSend: function() {
+
+                    },
+                    complete: function() {
+                        $('.progress-bar').css('width', '100%').attr(
+                            'aria-valuenow', 100);
+                        $('.progress-bar').addClass('opacity-0')
+                        $('.progress-bar').removeClass('opacity-100')
+
+                        // $('#step5 .fa-ellipsis').hide();
+                    },
+                });
+            }
+        }
+
+        $(document).on('click', '#submit-wrap > a', function() {
+            let quillRemoveImage = JSON.parse(JSON.stringify(quillEditor.getContents()));
+
+            quillRemoveImage.ops.forEach(function(item) {
+                if (item.insert && item.insert.image) {
+                    $('input[name="imageUpload"]').val(String(item.insert
+                        .image))
+                    item.insert.image = "<<IMAGE MOVED>>";
+                }
+            })
+
+            let quillData = JSON.stringify(quillRemoveImage);
+
+            console.log(quillData)
+
+            let requestHeaders = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+            };
+
+            $.ajax({
+                url: window.location.origin + "/api/" + 'thread/post-answer',
+                method: 'POST',
+                headers: requestHeaders,
+                data: JSON.stringify({
+                    question_id: currentThreadID,
+                    quillData: quillData
+                }),
+
+                timeout: 5000,
+                success: function(response) {
+
+                    $('input[name="answerID"]').val(String(JSON
+                        .parse(JSON.stringify(response
+                            .answer_id))))
+
+                    if (response.answer_id !== null && $('input[name="imageUpload"]').val() !== "") {
+                        imageUpload()
+                    }else{
+                        console.log("DONE NO IMAGE")
+                    }
+
+                },
+                error: function() {
+                    pushToastMessage('failed',
+                        'failed, check console', 'fail')
+                },
+                beforeSend: function() {
+                    animateProgressBar(true)
+
+                    $('#step5 .fa-ellipsis').show();
+                },
+                complete: function() {
+                    if ($('input[name="imageUpload"]').val() == "") {
+
+                        $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                        $('.progress-bar').addClass('opacity-0')
+                        $('.progress-bar').removeClass('opacity-100')
+
+                        $('#step5 .fa-ellipsis').hide();
+                    }
+                },
+            });
+
+        })
+
+
+
+        // $.ajax({
+        //     url: window.location.origin + "/api/" + 'thread/post',
+        //     method: 'POST',
+        //     headers: requestHeaders,
+        //     data: JSON.stringify({
+        //         title: newTitle,
+        //         quillData: quillData,
+        //         tags: tagsSelectedEncIDJSON
+        //     }),
+
+        //     timeout: 5000,
+        //     success: function(response) {
+
+        //         // currentNewQuestionID = response.question_id
+        //         $('input[name="questionID"]').val(String(JSON
+        //             .parse(JSON.stringify(response
+        //                 .question_id))))
+
+        //         if (response.question_id !== null && $(
+        //                 'input[name="imageUpload"]').val() !== "") {
+        //             imageUpload()
+        //         }else{
+        //             window.location.href = window.location.origin + '/thread/details?question_id='+response.question_id;
+        //         }
+
+        //     },
+        //     error: function() {
+        //         pushToastMessage('failed',
+        //             'failed, check console', 'fail')
+        //     },
+        //     beforeSend: function() {
+        //         animateProgressBar(true)
+
+        //         $('#step5 .fa-ellipsis').show();
+        //     },
+        //     complete: function() {
+        //         if ($('input[name="imageUpload"]').val() == "") {
+
+        //             $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+        //             $('.progress-bar').addClass('opacity-0')
+        //             $('.progress-bar').removeClass('opacity-100')
+
+        //             $('#step5 .fa-ellipsis').hide();
+        //         }
+        //     },
+        // });
     </script>
 
 @endsection

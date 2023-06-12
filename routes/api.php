@@ -29,6 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('thread')->group(function () {
         Route::post('/post', [ThreadController::class, 'addQuestion']);
 
+        Route::post('/post-answer', [ThreadController::class, 'addAnswer']);
+
         Route::get('/answers', [ThreadController::class, 'getAnswers']);
 
         Route::post('/up-vote', [ThreadController::class, 'upVote']);

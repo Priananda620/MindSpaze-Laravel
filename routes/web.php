@@ -51,6 +51,8 @@ Route::middleware(['checkLoginSession'])->group(function () {
     Route::prefix('thread')->group(function () {
         Route::post('/upload-image', [ThreadController::class, 'addQuestionImage']);
 
+        Route::post('/upload-image-answer', [ThreadController::class, 'addAnswerImage']);
+
         Route::get('/details', [ThreadController::class, 'getThreadDetails']);
         // Route::post('/upload-image2', [ThreadController::class, 'addQuestionImage2']);
     });
