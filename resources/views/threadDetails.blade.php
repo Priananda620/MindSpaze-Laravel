@@ -111,7 +111,9 @@
                         <div class="form-message"></div>
                     </div>
                 </div>
-
+                <div id="no-answer" class="mt-3">
+                    <div>No Answer Added Yet!</div>
+                </div>
 
                 {{-- <div class="skeleton-row p-4 skeleton w-50 me-auto"></div>
                 <div class="skeleton-row p-4 skeleton w-100"></div>
@@ -309,10 +311,10 @@
             });
 
 
-            
+
             // setTimeout(function() {
 
-            
+
             // }, 2000);
             loadAnswerItems()
 
@@ -353,11 +355,17 @@
                     pushToastMessage('success',
                         'success load data', 'success')
 
+                    if(response.answers.length > 0){
+                        $('#no-answer').hide()
+                    }else{
+                        $('#no-answer').show()
+                    }
+
                     for (let i = 0; i < response.answers.length; i++) {
                         var emojiCountMap = new Map();
 
                         let currReactions = response.answers[i].reaction
-                        
+
                         currReactions.forEach(function(reaction) {
                             let emoji = reaction.reaction_emoji;
                             if (emojiCountMap.has(emoji)) {
@@ -517,7 +525,7 @@
             emojiButtonDiv.append(emojiButton);
 
             var reactedEmojiDiv = $('<div>').addClass('d-flex flex-row gap-3 py-3 pe-4 me-2 overflow-auto hide-scrollbar1 hide-scrollbar2 reacted-emoji-container');
-            
+
                 ////////////////////
             _emojiCountMap.forEach(function(count, emoji) {
                 let escapeSequence = '\\u' + emoji.codePointAt(0).toString(16);
@@ -529,7 +537,7 @@
                 emojiButton2.append(emojiCount);
                 reactedEmojiDiv.append(emojiButton2);
             });
-            
+
             ///////////////////////
 
             var msAutoDiv = $('<div>').addClass('ms-auto');
@@ -713,7 +721,7 @@
 
             var base64_imageTempQuill = $('input[name="imageUpload"]').val()
             var csrfToken = $("meta[name='csrf-token']").attr('content')
-            
+
             if ($('input[name="answerID"]').val() !== "") {
 
                 // console.log(base64_imageTempQuill)
@@ -925,7 +933,7 @@
             });
 
 
-            
+
         })
     </script>
 
