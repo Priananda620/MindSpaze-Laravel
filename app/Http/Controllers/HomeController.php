@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
 use App\Models\User;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -22,6 +23,14 @@ class HomeController extends Controller
         }
     }
 
+    public function admin(Request $request) {
+        $answers = Answer::all();
+
+        $total_is_moderated = Answer::whereNotNull('moderated_as')->count();
+        $total_not_moderated = Answer::whereNull('moderated_as')->count();
+
+        return view('adminMain', compact('answers', 'total_not_moderated', 'total_is_moderated'));
+    }
     public function about(Request $request)
     {
         if(auth()->check()){

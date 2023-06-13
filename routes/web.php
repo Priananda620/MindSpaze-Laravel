@@ -21,7 +21,17 @@ use App\Http\Controllers\ThreadController;
 */
 
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+// Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/', function () {
+    if (Auth::check() && Auth::user()->user_role === 1) {
+        return redirect('/admin');
+    } else {
+        $homeController = new HomeController();
+        return $homeController->index(request());
+    }
+})->name('home');
+
 
 Route::get('/thread-detail', [HomeController::class, 'test'])->name('threaddetail');
 
@@ -46,6 +56,10 @@ Route::middleware(['checkLoginSession'])->group(function () {
     Route::get('/profile', function () {
         $username = Auth::user()->username;
         return redirect('/profile/'.$username);
+    });
+
+    Route::middleware(['admin'])->group(function () {
+        Route::get('/admin', [HomeController::class, 'admin']);
     });
 
     Route::prefix('thread')->group(function () {

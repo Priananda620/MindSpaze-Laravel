@@ -138,16 +138,31 @@ class ThreadController extends Controller
 
             $answer = Answer::where('id', Crypt::decryptString($request->input('answer_id')))->first();
 
-            if(!empty($answer) && $answer->user_id == auth()->user()->id){
-                $answer->delete();
+            if(auth()->user()->user_role === 1){ //admin
+                if(!empty($answer)){
+                    $answer->delete();
 
-                return response()->json([
-                    'message' => 'success'
-                ]);
+                    return response()->json([
+                        'message' => 'success'
+                    ]);
+                }else{
+                    return response()->json([
+                        'message' => 'The given data was invalid.'
+                    ], 422);
+                }
             }else{
-                return response()->json([
-                    'message' => 'The given data was invalid.'
-                ], 422);
+
+                if(!empty($answer) && $answer->user_id == auth()->user()->id){
+                    $answer->delete();
+
+                    return response()->json([
+                        'message' => 'success'
+                    ]);
+                }else{
+                    return response()->json([
+                        'message' => 'The given data was invalid.'
+                    ], 422);
+                }
             }
 
         } catch (\Throwable $th) {
@@ -168,18 +183,35 @@ class ThreadController extends Controller
 
             $question = Question::where('id', Crypt::decryptString($request->input('question_id')))->first();
 
-            if(!empty($question) && $question->user_id == auth()->user()->id){
-                $question->delete();
+            if(auth()->user()->user_role === 1){ //admin
+                if(!empty($question)){
 
-                Answer::where('question_id', $question->id)->delete();
+                    $question->delete();
 
-                return response()->json([
-                    'message' => 'success'
-                ]);
+                    Answer::where('question_id', $question->id)->delete();
+
+                    return response()->json([
+                        'message' => 'success'
+                    ]);
+                }else{
+                    return response()->json([
+                        'message' => 'The given data was invalid.'
+                    ], 422);
+                }
             }else{
-                return response()->json([
-                    'message' => 'The given data was invalid.'
-                ], 422);
+                if(!empty($question) && $question->user_id == auth()->user()->id){
+                    $question->delete();
+    
+                    Answer::where('question_id', $question->id)->delete();
+    
+                    return response()->json([
+                        'message' => 'success'
+                    ]);
+                }else{
+                    return response()->json([
+                        'message' => 'The given data was invalid.'
+                    ], 422);
+                }
             }
 
         } catch (\Throwable $th) {

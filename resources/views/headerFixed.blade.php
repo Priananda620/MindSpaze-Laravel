@@ -85,7 +85,7 @@
         </div>
 
     </div>
-    <div class="progress" style="height: .5em;">
+    <div class="progress" style="height: .5em;{{auth()->check() && auth()->user()->user_role == 1? 'background: red;': ''}}">
         <div class="progress-bar progress-bar-striped progress-bar-animated opacity-0" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
 </header>

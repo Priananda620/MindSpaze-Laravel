@@ -57,7 +57,10 @@
                                         <a href="#" class="p-2"><i class="fa-solid fa-share-nodes"></i></a>
                                     </li>
                                     <li class="nav-item m-1">
-                                        <a data-delete="question" data-bs-target="#deleteModal" data-bs-toggle="modal" class="p-2 cursor-pointer"><i class="fa-solid fa-trash"></i></a>
+                                        {{-- {{$questionThread->user->id}}\\\{{auth()->user()->id}}\\\{{auth()->user()->user_role}} --}}
+                                        @if($questionThread->user->id == auth()->user()->id or auth()->user()->user_role == 1)
+                                            <a data-delete="question" data-bs-target="#deleteModal" data-bs-toggle="modal" class="p-2 cursor-pointer"><i class="fa-solid fa-trash"></i></a>
+                                        @endif
                                     </li>
                                 </ul>
                             </div>
@@ -419,7 +422,8 @@
                         response.answers[i].ai_classification_status, response.answers[i].moderated_as,
                         response.answers[i].curr_downvote, response.answers[i].curr_upvote,
                         emojiCountMap,
-                        response.answers[i].curr_user_owner)
+                        response.answers[i].curr_user_owner,
+                        response.answers[i].curr_user_auth_is_admin)
                         $('#answer-box').after(newAnswerItem);
 
                     }
@@ -448,7 +452,7 @@
             });
         }
 
-        function addAnswerItem(_encrypted_id, _username, _elapsed_time, _avatar_img, _total_down, _total_up, _answer_synopsis, _ai_classification_status, _moderated_as, _curr_downvote, _curr_upvote, _emojiCountMap, _curr_user_owner) {
+        function addAnswerItem(_encrypted_id, _username, _elapsed_time, _avatar_img, _total_down, _total_up, _answer_synopsis, _ai_classification_status, _moderated_as, _curr_downvote, _curr_upvote, _emojiCountMap, _curr_user_owner, _curr_user_auth_is_admin) {
             var threadContents = $('<div>').addClass('thread-contents-items answer-item').attr('answer-id', _encrypted_id);
 
             var userWrapper = $('<div>').addClass('thread-contents-user-wrapper thread-border-bottom');
@@ -587,15 +591,34 @@
             navItemLink2.attr('data-bs-target', '#deleteModal')
             navItemLink2.attr('data-delete', 'answer')
 
+            var navItem3 = $('<li>').addClass('nav-item m-1 bg-success text-light');
+            var navItemLink3 = $('<a>').addClass('p-2 d-block cursor-pointer').html($('<i>').addClass('fa-solid fa-square-check'));
+
+            var navItem4 = $('<li>').addClass('nav-item m-1 bg-danger text-light');
+            var navItemLink4 = $('<a>').addClass('p-2 d-block cursor-pointer').html($('<i>').addClass('fa-solid fa-square-xmark'));
+
             navItem1.append(navItemLink1);
+
+            
             
 
             if(_curr_user_owner){
                 navItem2.append(navItemLink2);
-                navbarNav.append(navItem1, navItem2);
-            }else{
-                navbarNav.append(navItem1);
+                navbarNav.append(navItem2);
+
             }
+            
+            if(_curr_user_auth_is_admin){
+                navItem2.append(navItemLink2);
+                navItem3.append(navItemLink3)
+                navItem4.append(navItemLink4)
+
+                navbarNav.append(navItem3);
+                navbarNav.append(navItem4);
+                navbarNav.append(navItem2);
+            }
+            
+            navbarNav.append(navItem1);
             
             collapseDiv.append(navbarNav);
 
