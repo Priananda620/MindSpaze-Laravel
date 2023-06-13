@@ -65,13 +65,16 @@
                     rel="noopener noreferrer">BROWSE</a>
             </div>
         </section> --}}
+
+        @auth
+
         <section id="section-2" class="section-child py-5 mt-5 container mb-4 px-5">
             <div class="container">
             <div class="row justify-content-between">
                 <div class="col-md-9">
                 <div class="left-content">
                     <h2 class="fw-bold text-center text-lg-start text-md-start text-sm-center">Take a look at our threads</h2>
-                    <p class="text-muted-color fw-bold text-center text-lg-start text-md-start text-sm-center">For more details — you can click button provided here.</p>
+                    <p class="text-muted-color text-center text-lg-start text-md-start text-sm-center">For more details — you can click button provided here.</p>
                 </div>
                 </div>
                 <div class="col-md-2">
@@ -85,6 +88,30 @@
             </div>
             </div>
         </section>
+        @else
+        <section id="section-2" class="section-child py-5 mt-5 container mb-4 px-5">
+            <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-md-9">
+                <div class="left-content">
+                    <h2 class="fw-bold text-center text-lg-start text-md-start text-sm-center">Start Registering Now!</h2>
+                    <p class="text-muted-color text-center text-lg-start text-md-start text-sm-center">To join the community — you can click button provided here.</p>
+                </div>
+                </div>
+                <div class="col-md-2">
+                <div class="right-content d-flex justify-content-center align-items-center h-100">
+                    {{-- <button class="btn btn-primary">Button</button> --}}
+                    <a style="width: 15em; margin:auto" class="button register-show"
+                    href="{{url('#register')}}"
+                    rel="noopener noreferrer">Register</a>
+                </div>
+                </div>
+            </div>
+            </div>
+        </section>
+    
+        @endauth
+        
 
 
 

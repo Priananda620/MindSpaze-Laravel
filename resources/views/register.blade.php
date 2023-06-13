@@ -51,7 +51,7 @@
 
 
                     {{-- </select> --}}
-                    <label for="username" class="mb-3">Phone<span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span></label>
+                    <label for="phone" class="mb-3">Phone<span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span></label>
                     <div class="input-group">
                         <span class="input-group-text">+62</span>
                         <input id="Phone" name="phone" type="text" style="border: none;color: var(--display-font-color);" class="form-control w-auto mt-0" placeholder="Phone number" required>
@@ -108,7 +108,7 @@
                         </div>
                         <div class="mt-3">
                             <p>already have account?</p>
-                            <p id="toLoginFromRegister" style="color:var(--link-font); cursor:pointer">Log In</p>
+                            <p id="toLoginFromRegister" style="color:var(--link-font); cursor:pointer"><a href="{{url('/#login')}}" target="_blank">Log In</a></p>
                         </div>
                     </div>
 

@@ -33,6 +33,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/add-reaction', [ThreadController::class, 'addReaction']);
 
+        Route::delete('/delete-answer', [ThreadController::class, 'deleteAnswer']);
+
+        Route::delete('/delete-question', [ThreadController::class, 'deleteQuestion']);
+
         Route::get('/answers', [ThreadController::class, 'getAnswers']);
 
         Route::post('/up-vote', [ThreadController::class, 'upVote']);

@@ -1,3 +1,5 @@
+
+
 function clearMsgOutput() {
     console.log("dsadsdda")
     $('#username-already-exist').css('display', 'none')
@@ -87,7 +89,7 @@ function createNewCard(encrypted_id, title, username, dateAgo, profileImgUrl, an
     let badgeAnsVerif;
 
     if (hasAnswerVerified) {
-        badgeAnsVerif = $('<span>', { class: 'badge bg-light text-dark' }).text('answer verified ').append($('<i>', { class: 'fa-solid fa-circle-check' }))
+        badgeAnsVerif = $('<span>', { class: 'badge bg-light text-dark answer-verified' }).text('answer verified ').append($('<i>', { class: 'fa-solid fa-circle-check' }))
     } else {
         badgeAnsVerif = $('<span>', { class: 'badge bg-light text-dark' }).text('no verified answer ').append($('<i>', { class: 'fa-solid fa-triangle-exclamation' }))
     }
@@ -360,6 +362,17 @@ function checkQuillImage(objectRoot) {
 }
 
 $(document).ready(() => {
+    const inputPhoneField = document.getElementById('Phone');
+
+    // Add event listener to restrict input to only integers
+    inputPhoneField.addEventListener('input', function (e) {
+        this.value = this.value.replace(/[^0-9]/g, '');
+        if (this.value.length > 13) {
+            this.value = this.value.slice(0, 13);
+        }
+
+        console.log(this.value)
+    });
 
 
 
@@ -634,9 +647,9 @@ $(document).ready(() => {
 
     }
 
-    $(document).on('click', '.emoji-input', function() {
+    $(document).on('click', '.emoji-input', function () {
 
-    // $('.emoji-input').on('click', function () {
+        // $('.emoji-input').on('click', function () {
         console.log("fewfewfefeff")
         currPicmoSelector = $(this).children('.picmo-picker-container');
         // currPicmoSelector.replaceWith($('.picmoInit'));
@@ -720,9 +733,9 @@ $(document).ready(() => {
         backdropCloseEvokeShow()
     });
 
-    $(document).on('click', '.hamburgerMenuAnswer-toggler', function() {
+    $(document).on('click', '.hamburgerMenuAnswer-toggler', function () {
 
-    // $('.hamburgerMenuAnswer-toggler').click(function () {
+        // $('.hamburgerMenuAnswer-toggler').click(function () {
         // $(this).child('hamburgerMenuAnswer')
         let currentAnsMenu = $(this).siblings('.hamburgerMenuAnswer')
         let currentAnsWrapper = $(this).closest('.thread-contents-items')
@@ -983,7 +996,7 @@ $(document).ready(() => {
                         window.location.origin + '/assets/user_images/' + result.user.user_profile_img,
                         result.answer.length, result.hasAnswerVerified, "/", result.user.is_bolt_user, result.isHotThread);
 
-                    
+
                 } catch (error) {
                     console.log('---------------' + i)
                     console.log(result)
@@ -994,7 +1007,7 @@ $(document).ready(() => {
                 $('div[href-thread-id]').click(function () {
                     let questionId = $(this).attr('href-thread-id');
                     let href = '/thread/details?question_id=' + questionId;
-                    window.location.href = window.location.origin+href;
+                    window.location.href = window.location.origin + href;
 
                     console.log($(this).attr('href-thread-id'))
                     console.log("fdfsfdsfdfds")
@@ -1064,7 +1077,7 @@ $(document).ready(() => {
 
                 if (result.hasAnswerVerified) {
                     var spanBadge = $('<span>', {
-                        class: 'badge bg-light text-dark',
+                        class: 'badge bg-light text-dark answer-verified',
                     });
                     var checkIcon = $('<i>', {
                         class: 'fa-solid fa-circle-check'
@@ -1090,7 +1103,7 @@ $(document).ready(() => {
                 $('div[href-thread-id]').click(function () {
                     let questionId = $(this).attr('href-thread-id');
                     let href = '/thread/details?question_id=' + questionId;
-                    window.location.href =  window.location.origin+href;
+                    window.location.href = window.location.origin + href;
 
                     console.log($(this).attr('href-thread-id'))
                     console.log("fdfsfdsfdfds")

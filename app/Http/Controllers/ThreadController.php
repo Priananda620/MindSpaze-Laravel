@@ -130,6 +130,68 @@ class ThreadController extends Controller
         }
     }
 
+    public function deleteAnswer(Request $request) {
+        try {
+            $validatedData = $request->validate([
+                'answer_id' => 'required|string'
+            ]);
+
+            $answer = Answer::where('id', Crypt::decryptString($request->input('answer_id')))->first();
+
+            if(!empty($answer) && $answer->user_id == auth()->user()->id){
+                $answer->delete();
+
+                return response()->json([
+                    'message' => 'success'
+                ]);
+            }else{
+                return response()->json([
+                    'message' => 'The given data was invalid.'
+                ], 422);
+            }
+
+        } catch (\Throwable $th) {
+            throw $th;
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
+    }
+
+    public function deleteQuestion(Request $request) {
+        try {
+            $validatedData = $request->validate([
+                'question_id' => 'required|string'
+            ]);
+
+            $question = Question::where('id', Crypt::decryptString($request->input('question_id')))->first();
+
+            if(!empty($question) && $question->user_id == auth()->user()->id){
+                $question->delete();
+
+                Answer::where('question_id', $question->id)->delete();
+
+                return response()->json([
+                    'message' => 'success'
+                ]);
+            }else{
+                return response()->json([
+                    'message' => 'The given data was invalid.'
+                ], 422);
+            }
+
+        } catch (\Throwable $th) {
+            throw $th;
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
+    }
+
     private function encodeQuestionImageBase64($fileName)
     {
         $imagePath = 'public/assets/question_images/' . $fileName;
@@ -185,6 +247,8 @@ class ThreadController extends Controller
                     return $downvote_user_bool;
                 });
 
+                $curr_user_owner = $answer->user->id == auth()->user()->id? true : false;
+
                 if (!empty($answer->attached_img)) {
                     $base64encoded = self::encodeAnswerImageBase64($answer->attached_img);
     
@@ -203,6 +267,9 @@ class ThreadController extends Controller
 
                 $answer->curr_upvote = $curr_upvote;
                 $answer->curr_downvote = $curr_downvote;
+                $answer->curr_user_owner = $curr_user_owner;
+
+                $answer->curr_user_auth_is_admin = (bool)auth()->user()->user_role;
 
 
 

@@ -60,8 +60,8 @@
                     <button type="button" class="button clear-input-action" style="width: 50%; background: var(--red-accent)">Clear
                         Inputs</button>
                 </div>
-                <p class="mt-4">Do not have account yet? | <span id="toRegisterFromLogin"
-                        style="color:var(--link-font); cursor:pointer">Register</span> </p>
+                <p class="mt-4">Do not have account yet? | <a id="toRegisterFromLogin" href="{{url('/#register')}}" target="_blank"
+                        style="color:var(--link-font); cursor:pointer">Register</a> </p>
                 </form>
             </div>
 

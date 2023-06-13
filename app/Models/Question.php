@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Question extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     public $timestamps = true;
     const UPDATED_AT = 'updated_at';
     const CREATED_AT = 'created_at';
@@ -20,7 +21,7 @@ class Question extends Model
         'updated_at',
         'attached_img',
         'isHotThread',
-        'isDeleted',
+        // 'isDeleted',
         'user_id'
     ];
 
@@ -31,7 +32,7 @@ class Question extends Model
         'updated_at' => 'timestamp',
         'attached_img' => 'string',
         'isHotThread' => 'boolean',
-        'isDeleted' => 'boolean',
+        // 'isDeleted' => 'boolean',
         'user_id' => 'integer'
     ];
 

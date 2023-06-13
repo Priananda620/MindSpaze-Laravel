@@ -22,7 +22,8 @@ class Questions extends Migration
             $table->longText('question_synopsis');
             $table->string('attached_img', 255)->nullable();
             $table->boolean('isHotThread')->default(false);
-            $table->boolean('isDeleted')->default(false);
+            // $table->boolean('isDeleted')->default(false);
+            $table->softDeletes();
             $table->timestamp('created_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
         });

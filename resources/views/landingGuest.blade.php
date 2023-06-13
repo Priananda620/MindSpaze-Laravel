@@ -148,7 +148,9 @@
             </div>
 		</div>
     </section>
-
+    <section id="heading-landing-text" class="pb-2">
+        <p>Take a look of our current available threads.</p>
+    </section>
     <section id="threads-with-filter">
         <div>
             <div class="filter-header d-flex flex-row align-items-center">
@@ -327,8 +329,10 @@
     </section>
 
 
+    
 
     <section id="heading-landing-text">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tempor, libero varius vulputate rhoncus, purus leo finibus neque, sed elementum dolor quam vel tortor.  </p>
+        <p>Interested? Those are unclickable cards and is limited to eight cards. To view the thread details you need to register into our platform first.</p>
     </section>
+
 @endsection

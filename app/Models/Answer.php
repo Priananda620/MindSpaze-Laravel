@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Answer extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     public $timestamps=true;
     const UPDATED_AT = 'updated_at';
     const CREATED_AT = 'created_at';
@@ -20,7 +21,7 @@ class Answer extends Model
         'updated_at',
         'ai_classification_status',
         'moderated_as',
-        'isDeleted',
+        // 'isDeleted',
         'question_id',
         'user_id'
     ];
@@ -32,7 +33,7 @@ class Answer extends Model
         'updated_at' => 'timestamp',
         'ai_classification_status' => 'boolean',
         'moderated_as' => 'boolean',
-        'isDeleted' => 'boolean',
+        // 'isDeleted' => 'boolean',
         'question_id' => 'integer',
         'user_id' => 'integer'
     ];

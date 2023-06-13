@@ -82,7 +82,7 @@
             </div>
         </div>
     </section>
-    <section class="nw uillustration-section-a">
+    <section class="nw uillustration-section-a" id="faq">
         <div class="tcontainern">
             <div class="rp sb">
                 <div class="scontainero">

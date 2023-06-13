@@ -3,6 +3,31 @@
     <script src="//cdn.quilljs.com/1.0.0/quill.min.js"></script>
     <link href="//cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet" />
     <section id="thread-details" class="m-5">
+        {{-- <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            Delete Answer
+        </button> --}}
+          
+          <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content base-color p-3">
+                    <div class="modal-header border-bottom border-secondary">
+                        <h5 class="modal-title display-font-color" id="deleteModalLabel">Confirm Deletion</h5>
+                        <button type="button" class="btn display-font-color" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body border-0">
+                        <p class="display-font-color">Are you sure you want to delete this answer?</p>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="perform-deletion">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="d-flex flex-row my-5 justify-content-center">
 
             <div id="thread-contents-left">
@@ -11,7 +36,7 @@
                     </h2>
                     <div class="user-wrapper"
                         style="background-image:url('{{asset('assets/user_images/'.$questionThread->user->user_profile_img)}}')">
-                        <a class="d-flex align-items-center" href="profile.php?user_id=555">
+                        <a class="d-flex align-items-center" href="{{url('/profile').'/'.$questionThread->user->username}}">
                             <div class="image-evoke-update image-form-evoke user-avatar-rounded"
                                 style="background-image:url('{{asset('assets/user_images/'.$questionThread->user->user_profile_img)}}')">
                             </div>
@@ -32,7 +57,7 @@
                                         <a href="#" class="p-2"><i class="fa-solid fa-share-nodes"></i></a>
                                     </li>
                                     <li class="nav-item m-1">
-                                        <a href="#" class="p-2"><i class="fa-solid fa-trash"></i></a>
+                                        <a data-delete="question" data-bs-target="#deleteModal" data-bs-toggle="modal" class="p-2 cursor-pointer"><i class="fa-solid fa-trash"></i></a>
                                     </li>
                                 </ul>
                             </div>
@@ -249,7 +274,7 @@
                                   <div>
                                         <span class="badge bg-light text-dark">{{$relatedThread->answer_count}} answer{{$relatedThread->answer_count > 1 ? 's' : ''}}</span>
                                         @if ($relatedThread->hasAnswerVerified)
-                                            <span class="badge bg-light text-dark">answer verified <i class="fa-solid fa-circle-check"></i></span>
+                                            <span class="badge bg-light text-dark answer-verified">answer verified <i class="fa-solid fa-circle-check"></i></span>
                                         @else
                                             <span class="badge bg-light text-dark">no verified answer <i class="fa-solid fa-triangle-exclamation"></i></span>
                                         @endif
@@ -353,6 +378,8 @@
                     pushToastMessage('success',
                         'success load data', 'success')
 
+                    $('#ans-count').html(response.answers.length+' answers')
+
                     for (let i = 0; i < response.answers.length; i++) {
                         var emojiCountMap = new Map();
 
@@ -383,7 +410,8 @@
                         response.answers[i].answer_synopsis,
                         response.answers[i].ai_classification_status, response.answers[i].moderated_as,
                         response.answers[i].curr_downvote, response.answers[i].curr_upvote,
-                        emojiCountMap)
+                        emojiCountMap,
+                        response.answers[i].curr_user_owner)
                         $('#answer-box').after(newAnswerItem);
 
                     }
@@ -412,11 +440,11 @@
             });
         }
 
-        function addAnswerItem(_encrypted_id, _username, _elapsed_time, _avatar_img, _total_down, _total_up, _answer_synopsis, _ai_classification_status, _moderated_as, _curr_downvote, _curr_upvote, _emojiCountMap) {
+        function addAnswerItem(_encrypted_id, _username, _elapsed_time, _avatar_img, _total_down, _total_up, _answer_synopsis, _ai_classification_status, _moderated_as, _curr_downvote, _curr_upvote, _emojiCountMap, _curr_user_owner) {
             var threadContents = $('<div>').addClass('thread-contents-items answer-item').attr('answer-id', _encrypted_id);
 
             var userWrapper = $('<div>').addClass('thread-contents-user-wrapper thread-border-bottom');
-            var userLink = $('<a>').attr('href', 'profile.php?user_id=564').addClass('me-auto');
+            var userLink = $('<a>').attr('href', "/profile/"+_username).addClass('me-auto');
             var userDiv = $('<div>').addClass('user-wrapper');
             var userAvatar = $('<div>')
                 .addClass('image-evoke-update image-form-evoke user-avatar-rounded me-2')
@@ -546,11 +574,21 @@
             var navItem1 = $('<li>').addClass('nav-item m-1');
             var navItemLink1 = $('<a>').attr('href', '#').addClass('p-2 d-block').html($('<i>').addClass('fa-solid fa-share-nodes'));
             var navItem2 = $('<li>').addClass('nav-item m-1');
-            var navItemLink2 = $('<a>').attr('href', '#').addClass('p-2 d-block').html($('<i>').addClass('fa-solid fa-trash'));
+            var navItemLink2 = $('<a>').addClass('p-2 d-block cursor-pointer').html($('<i>').addClass('fa-solid fa-trash'));
+            navItemLink2.attr('data-bs-toggle', 'modal')
+            navItemLink2.attr('data-bs-target', '#deleteModal')
+            navItemLink2.attr('data-delete', 'answer')
 
             navItem1.append(navItemLink1);
-            navItem2.append(navItemLink2);
-            navbarNav.append(navItem1, navItem2);
+            
+
+            if(_curr_user_owner){
+                navItem2.append(navItemLink2);
+                navbarNav.append(navItem1, navItem2);
+            }else{
+                navbarNav.append(navItem1);
+            }
+            
             collapseDiv.append(navbarNav);
 
             afterMenuDiv.append(hamburgerIconDiv, collapseDiv);
@@ -927,6 +965,105 @@
 
             
         })
+
+        $(document).on('click', "a[data-bs-target='#deleteModal'][data-delete='question']", function() {
+            console.log(currentThreadID)
+            $('.modal-body > p').html('Are you sure you want to delete this question (whole threads)?')
+
+            $('#perform-deletion').off('click')
+
+            $('#perform-deletion').on('click', function () {
+
+                $('#deleteModal').modal('hide');
+                $("#backdrop-close-evoke").click();
+
+                let requestHeaders = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+                };
+                $.ajax({
+                    url: window.location.origin + "/api/" + 'thread/delete-question',
+                    method: 'DELETE',
+                    headers: requestHeaders,
+                    data: JSON.stringify({
+                        question_id: currentThreadID
+                    }),
+
+                    timeout: 5000,
+                    success: function(response) {
+                        console.log(response)
+                        if(response.message === "success"){
+                            window.location.href = window.location.origin + "/threads/";
+                        }
+
+                    },
+                    error: function() {
+                        pushToastMessage('failed',
+                            'failed, check console', 'fail')
+                    },
+                    beforeSend: function() {
+                        animateProgressBar(true)
+                    },
+                    complete: function() {
+                        $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                        $('.progress-bar').addClass('opacity-0')
+                        $('.progress-bar').removeClass('opacity-100')
+                    },
+                });
+            })
+        })
+
+        $(document).on('click', "a[data-bs-target='#deleteModal'][data-delete='answer']", function() {
+            var currentAnswerDeletion = $(this).closest('.answer-item').attr('answer-id')
+
+            $('.modal-body > p').html('Are you sure you want to delete this answer?')
+
+            $('#perform-deletion').off('click')
+
+            $('#perform-deletion').on('click', function () {
+                console.log(currentAnswerDeletion)
+
+                $('#deleteModal').modal('hide');
+                $("#backdrop-close-evoke").click();
+
+                let requestHeaders = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+                };
+                $.ajax({
+                    url: window.location.origin + "/api/" + 'thread/delete-answer',
+                    method: 'DELETE',
+                    headers: requestHeaders,
+                    data: JSON.stringify({
+                        answer_id: currentAnswerDeletion
+                    }),
+
+                    timeout: 5000,
+                    success: function(response) {
+                        console.log(response)
+                        // location.reload();
+                        loadAnswerItems()
+
+                    },
+                    error: function() {
+                        pushToastMessage('failed',
+                            'failed, check console', 'fail')
+                    },
+                    beforeSend: function() {
+                        animateProgressBar(true)
+                    },
+                    complete: function() {
+                        $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                        $('.progress-bar').addClass('opacity-0')
+                        $('.progress-bar').removeClass('opacity-100')
+                    },
+                });
+            })
+        })
+
+
     </script>
 
 @endsection

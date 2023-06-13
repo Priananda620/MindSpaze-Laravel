@@ -20,7 +20,8 @@ class Answers extends Migration
 
             $table->longText('answer_synopsis');
             $table->string('attached_img', 255)->nullable();
-            $table->boolean('isDeleted')->default(false);
+            // $table->boolean('isDeleted')->default(false);
+            $table->softDeletes();
             $table->boolean('ai_classification_status')->nullable();
             $table->boolean('moderated_as')->nullable();
             $table->timestamp('created_at', $precision = 0)->default(DB::raw('CURRENT_TIMESTAMP'));
