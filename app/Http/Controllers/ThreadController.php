@@ -46,10 +46,15 @@ class ThreadController extends Controller
             $validatedData = $request->validate([
                 'query' => 'nullable|string',
                 'tags' => 'nullable|json',
-                'limit' => 'nullable|integer'
+                'limit' => 'nullable|integer',
+                'page' => 'nullable|integer'
             ]);
 
-            $limit = $validatedData['limit'] ?? null;
+            $limit = $validatedData['limit'] ?? 12;
+
+            $page = $validatedData['page'] ?? 1;
+
+            $offset = ($page - 1) * $limit;
 
             $decodedTags = [];
             if (!empty($request->input('tags'))) {
@@ -93,9 +98,12 @@ class ThreadController extends Controller
                 }
             }
 
-            $results = $results->limit($limit);
+            $totalItems = $results->count();
+
+            $results = $results->offset($offset)->limit($limit);
             $results = $results->get();
 
+            $totalPages = ceil($totalItems / $limit);
 
 
             $results = $results->map(function ($result) {
@@ -118,7 +126,10 @@ class ThreadController extends Controller
             return response()->json([
                 'threads' => $results,
                 'total' => $results->count(),
-                'limit' => $limit ? (int)$limit : 0
+                'limit' => $limit ? (int)$limit : 0,
+                'page' => $page ? (int)$page : 0,
+                'totalItems' => $totalItems ? (int)$totalItems : 0,
+                'totalPages' => $totalPages ? (int)$totalPages : 0,
             ]);
         } catch (\Throwable $th) {
             throw $th;
@@ -201,9 +212,9 @@ class ThreadController extends Controller
             }else{
                 if(!empty($question) && $question->user_id == auth()->user()->id){
                     $question->delete();
-    
+
                     Answer::where('question_id', $question->id)->delete();
-    
+
                     return response()->json([
                         'message' => 'success'
                     ]);
@@ -283,9 +294,9 @@ class ThreadController extends Controller
 
                 if (!empty($answer->attached_img)) {
                     $base64encoded = self::encodeAnswerImageBase64($answer->attached_img);
-    
+
                     $answer_synopsis = json_decode($answer->answer_synopsis, true);
-    
+
                     if (isset($answer_synopsis['ops']) && is_array($answer_synopsis['ops'])) {
                         foreach ($answer_synopsis['ops'] as &$item) {
                             if (is_array($item) && isset($item['insert']) && is_array($item['insert']) && isset($item['insert']['image'])) {
@@ -293,7 +304,7 @@ class ThreadController extends Controller
                             }
                         }
                     }
-    
+
                     $answer->answer_synopsis = json_encode($answer_synopsis);
                 }
 
@@ -308,7 +319,7 @@ class ThreadController extends Controller
                 return $answer;
             });
 
-            
+
 
             return response()->json([
                 'answers' => $answers,
