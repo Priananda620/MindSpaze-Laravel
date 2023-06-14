@@ -1408,11 +1408,12 @@ section#heading-landing-text p {
     margin: 0 .4em;
     width: 20em;
     height: 10em;
-    background-image: url('../assets/courses/1.jpg');
+    /* background-image: url('../assets/courses/1.jpg'); */
     background-size: cover;
     background-position: center;
     position: relative;
     overflow: hidden;
+    background: lightgray;
 }
 
 #course-card-wrap>div h4 {

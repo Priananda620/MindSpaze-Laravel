@@ -62,8 +62,8 @@
                             class="fas fa-times-circle"></i></strong></div>
             @endif
             <h2>Answers To Moderate</h2>
-            <div id="course-card-scroll">
-                <div class="d-inline-flex" id="course-card-wrap">
+            <div id="course-card-scroll" class="hide-scrollbar1">
+                <div class="d-inline-flex hide-scrollbar1 hide-scrollbar2" id="course-card-wrap">
 
 
                     @forelse ($answers as $answer)

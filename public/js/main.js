@@ -896,6 +896,40 @@ $(document).ready(() => {
     })
 
     ///////////////////////////////////////////////////////////////////////////
+
+    var currentPage = 1
+
+    function updatePagination(totalPages) {
+        $('.pagination').empty();
+
+        // Create the pagination pages
+        for (var i = 1; i <= totalPages; i++) {
+            var pageElement = $('<li class="page-item"><a class="page-link">' + i + '</a></li>');
+
+            // Set the active class for the current page
+            if (i === currentPage) {
+                pageElement.addClass('active');
+            }else{
+                pageElement.addClass('cursor-pointer');
+            }
+
+            // Add click event listener to the page link
+            pageElement.find('a').click(function () {
+                if(!$(this).parent('li').hasClass('active')){
+                    var newPage = $(this).text();
+                    currentPage = parseInt(newPage); // Update the current page
+                    // getThreads(currentPage); // Fetch the threads for the new page
+                    fetchNonHeaderSearchResults()
+                }
+                
+            });
+
+            // Append the page element to the pagination
+            $('.pagination').append(pageElement);
+        }
+    }
+
+
     function fetchNonHeaderSearchResults() {
         let query = nonHeaderSearch.val();
         nonHeaderSearchResults.html('<div class="skeleton-row p-4 skeleton"></div>'.repeat(10)); // Show skeleton loading
@@ -917,11 +951,13 @@ $(document).ready(() => {
             headers: requestHeaders,
             data: JSON.stringify({
                 query: query,
-                tags: tagsSelectedEncIDJSON
+                tags: tagsSelectedEncIDJSON,
+                page: currentPage
             }),
             timeout: 5000,
             success: function (response) {
                 displayNonHeaderSearchResults(response);
+                updatePagination(response.totalPages)
                 pushToastMessage('success', 'data has been loaded successfully', 'success')
             },
             error: function () {
