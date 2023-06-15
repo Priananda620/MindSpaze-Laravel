@@ -155,7 +155,7 @@
                             },
                             error: function (xhr, status, error) {
                                 if (xhr.status === 401 || xhr.status === 422) {
-                                    pushToastMessage(error, "email or username exist", 'fail')
+                                    pushToastMessage(error, "email or username or phone exist", 'fail')
                                 }else if(xhr.status === 500) {
                                     pushToastMessage('failed', 'fail to request to the server', 'fail')
                                 }else{

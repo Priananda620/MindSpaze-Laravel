@@ -884,12 +884,17 @@ $(document).ready(() => {
     });
 
     //////////////////////////////////////////////////////////////////////////
+    var currentPage = 1
+
     var nonHeaderSearch = $('.search-not-header')
     var nonHeaderSearchResults = $('#nonHeaderSearchResults')
 
     nonHeaderSearch.on('input', () => {
         // searchResults.empty();
         // searchResults.show();
+        document.documentElement.scrollTop = 0
+        currentPage = 1
+
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(fetchNonHeaderSearchResults, debounceDelay);
         console.log("GOT DEBOUNCE")
@@ -897,7 +902,7 @@ $(document).ready(() => {
 
     ///////////////////////////////////////////////////////////////////////////
 
-    var currentPage = 1
+   
 
     function updatePagination(totalPages) {
         $('.pagination').empty();
@@ -916,10 +921,17 @@ $(document).ready(() => {
             // Add click event listener to the page link
             pageElement.find('a').click(function () {
                 if(!$(this).parent('li').hasClass('active')){
+                    
                     var newPage = $(this).text();
                     currentPage = parseInt(newPage); // Update the current page
-                    // getThreads(currentPage); // Fetch the threads for the new page
-                    fetchNonHeaderSearchResults()
+
+                    document.documentElement.scrollTop = 0
+                    setTimeout(function () {
+
+                        // getThreads(currentPage); // Fetch the threads for the new page
+                        fetchNonHeaderSearchResults()
+                    }, 500);
+                    
                 }
                 
             });
@@ -987,11 +999,6 @@ $(document).ready(() => {
 
                 $('.progress-bar').addClass('opacity-0')
                 $('.progress-bar').removeClass('opacity-100')
-
-
-                // setInterval(function () {
-                //     $('.progress-bar').css('width', '0%').attr('aria-valuenow', 0);
-                // }, 600);
             },
         });
 

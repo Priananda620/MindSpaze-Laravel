@@ -58,9 +58,12 @@
                     <div></div>
 
                 </h1>
-                <form method="GET">
-                    <input type="search" name="search-query" class="bg-inherit-text" placeholder="search mindspaze for topics..." value="" required="">
-                </form>
+                @auth
+                    <form method="GET" action="{{url('/threads')}}">
+                        <input type="search" name="query" class="bg-inherit-text" placeholder="search mindspaze for topics..." value="" required="">
+                    </form>
+                @endauth
+                
                 <p>
                     Hello there — <span class="fw-bold">MindSpaze AI</span> is
                     a fully featured web and app platform for finding your right answer. Browse thousands of threads

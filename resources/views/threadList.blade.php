@@ -21,7 +21,7 @@
                 <div id="chips-filter" class="overflow-scroll d-flex hide-scrollbar1 hide-scrollbar2">
                     {{-- <button class="badge bg-dark">Primary</button> --}}
                     @foreach ($tags as $tag)
-                        <button data-tag-id="{{ $tag->encryptedId }}" class="badge bg-dark">{{ $tag->tag_name }}</button>
+                        <button data-tag-id="{{ $tag->encryptedId }}" class="badge bg-dark">{{ $tag->tag_name }} ({{$tag->question_tag_count}})</button>
                     @endforeach
                 </div>
             </div>

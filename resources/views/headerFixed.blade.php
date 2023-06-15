@@ -20,7 +20,8 @@
         <div id="written-by" class="d-flex align-items-center">
             <h4 class="my-0">Written In&nbsp;&nbsp;<i class="fa-brands fa-python"></i>&nbsp;<i class="fa-brands fa-laravel"></i></h4>
         </div>
-        <div class="d-flex flex-row me-3 position-relative" id="header-nav">
+        
+        <div class="d-flex flex-row me-3 position-relative {{!auth()->check() ? 'invisible ' : ''}}" id="header-nav">
             <form method="GET" action="{{url('/threads')}}">
                 <input id="search-input" type="search" name="query" class="bg-inherit-text form-control ds-input" placeholder="search mindspaze..." value="" required="">
             </form>

@@ -28,6 +28,27 @@
             </div>
         </div>
 
+        <div class="modal fade" id="moderationModal" tabindex="-1" aria-labelledby="moderationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content base-color p-3">
+                    <div class="modal-header border-bottom border-secondary">
+                        <h5 class="modal-title display-font-color" id="moderationModalLabel">Confirm Moderation</h5>
+                        <button type="button" class="btn display-font-color" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body border-0">
+                        <p class="display-font-color">Are you sure you want to mark this answer as true/false?</p>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="perform-moderation">Continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="d-flex flex-row my-5 justify-content-center">
 
             <div id="thread-contents-left">
@@ -593,9 +614,15 @@
 
             var navItem3 = $('<li>').addClass('nav-item m-1 bg-success text-light');
             var navItemLink3 = $('<a>').addClass('p-2 d-block cursor-pointer').html($('<i>').addClass('fa-solid fa-square-check'));
+            navItemLink3.attr('data-bs-toggle', 'modal')
+            navItemLink3.attr('data-bs-target', '#moderationModal')
+            navItemLink3.attr('data-moderation', 'true')
 
             var navItem4 = $('<li>').addClass('nav-item m-1 bg-danger text-light');
             var navItemLink4 = $('<a>').addClass('p-2 d-block cursor-pointer').html($('<i>').addClass('fa-solid fa-square-xmark'));
+            navItemLink4.attr('data-bs-toggle', 'modal')
+            navItemLink4.attr('data-bs-target', '#moderationModal')
+            navItemLink4.attr('data-moderation', 'false')
 
             navItem1.append(navItemLink1);
 
@@ -609,13 +636,11 @@
             }
             
             if(_curr_user_auth_is_admin){
-                navItem2.append(navItemLink2);
                 navItem3.append(navItemLink3)
                 navItem4.append(navItemLink4)
 
                 navbarNav.append(navItem3);
                 navbarNav.append(navItem4);
-                navbarNav.append(navItem2);
             }
             
             navbarNav.append(navItem1);
@@ -999,7 +1024,7 @@
 
         $(document).on('click', "a[data-bs-target='#deleteModal'][data-delete='question']", function() {
             console.log(currentThreadID)
-            $('.modal-body > p').html('Are you sure you want to delete this question (whole threads)?')
+            $('#deleteModal .modal-body > p').html('Are you sure you want to delete this question (whole threads)?')
 
             $('#perform-deletion').off('click')
 
@@ -1048,7 +1073,7 @@
         $(document).on('click', "a[data-bs-target='#deleteModal'][data-delete='answer']", function() {
             var currentAnswerDeletion = $(this).closest('.answer-item').attr('answer-id')
 
-            $('.modal-body > p').html('Are you sure you want to delete this answer?')
+            $('#deleteModal .modal-body > p').html('Are you sure you want to delete this answer?')
 
             $('#perform-deletion').off('click')
 
@@ -1075,6 +1100,110 @@
                     success: function(response) {
                         console.log(response)
                         // location.reload();
+                        loadAnswerItems()
+
+                    },
+                    error: function() {
+                        pushToastMessage('failed',
+                            'failed, check console', 'fail')
+                    },
+                    beforeSend: function() {
+                        animateProgressBar(true)
+                    },
+                    complete: function() {
+                        $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                        $('.progress-bar').addClass('opacity-0')
+                        $('.progress-bar').removeClass('opacity-100')
+                    },
+                });
+            })
+        })
+
+
+        $(document).on('click', "a[data-bs-target='#moderationModal'][data-moderation='true']", function() {
+            var currentModeration = $(this).closest('.answer-item').attr('answer-id')
+
+            $('#moderationModal .modal-body > p').html('Are you sure you want to moderate this answer as true?')
+
+            $('#perform-moderation').off('click')
+
+            $('#perform-moderation').on('click', function () {
+                console.log(currentModeration)
+
+                $('#moderationModal').modal('hide');
+                $("#backdrop-close-evoke").click();
+
+                let requestHeaders = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+                };
+                $.ajax({
+                    url: window.location.origin + "/api/" + 'thread/moderate-true',
+                    method: 'POST',
+                    headers: requestHeaders,
+                    data: JSON.stringify({
+                        answer_id: currentModeration
+                    }),
+
+                    timeout: 5000,
+                    success: function(response) {
+                        console.log(response)
+
+                        pushToastMessage('success',
+                            'success true moderation', 'success')
+
+                        loadAnswerItems()
+
+                    },
+                    error: function() {
+                        pushToastMessage('failed',
+                            'failed, check console', 'fail')
+                    },
+                    beforeSend: function() {
+                        animateProgressBar(true)
+                    },
+                    complete: function() {
+                        $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                        $('.progress-bar').addClass('opacity-0')
+                        $('.progress-bar').removeClass('opacity-100')
+                    },
+                });
+            })
+        })
+
+        $(document).on('click', "a[data-bs-target='#moderationModal'][data-moderation='false']", function() {
+            var currentModeration = $(this).closest('.answer-item').attr('answer-id')
+
+            $('#moderationModal .modal-body > p').html('Are you sure you want to moderate this answer as false?')
+
+            $('#perform-moderation').off('click')
+
+            $('#perform-moderation').on('click', function () {
+                console.log(currentModeration)
+
+                $('#moderationModal').modal('hide');
+                $("#backdrop-close-evoke").click();
+
+                let requestHeaders = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+                };
+                $.ajax({
+                    url: window.location.origin + "/api/" + 'thread/moderate-false',
+                    method: 'POST',
+                    headers: requestHeaders,
+                    data: JSON.stringify({
+                        answer_id: currentModeration
+                    }),
+
+                    timeout: 5000,
+                    success: function(response) {
+                        console.log(response)
+                        pushToastMessage('success',
+                            'success false moderation', 'success')
+                        
                         loadAnswerItems()
 
                     },

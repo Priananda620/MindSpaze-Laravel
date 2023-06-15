@@ -3,7 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ModerateController;
 use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\VoteController;
+use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,7 +24,7 @@ use App\Http\Controllers\ThreadController;
 // });
 
 Route::post('/login', [AuthController::class, 'Login'])->name('loginApi');
-Route::post('/register', [AuthController::class, 'register'])->name('registerApi');
+Route::post('/register', [UserController::class, 'register'])->name('registerApi');
 
 // Route::post('/loginWeb', [AuthController::class, 'LoginWeb']);
 
@@ -39,12 +43,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('/answers', [ThreadController::class, 'getAnswers']);
 
-        Route::post('/up-vote', [ThreadController::class, 'upVote']);
-        Route::post('/down-vote', [ThreadController::class, 'downVote']);
+        Route::post('/up-vote', [VoteController::class, 'upVote']);
+        Route::post('/down-vote', [VoteController::class, 'downVote']);
+
+        Route::post('/moderate-true', [ModerateController::class, 'moderateAsTrue']);
+        Route::post('/moderate-false', [ModerateController::class, 'moderateAsFalse']);
     });
 
 
-    Route::get('/user', [AuthController::class, 'getUser']);
+    Route::get('/user', [UserController::class, 'getUser']);
 
     // Route::get('/get-threads', [ThreadController::class, 'getThreads']);
     Route::match(['GET', 'POST'], '/get-threads', [ThreadController::class, 'getThreads']);

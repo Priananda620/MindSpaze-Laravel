@@ -33,7 +33,7 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::get('/thread-detail', [HomeController::class, 'test'])->name('threaddetail');
+// Route::get('/thread-detail', [HomeController::class, 'test'])->name('threaddetail');
 
 Route::get('/test', [AuthController::class, 'test'])->name('test');
 
@@ -44,7 +44,7 @@ Route::middleware(['guest'])->group(function () {
     // Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
 
     Route::post('/loginWeb', [AuthController::class, 'loginWeb'])->name('loginWeb');
-    Route::post('/registerWeb', [AuthController::class, 'registerWeb'])->name('registerWeb');
+    // Route::post('/registerWeb', [AuthController::class, 'registerWeb'])->name('registerWeb');
 });
 
 

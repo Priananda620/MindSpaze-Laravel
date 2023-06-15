@@ -3,13 +3,22 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'dcf95b76920a34a0f8a8443f5b1537d805e987d7',
+        'reference' => '905a41945c21a9a5411800b990aeced3e1ac81e0',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'andyabih/laravel-to-uml' => array(
+            'pretty_version' => '1.0.3',
+            'version' => '1.0.3.0',
+            'reference' => 'd925215a7dbcaf813cabc8d83178e9f601c63b57',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../andyabih/laravel-to-uml',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'asm89/stack-cors' => array(
             'pretty_version' => 'v2.1.1',
             'version' => '2.1.1.0',
@@ -397,7 +406,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'dcf95b76920a34a0f8a8443f5b1537d805e987d7',
+            'reference' => '905a41945c21a9a5411800b990aeced3e1ac81e0',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
