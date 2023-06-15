@@ -638,6 +638,8 @@
             if(_curr_user_auth_is_admin){
                 navItem3.append(navItemLink3)
                 navItem4.append(navItemLink4)
+                navItem2.append(navItemLink2);
+                navbarNav.append(navItem2);
 
                 navbarNav.append(navItem3);
                 navbarNav.append(navItem4);

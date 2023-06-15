@@ -121,7 +121,7 @@
 
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-4 label">Job</div>
-                                                <div class="col-lg-9 col-md-8">{{!! $currentUser->job == null ? "<span id='threadList-totalData' class='badge bg-secondary'>empty</span>": $currentUser->job !!}}</div>
+                                                <div class="col-lg-9 col-md-8">{!! $currentUser->job == null ? "{<span id='threadList-totalData' class='badge bg-secondary'>empty</span>}": $currentUser->job !!}</div>
                                             </div>
 
                                             <div class="row">
@@ -131,7 +131,7 @@
 
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-4 label">Last Login IP</div>
-                                                <div class="col-lg-9 col-md-8">{{!! $currentUser->job == null? "<span id='threadList-totalData' class='badge bg-secondary'>empty</span>": $currentUser->last_ip !!}}</div>
+                                                <div class="col-lg-9 col-md-8">{!! $currentUser->last_ip == null? "{<span id='threadList-totalData' class='badge bg-secondary'>empty</span>}": $currentUser->last_ip !!}</div>
                                             </div>
 
                                             <div class="row">
