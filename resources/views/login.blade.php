@@ -30,10 +30,16 @@
                     <input type="password" name="password" class="form-input" required="">
 
 
-                    <div>
-                        <input style="width: fit-content" id="form-remember-me" type="checkbox" name="remember"
+                    <div class="d-flex justify-content-between mt-3">
+                        <div class="d-inline-flex">
+                            <input class="m-0 me-1" style="width: fit-content" id="form-remember-me" type="checkbox" name="remember"
                             class="form-input">
-                        <label for="form-remember-me">remember me&nbsp;</label>
+                            <label class="m-0" for="form-remember-me">remember me&nbsp;</label>
+                        </div>
+
+                        <div>
+                            <a href="{{url('/forgot-password')}}" style="color: var(--yellow)">Forgot Password</a>
+                        </div>
                     </div>
 
 
