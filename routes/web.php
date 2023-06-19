@@ -40,7 +40,7 @@ Route::get('/', function () {
 
 // Route::get('/thread-detail', [HomeController::class, 'test'])->name('threaddetail');
 
-Route::get('/test', [AuthController::class, 'test'])->name('test');
+Route::get('/test', [ThreadController::class, 'test'])->name('test');
 
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 

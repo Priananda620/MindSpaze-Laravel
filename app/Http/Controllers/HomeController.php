@@ -73,6 +73,8 @@ class HomeController extends Controller
 
                 $country = json_decode($country, true);
 
+                $encrypted_userId = Crypt::encryptString($currentUser->id);
+
                 $user_stats = [];
 
                 $user_stats['total_question'] = Question::where('user_id', $currentUser->id)->count();
@@ -84,7 +86,7 @@ class HomeController extends Controller
 
                 $user_stats['total_answerAiTrue'] = Answer::where('user_id', $currentUser->id)->where('ai_classification_status', 1)->count();
                 $user_stats['total_answerAiFalse'] = Answer::where('user_id', $currentUser->id)->where('ai_classification_status', 0)->count();
-                return view('profile', compact('country', 'currentUser', 'user_stats'));
+                return view('profile', compact('country', 'currentUser', 'user_stats', 'encrypted_userId'));
             } else {
                 return redirect('/profile/' . auth()->user()->username);
             }

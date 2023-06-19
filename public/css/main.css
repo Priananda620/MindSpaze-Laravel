@@ -208,6 +208,10 @@ header>#header {
     cursor:  pointer !important;
 }
 
+.cursor-unset{
+    cursor:  unset !important;
+}
+
 .w-100px{
     width: 100px !important;
 }
@@ -1550,7 +1554,7 @@ h3>.divider {
 }
 
 
-#chips-filter .badge {
+#chips-filter .badge,  #chips-filter-profile .badge{
     border: none !important;
     padding: 1.2em;
     margin: 0 .4em !important;

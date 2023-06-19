@@ -28,6 +28,73 @@ use Ramsey\Uuid\Type\Integer;
 
 class ThreadController extends Controller
 {
+
+    public function test()
+    {
+        $answerCondition = false;  // Default is to filter where answer is null
+        $moderatedAs = 1;  // Default is to ignore this condition
+        $aiClassificationStatus = null;  // Default is to ignore this condition
+
+        if ($answerCondition) {
+
+            $results = Question::with('user', 'answer')
+                ->select('questions.*')
+                ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
+                ->where('questions.user_id', auth()->user()->id)
+                ->whereNull('answers.id')
+                ->orderBy('created_at', 'asc')
+                ->distinct()
+                ->get();
+        } else if ($moderatedAs) {
+            $results = Question::with('user', 'answer')
+                ->select('questions.*')
+                ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
+                ->where('questions.user_id', auth()->user()->id)
+                ->whereNotNull('answers.id')
+                ->when(!is_null($moderatedAs), function ($query) use ($moderatedAs) {
+                    return $query->where('answers.moderated_as', $moderatedAs);
+                })
+                ->orderBy('created_at', 'asc')
+                ->distinct()
+                ->get();
+        } else if ($aiClassificationStatus) {
+            $results = Question::with('user', 'answer')
+                ->select('questions.*')
+                ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
+                ->where('questions.user_id', auth()->user()->id)
+                ->whereNotNull('answers.id')
+                ->when(!is_null($aiClassificationStatus), function ($query) use ($aiClassificationStatus) {
+                    return $query->where('answers.ai_classification_status', $aiClassificationStatus);
+                })
+                ->orderBy('created_at', 'asc')
+                ->distinct()
+                ->get();
+        }
+
+        // $results = Question::with('user', 'answer')
+        // ->select('questions.*')
+        // ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
+        // ->where('questions.user_id', auth()->user()->id)
+        // ->when($answerCondition, function ($query) {
+        //     return $query->whereNull('answers.id');
+        // }, function ($query) {
+        //     return $query->whereNotNull('answers.id');
+        // })
+        // ->when(!is_null($moderatedAs), function ($query) use ($moderatedAs) {
+        //     return $query->where('answers.moderated_as', $moderatedAs);
+        // })
+        // ->when(!is_null($aiClassificationStatus), function ($query) use ($aiClassificationStatus) {
+        //     return $query->where('answers.ai_classification_status', $aiClassificationStatus);
+        // })
+        // ->orderBy('created_at', 'asc')
+        // ->distinct()
+        // ->get();
+
+        // $results = Question::where('user_id', auth()->user()->id)->get();
+
+        print_r($results);
+    }
+
     private static function guidv4($data = null)
     {
         $data = $data ?? random_bytes(16);
@@ -141,41 +208,127 @@ class ThreadController extends Controller
         }
     }
 
-    public function deleteAnswer(Request $request) {
+
+
+    public function getUserThreads(Request $request)
+    {
         try {
             $validatedData = $request->validate([
-                'answer_id' => 'required|string'
+                'user_id' => 'required|string',
+                'date' => 'required|string',
+                'filter_by' => 'required|string',
+                'limit' => 'nullable|integer',
+                'page' => 'nullable|integer'
             ]);
 
-            $answer = Answer::where('id', Crypt::decryptString($request->input('answer_id')))->first();
+            $limit = $validatedData['limit'] ?? 12;
 
-            if(auth()->user()->user_role === 1){ //admin
-                if(!empty($answer)){
-                    $answer->delete();
+            $page = $validatedData['page'] ?? 1;
 
-                    return response()->json([
-                        'message' => 'success'
-                    ]);
-                }else{
-                    return response()->json([
-                        'message' => 'The given data was invalid.'
-                    ], 422);
-                }
-            }else{
+            $offset = ($page - 1) * $limit;
 
-                if(!empty($answer) && $answer->user_id == auth()->user()->id){
-                    $answer->delete();
 
-                    return response()->json([
-                        'message' => 'success'
-                    ]);
-                }else{
-                    return response()->json([
-                        'message' => 'The given data was invalid.'
-                    ], 422);
-                }
+            $user = User::where('id', Crypt::decryptString($request->input('user_id')))->first();
+
+            if (strtolower(trim($request->input('date'))) == 'oldest') {
+                $orderBy = 'asc';
+            } else {
+                $orderBy = 'desc';
             }
 
+            $answerCondition = '';
+            $filterBy = strtolower(trim($request->input('filter_by')));
+
+            $moderatedAs = null;
+            $aiClassificationStatus = null;
+
+            // echo "---- " . $filterBy;
+
+            if ($filterBy === 'unanswered') {
+                // echo "11111111";
+                $answerCondition = 'unanswered';
+            } else if ($filterBy === 'answered') {
+                // echo "2222222";
+                $answerCondition = 'answered';
+            }
+
+            if ($filterBy === 'potential_true') {
+                // echo "3333333333";
+                $aiClassificationStatus = 2;
+            } else if ($filterBy === 'potential_false') {
+                // echo "4444444";
+                $aiClassificationStatus = 1;
+            }
+
+            if ($filterBy === 'marked_true') {
+                // echo "5555555";
+                $moderatedAs = 2;
+            } else if ($filterBy === 'marked_false') {
+                // echo "6666666";
+                $moderatedAs = 1;
+            }
+
+
+            $results = Question::with('user', 'answer')
+                ->select('questions.*')
+                ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
+                ->where('questions.user_id', $user->id);
+
+            if (!empty($answerCondition) && $answerCondition == 'unanswered') {
+                $results->whereNull('answers.id');
+                // echo 'ONEEEE';
+            }else if (!empty($answerCondition) || $answerCondition == 'answered') { 
+                $results->whereNotNull('answers.id');
+                // echo 'ONEEEE22';
+            }else if ($moderatedAs!= null && $moderatedAs == 1 || $moderatedAs == 2) {
+                $results->whereNotNull('answers.id')
+                    ->where('answers.moderated_as', --$moderatedAs);
+                    // echo 'TWOOOOO';
+            } else if ($aiClassificationStatus!=null && $aiClassificationStatus == 1 || $aiClassificationStatus == 2) {
+                $results->whereNotNull('answers.id')
+                    ->where('answers.ai_classification_status', --$aiClassificationStatus);
+                    // echo 'THREEE';
+            }
+
+            $results->orderBy('created_at', $orderBy)
+                ->distinct();
+
+
+            ////////////////////////////////////
+
+            $totalItems = $results->count();
+
+            $results = $results->offset($offset)->limit($limit);
+            $results = $results->get();
+
+            $totalPages = ceil($totalItems / $limit);
+
+
+            $results = $results->map(function ($result) {
+                $result->encrypted_id = Crypt::encryptString($result->id);
+                $createdAt = Carbon::parse($result->created_at);
+                $result->elapsed_time = $createdAt->diffForHumans();
+
+                $hasAnswerVerified = $result->answer->contains(function ($answer) {
+                    $ai_classification_status = $answer->ai_classification_status;
+                    $moderated_as = $answer->moderated_as;
+
+                    $boolHasVerified = $ai_classification_status && $moderated_as;
+                    // $boolHasVerified = strpos($ai_classification_status, 'fact') !== false || strpos($ai_classification_status, 'potential true') && $moderated_as == 'true';
+                    return $boolHasVerified;
+                });
+                $result->hasAnswerVerified = $hasAnswerVerified;
+                return $result;
+            });
+
+            return response()->json([
+                'threads' => $results,
+                'total' => $results->count(),
+                'limit' => $limit ? (int)$limit : 0,
+                'page' => $page ? (int)$page : 0,
+                'totalItems' => $totalItems ? (int)$totalItems : 0,
+                'totalPages' => $totalPages ? (int)$totalPages : 0,
+            ]);
         } catch (\Throwable $th) {
             throw $th;
         } catch (ValidationException $exception) {
@@ -186,7 +339,53 @@ class ThreadController extends Controller
         }
     }
 
-    public function deleteQuestion(Request $request) {
+    public function deleteAnswer(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'answer_id' => 'required|string'
+            ]);
+
+            $answer = Answer::where('id', Crypt::decryptString($request->input('answer_id')))->first();
+
+            if (auth()->user()->user_role === 1) { //admin
+                if (!empty($answer)) {
+                    $answer->delete();
+
+                    return response()->json([
+                        'message' => 'success'
+                    ]);
+                } else {
+                    return response()->json([
+                        'message' => 'The given data was invalid.'
+                    ], 422);
+                }
+            } else {
+
+                if (!empty($answer) && $answer->user_id == auth()->user()->id) {
+                    $answer->delete();
+
+                    return response()->json([
+                        'message' => 'success'
+                    ]);
+                } else {
+                    return response()->json([
+                        'message' => 'The given data was invalid.'
+                    ], 422);
+                }
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
+    }
+
+    public function deleteQuestion(Request $request)
+    {
         try {
             $validatedData = $request->validate([
                 'question_id' => 'required|string'
@@ -194,8 +393,8 @@ class ThreadController extends Controller
 
             $question = Question::where('id', Crypt::decryptString($request->input('question_id')))->first();
 
-            if(auth()->user()->user_role === 1){ //admin
-                if(!empty($question)){
+            if (auth()->user()->user_role === 1) { //admin
+                if (!empty($question)) {
 
                     $question->delete();
 
@@ -204,13 +403,13 @@ class ThreadController extends Controller
                     return response()->json([
                         'message' => 'success'
                     ]);
-                }else{
+                } else {
                     return response()->json([
                         'message' => 'The given data was invalid.'
                     ], 422);
                 }
-            }else{
-                if(!empty($question) && $question->user_id == auth()->user()->id){
+            } else {
+                if (!empty($question) && $question->user_id == auth()->user()->id) {
                     $question->delete();
 
                     Answer::where('question_id', $question->id)->delete();
@@ -218,13 +417,12 @@ class ThreadController extends Controller
                     return response()->json([
                         'message' => 'success'
                     ]);
-                }else{
+                } else {
                     return response()->json([
                         'message' => 'The given data was invalid.'
                     ], 422);
                 }
             }
-
         } catch (\Throwable $th) {
             throw $th;
         } catch (ValidationException $exception) {
@@ -271,26 +469,26 @@ class ThreadController extends Controller
                 $answer->encrypted_id = Crypt::encryptString($answer->id);
 
 
-                $curr_upvote = $answer->upvote->contains(function ($upvote){
-                    if($upvote->user_id == auth()->user()->id){
+                $curr_upvote = $answer->upvote->contains(function ($upvote) {
+                    if ($upvote->user_id == auth()->user()->id) {
                         $upvote_user_bool = true;
-                    }else{
+                    } else {
                         $upvote_user_bool = false;
                     }
 
                     return $upvote_user_bool;
                 });
-                $curr_downvote = $answer->downvote->contains(function ($downvote){
-                    if($downvote->user_id == auth()->user()->id){
+                $curr_downvote = $answer->downvote->contains(function ($downvote) {
+                    if ($downvote->user_id == auth()->user()->id) {
                         $downvote_user_bool = true;
-                    }else{
+                    } else {
                         $downvote_user_bool = false;
                     }
 
                     return $downvote_user_bool;
                 });
 
-                $curr_user_owner = $answer->user->id == auth()->user()->id? true : false;
+                $curr_user_owner = $answer->user->id == auth()->user()->id ? true : false;
 
                 if (!empty($answer->attached_img)) {
                     $base64encoded = self::encodeAnswerImageBase64($answer->attached_img);
@@ -465,11 +663,11 @@ class ThreadController extends Controller
 
             $answer = Answer::where('id', Crypt::decryptString($request->input('answer_id')))->first();
 
-            if(empty($answer)){
+            if (empty($answer)) {
                 return response()->json([
                     'message' => 'The given data was invalid.'
                 ], 422);
-            }else{
+            } else {
                 $newReaction = new Reaction;
                 $newReaction->user_id = auth()->user()->id;
                 $newReaction->answer_id = $answer->id;
@@ -698,7 +896,6 @@ class ThreadController extends Controller
                     'payload' => base64_decode($base64Data, true) !== false,
                     'file_extension' => $fileExtension
                 ]);
-
             } else {
                 return response()->json([
                     'message' => 'The given data was invalid.'

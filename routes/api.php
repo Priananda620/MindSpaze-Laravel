@@ -56,6 +56,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/update-details', [UserController::class, 'updateDetails']);
 
         Route::post('/change-password', [UserController::class, 'changePassword']);
+
+        Route::get('/get-threads', [ThreadController::class, 'getUserThreads']);
     });
 
 

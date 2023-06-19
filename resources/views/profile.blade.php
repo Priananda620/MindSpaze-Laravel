@@ -93,7 +93,7 @@
 
                     <div class="tab-pane fade show" id="profile-details-tab" role="tabpanel">
                         <div class="row">
-                            <div class="card">
+                            <div class="card cursor-unset">
                                 <div class="card-body pt-3">
                                     <!-- Bordered Tabs -->
                                     <ul class="nav nav-pills" role="tablist">
@@ -118,7 +118,9 @@
                                             <p class="small fst-italic">Your profile details should be accurate and up-to-date. 
                                                 Please ensure the information you provide is true and complete. 
                                                 We respect your privacy and will handle your profile details in accordance with your privacy regards.
+
                                             </p>
+                                            <a class="badge bg-light text-dark me-1 mt-1" href="/about#community-guidelines">Community Guidelines</a>
 
                                             <h4 class="card-title mt-4">Profile Details</h4>
 
@@ -202,7 +204,7 @@
                     @if ($currentUser-> id == auth()->user()->id)
                         <div class="tab-pane fade show active" id="profile-details-tab" role="tabpanel">
                             <div class="row">
-                                <div class="card">
+                                <div class="card cursor-unset">
                                     <div class="card-body pt-3">
                                         <!-- Bordered Tabs -->
                                         <ul class="nav nav-pills" role="tablist">
@@ -240,7 +242,10 @@
                                                 <p class="small fst-italic">Your profile details should be accurate and up-to-date. 
                                                     Please ensure the information you provide is true and complete. 
                                                     We respect your privacy and will handle your profile details in accordance with your privacy regards.
+                                                    
+                                                    
                                                 </p>
+                                                <a class="badge bg-light text-dark me-1 mt-1" href="/about#community-guidelines">Community Guidelines</a>
 
                                                 <h4 class="card-title mt-4">Profile Details</h4>
 
@@ -478,180 +483,47 @@
                             {{-- <h4 class="fw-bold">Questions</h4> --}}
                             <div class="filter-header d-flex flex-row align-items-center">
                                 <div class="dropdown me-3">
-                                    <input type="hidden" id="selected-option">
+                                    <input type="hidden" id="selected-option" value="latest">
                                     <button selected-value="Latest" class="btn btn-secondary dropdown-toggle" type="button"
                                         id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         Latest
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item" data-value="Latest">Latest</a></li>
-                                        <li><a class="dropdown-item" data-value="Unanswered">Oldest</a></li>
-                                        <li><a class="dropdown-item" data-value="Popular">Popular</a></li>
+                                        <li><a class="dropdown-item cursor-pointer" data-value="Latest">Latest</a></li>
+                                        <li><a class="dropdown-item cursor-pointer" data-value="Oldest">Oldest</a></li>
                                     </ul>
                                 </div>
-                                <div id="chips-filter" class="overflow-scroll d-flex hide-scrollbar1 hide-scrollbar2">
-                                    <button class="badge bg-dark">All Question</button>
-                                    <button class="badge bg-dark">Question Answered</button>
-                                    <button class="badge bg-dark">Unanswered</button>
-                                    <button class="badge bg-dark">Verified By AI</button>
-                                    <button class="badge bg-dark">Moderated</button>
-                                    <button class="badge bg-dark">Misleading</button>
-                                    <button class="badge bg-dark">Potential False</button>
+                                <div id="chips-filter-profile" class="overflow-scroll d-flex hide-scrollbar1 hide-scrollbar2">
+                                    <button class="badge chips-first-select bg-secondary" filter-value="ALL_QUESTION">All Question</button>
+                                    <button class="badge bg-dark" filter-value="ANSWERED">Question Answered</button>
+                                    <button class="badge bg-dark" filter-value="UNANSWERED">Unanswered</button>
+                                    <button class="badge bg-dark" filter-value="POTENTIAL_TRUE">Potential True</button>
+                                    <button class="badge bg-dark" filter-value="POTENTIAL_FALSE">Potential False</button>
+                                    <button class="badge bg-dark" filter-value="MARKED_FALSE">Marked False</button>
+                                    <button class="badge bg-dark" filter-value="MARKED_TRUE">Marked True</button>
                                 </div>
+                                <input type="hidden" id="profileQuestionInputDebounce">
                             </div>
-                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-3">
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-3" id="profileQuestionCardResults">
                                 <!-- Card 1 -->
-                                <div class="col">
-                                    <div class="card h-100">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="user-avatar-rounded me-2"
-                                                    style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;">
-                                                </div>
-                                                <h6 class="card-subtitle text-muted me-2">azhar620</h6>
-                                                <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)"
-                                                    data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                                            </div>
-                                            <h5 class="card-title">Card Title</h5>
-                                            <div class="d-inline-flex">
-                                                <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                            </div>
-                                            <div>
-                                                <span class="badge bg-light text-dark">5 answers</span>
-                                                <span class="badge bg-light text-dark">answer verified <i
-                                                        class="fa-solid fa-circle-check"></i></span>
-                                                <a href="#" class="card-link float-end"><i
-                                                        class="fa-solid fa-share-from-square"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="card h-100">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="user-avatar-rounded me-2"
-                                                    style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;">
-                                                </div>
-                                                <h6 class="card-subtitle text-muted me-2">azhar620</h6>
-                                                <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)"
-                                                    data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                                            </div>
-                                            <h5 class="card-title">Card Title</h5>
-                                            <div class="d-inline-flex">
-                                                <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                            </div>
-                                            <div>
-                                                <span class="badge bg-light text-dark">5 answers</span>
-                                                <span class="badge bg-light text-dark">answer verified <i
-                                                        class="fa-solid fa-circle-check"></i></span>
-                                                <a href="#" class="card-link float-end"><i
-                                                        class="fa-solid fa-share-from-square"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="card h-100">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="user-avatar-rounded me-2"
-                                                    style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;">
-                                                </div>
-                                                <h6 class="card-subtitle text-muted me-2">azhar620</h6>
-                                                <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)"
-                                                    data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                                            </div>
-                                            <h5 class="card-title">Card Title</h5>
-                                            <div class="d-inline-flex">
-                                                <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                            </div>
-                                            <div>
-                                                <span class="badge bg-light text-dark">5 answers</span>
-                                                <span class="badge bg-light text-dark">answer verified <i
-                                                        class="fa-solid fa-circle-check"></i></span>
-                                                <a href="#" class="card-link float-end"><i
-                                                        class="fa-solid fa-share-from-square"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="card h-100">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="user-avatar-rounded me-2"
-                                                    style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;">
-                                                </div>
-                                                <h6 class="card-subtitle text-muted me-2">azhar620</h6>
-                                                <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)"
-                                                    data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                                            </div>
-                                            <h5 class="card-title">Card Title</h5>
-                                            <div class="d-inline-flex">
-                                                <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                            </div>
-                                            <div>
-                                                <span class="badge bg-light text-dark">5 answers</span>
-                                                <span class="badge bg-light text-dark">answer verified <i
-                                                        class="fa-solid fa-circle-check"></i></span>
-                                                <a href="#" class="card-link float-end"><i
-                                                        class="fa-solid fa-share-from-square"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="card h-100">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="user-avatar-rounded me-2"
-                                                    style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;">
-                                                </div>
-                                                <h6 class="card-subtitle text-muted me-2">azhar620</h6>
-                                                <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)"
-                                                    data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                                            </div>
-                                            <h5 class="card-title">Card Title</h5>
-                                            <div class="d-inline-flex">
-                                                <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                            </div>
-                                            <div>
-                                                <span class="badge bg-light text-dark">5 answers</span>
-                                                <span class="badge bg-light text-dark">answer verified <i
-                                                        class="fa-solid fa-circle-check"></i></span>
-                                                <a href="#" class="card-link float-end"><i
-                                                        class="fa-solid fa-share-from-square"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="card h-100">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="user-avatar-rounded me-2"
-                                                    style="background-image:url('http://127.0.0.1:8000/assets/user_images/33324234234_dc6eb3bc-89e9-43a1-b96b-183e01932828.jpeg');width: 2em;height: 2em;">
-                                                </div>
-                                                <h6 class="card-subtitle text-muted me-2">azhar620</h6>
-                                                <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)"
-                                                    data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
-                                            </div>
-                                            <h5 class="card-title">Card Title</h5>
-                                            <div class="d-inline-flex">
-                                                <h6 class="card-subtitle text-muted mb-3">5 months ago</h6>
-                                            </div>
-                                            <div>
-                                                <span class="badge bg-light text-dark">5 answers</span>
-                                                <span class="badge bg-light text-dark">answer verified <i
-                                                        class="fa-solid fa-circle-check"></i></span>
-                                                <a href="#" class="card-link float-end"><i
-                                                        class="fa-solid fa-share-from-square"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div class="skeleton-row p-4 skeleton"></div><div class="skeleton-row p-4 skeleton"></div><div class="skeleton-row p-4 skeleton"></div><div class="skeleton-row p-4 skeleton"></div><div class="skeleton-row p-4 skeleton"></div><div class="skeleton-row p-4 skeleton"></div><div class="skeleton-row p-4 skeleton"></div><div class="skeleton-row p-4 skeleton"></div><div class="skeleton-row p-4 skeleton"></div>
                             </div>
+
+                            <nav class="mt-4" aria-label="...">
+                                <ul class="pagination justify-content-center">
+                                    {{-- <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="#">2</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li> --}}
+                                </ul>
+                            </nav>
 
                             <!-- Right child container -->
 
@@ -677,6 +549,8 @@
         </div>
     </div>
     <script>
+        var profileQuestionSelectedFilter = ["ALL_QUESTION"];
+        var userId = '{{$encrypted_userId}}'
         $(document).ready(() => {
             $('#change-password-submit').on('click', function (e) {
                 e.preventDefault()
@@ -812,7 +686,177 @@
 
             })
 
+
+            var currentPage = 1
+
+            var profileQuestionInputDebounce = $('#profileQuestionInputDebounce')
+            var profileQuestionCardResults = $('#profileQuestionCardResults')
+
+            var debounceTimer;
+            var debounceDelay = 600;
+
+            profileQuestionInputDebounce.on('input', () => {
+
+                document.documentElement.scrollTop = 0
+                currentPage = 1
+
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(fetchProfileThreadResults, debounceDelay);
+                console.log("GOT DEBOUNCE")
+            })
+
+            function fetchProfileThreadResults() {
+                profileQuestionCardResults.html('<div class="skeleton-row p-4 skeleton"></div>'.repeat(9));
+
+                let requestHeaders = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+                };
+
+                var dateFilter = $('#selected-option').val();
+
+                $.ajax({
+                    url: window.location.origin + "/api/" + 'user/get-threads',
+                    method: 'GET',
+                    headers: requestHeaders,
+                    data: {
+                        user_id: userId,
+                        date: dateFilter,
+                        filter_by: profileQuestionSelectedFilter[0],
+                        page: currentPage,
+                    },
+                    timeout: 5000,
+                    success: function (response) {
+                        displayProfileThreadResults(response);
+                        updatePagination(response.totalPages)
+                        pushToastMessage('success', 'data has been loaded successfully', 'success')
+                    },
+                    error: function () {
+                        profileQuestionCardResults.html('<div class="alert alert-danger">Failed to fetch search results.</div>');
+                        pushToastMessage('failed', 'fail to request to the server', 'fail')
+                    },
+                    beforeSend: function () {
+                        animateProgressBar(true)
+                    },
+                    complete: function () {
+                        $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+
+                        $('.progress-bar').addClass('opacity-0')
+                        $('.progress-bar').removeClass('opacity-100')
+                    },
+                });
+
+            }
+
+            $('.dropdown-menu').on('click', function(e) {
+                // e.preventDefault()
+                console.log($('#selected-option').val())
+                $('#profileQuestionInputDebounce').trigger('input');
+            })
+
+            $('button[data-bs-target="#current-user-questions-tab"]').on('click', function() {
+                profileQuestionInputDebounce.trigger('input');
+            });
+
+
             
+            
+            $('#chips-filter-profile .badge').on('click', function () {
+                $('#chips-filter-profile .badge').addClass('bg-dark')
+                $('#chips-filter-profile .badge').removeClass('bg-secondary')
+                $('#chips-filter-profile .badge').removeClass('chips-first-select')
+
+                $(this).toggleClass('bg-dark');
+                $(this).toggleClass('bg-secondary');
+                $(this).toggleClass('chips-first-select');
+
+                profileQuestionSelectedFilter = []
+                $('.chips-first-select').each(function () {
+                    profileQuestionSelectedFilter.push($(this).attr('filter-value'));
+                })
+
+                profileQuestionInputDebounce.trigger('input');
+
+                console.log(profileQuestionSelectedFilter)
+            });
+
+
+            function updatePagination(totalPages) {
+                $('.pagination').empty();
+
+                // Create the pagination pages
+                for (var i = 1; i <= totalPages; i++) {
+                    var pageElement = $('<li class="page-item"><a class="page-link">' + i + '</a></li>');
+
+                    // Set the active class for the current page
+                    if (i === currentPage) {
+                        pageElement.addClass('active');
+                    }else{
+                        pageElement.addClass('cursor-pointer');
+                    }
+
+                    // Add click event listener to the page link
+                    pageElement.find('a').click(function () {
+                        if(!$(this).parent('li').hasClass('active')){
+                            
+                            var newPage = $(this).text();
+                            currentPage = parseInt(newPage); // Update the current page
+
+                            document.documentElement.scrollTop = 0
+                            setTimeout(function () {
+
+                                // getThreads(currentPage); // Fetch the threads for the new page
+                                fetchNonHeaderSearchResults()
+                            }, 500);
+                            
+                        }
+                        
+                    });
+
+                    // Append the page element to the pagination
+                    $('.pagination').append(pageElement);
+                }
+            }
         })
+
+        function displayProfileThreadResults(results) {
+            $('#profileQuestionCardResults').empty();
+
+            let total = Object.keys(results.threads).length
+
+            // $('#threadList-totalData').html(total)
+
+            if (total > 0) {
+                for (var i = 0; i < total; i++) {
+                    let result = results.threads[i];
+
+                    try {
+                        var resultItem = createNewCard(result.encrypted_id, result.title, result.user.username, result.elapsed_time,
+                            window.location.origin + "/storage/assets/user_images/" + result.user.user_profile_img,
+                            result.answer.length, result.hasAnswerVerified, "/", result.user.is_bolt_user, result.isHotThread);
+
+
+                    } catch (error) {
+                        console.log('---------------' + i)
+                        console.log(result)
+                    }
+
+                    console.log(resultItem)
+                    $('#profileQuestionCardResults').append(resultItem);
+
+                    $('div[href-thread-id]').click(function () {
+                        let questionId = $(this).attr('href-thread-id');
+                        let href = '/thread/details?question_id=' + questionId;
+                        window.location.href = window.location.origin + href;
+
+                        console.log($(this).attr('href-thread-id'))
+                        console.log("fdfsfdsfdfds")
+                    });
+                }
+            } else {
+                $('#profileQuestionCardResults').append('<div class="alert alert-info">No results found.</div>');
+            }
+        }
     </script>
 @endsection
