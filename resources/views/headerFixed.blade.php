@@ -36,7 +36,7 @@
 
             <div class="d-flex flex-row me-3">
                 <div class="p-1 user-avatar-wrap d-flex flex-row align-items-center justify-content-center position-relative">
-                    <div class="user-avatar-rounded" style="background-image:url('{{asset('assets/user_images/'.auth()->user()->user_profile_img)}}')"></div>
+                    <div class="user-avatar-rounded" style="background-image:url('{{asset('storage/assets/user_images/')}}/{{auth()->user()->user_profile_img}}')"></div>
                     <p id="username-header" class="mb-0 me-2 ms-2">{{ auth()->user()->username }}</p>
                     <div id="user-dropdown-wrap" class="position-absolute p-0 d-flex align-items-center justify-content-center">
                         <ul class="p-0 m-0 d-flex justify-content-start flex-column">

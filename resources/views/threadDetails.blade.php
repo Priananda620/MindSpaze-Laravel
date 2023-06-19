@@ -56,10 +56,10 @@
                     <h2 style="line-height: 1.5em;" class="pb-3 fw-bold">Question Details<div class="divider"></div>
                     </h2>
                     <div class="user-wrapper"
-                        style="background-image:url('{{asset('assets/user_images/'.$questionThread->user->user_profile_img)}}')">
+                        style="background-image:url('{{asset('storage/assets/user_images/')}}/{{$questionThread->user->user_profile_img}}')">
                         <a class="d-flex align-items-center" href="{{url('/profile').'/'.$questionThread->user->username}}">
                             <div class="image-evoke-update image-form-evoke user-avatar-rounded"
-                                style="background-image:url('{{asset('assets/user_images/'.$questionThread->user->user_profile_img)}}')">
+                                style="background-image:url('{{asset('storage/assets/user_images/')}}/{{$questionThread->user->user_profile_img}}')">
                             </div>
                             <div class="user-data">
                                 <h5><span class="unfocus-text fw-bold">by</span>&nbsp;{{$questionThread->user->username}}</h5>
@@ -136,7 +136,7 @@
                         <div class="d-flex flex-row align-items-center justify-content-center">
                             <h6 class="fw-700 mx-2 my-0"><span class="unfocus-text">answer as&nbsp;</span>{{auth()->user()->username}}</h6>
                             <div class="image-evoke-update image-form-evoke user-avatar-rounded"
-                                style="background-image:url('{{asset('assets/user_images/'.auth()->user()->user_profile_img)}}');width: 2.5em;
+                                style="background-image:url('{{asset('storage/assets/user_images/')}}/{{auth()->user()->user_profile_img}}');width: 2.5em;
                                 height: 2.5em;">
                             </div>
                         </div>
@@ -284,7 +284,7 @@
                             <div class="card h-100">
                               <div class="card-body">
                                   <div class="d-inline-flex align-items-center mb-2">
-                                      <div class="user-avatar-rounded me-2" style="background-image:url('{{asset('assets/user_images/'.$relatedThread->user->user_profile_img)}}');width: 2em;height: 2em;"></div>
+                                      <div class="user-avatar-rounded me-2" style="background-image:url('{{asset('storage/assets/user_images/')}}/{{$relatedThread->user->user_profile_img}}');width: 2em;height: 2em;"></div>
                                       <h6 class="card-subtitle text-muted me-2">{{$relatedThread->user->username}}</h6>
                                       @if ($relatedThread->user->is_bolt_user)
                                         <i class="fa-solid fa-bolt mb-2 orange" style="color:var(--yellow)" data-bs-toggle="tooltip" data-bs-placement="right" title="Hot Thread"></i>
@@ -481,7 +481,7 @@
             var userDiv = $('<div>').addClass('user-wrapper');
             var userAvatar = $('<div>')
                 .addClass('image-evoke-update image-form-evoke user-avatar-rounded me-2')
-                .css('background-image', 'url('+window.location.origin+'/assets/user_images/' + _avatar_img + ')')
+                .css('background-image', 'url('+window.location.origin + "/storage/assets/user_images/" +  _avatar_img + ')')
                 .css('border', '1px solid var(--display-font-color-2nd)');
 
             var userData = $('<div>').addClass('user-data align-items-start me-2');

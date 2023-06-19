@@ -118,9 +118,8 @@
         @include('footer')
     </div>
     <div id="fixed-botton-right" class="p-3">
-        <div id="pushToast" class="toast fade" role="alert" aria-live="assertive" aria-atomic="true">
+        {{-- <div id="pushToast" class="toast fade" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
-              {{-- <img src="..." class="rounded me-2" alt="..."> --}}
               <div class="me-2" id="pushIcon"></div>
               <strong class="me-auto" id="pushTitle">Bootstrap</strong>
               <small class="text-muted" id="pushAgo">11 mins ago</small>
@@ -129,7 +128,18 @@
             <div class="toast-body" id="pushBody">
               Hello, world! This is a toast message.
             </div>
-          </div>
+        </div> --}}
+
+        <div id="pushToast" role="alert" aria-live="assertive" aria-atomic="true" class="toast fade">
+            <div class="toast-header">
+              <div class="me-2" id="pushIcon"><i class="fa-solid fa-square-check text-success"></i></div>
+              <strong class="me-auto" id="pushTitle">Title Test</strong>
+              <small class="text-muted" id="pushAgo">A few seconds ago</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="pushBody">Body test test test test test test</div>
+        </div>
+          
     </div>
     <div id="backdrop-close-evoke">
 

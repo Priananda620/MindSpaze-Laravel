@@ -34,10 +34,7 @@ Route::get('/', function () {
     }
 })->name('home');
 
-Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+
 
 
 
@@ -50,6 +47,10 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::middleware(['guest'])->group(function () {
     // Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
     // Route::get('/register', [AuthController::class, 'viewRegister'])->name('register');
+    Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
     Route::post('/loginWeb', [AuthController::class, 'loginWeb'])->name('loginWeb');
     // Route::post('/registerWeb', [AuthController::class, 'registerWeb'])->name('registerWeb');

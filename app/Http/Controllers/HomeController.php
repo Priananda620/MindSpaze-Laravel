@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use App\Models\Question;
 use App\Models\User;
 use App\Models\Tag;
 use App\Models\QuestionTag;
@@ -72,7 +73,18 @@ class HomeController extends Controller
 
                 $country = json_decode($country, true);
 
-                return view('profile', compact('country', 'currentUser'));
+                $user_stats = [];
+
+                $user_stats['total_question'] = Question::where('user_id', $currentUser->id)->count();
+                $user_stats['total_answer'] = Answer::where('user_id', $currentUser->id)->count();
+                $user_stats['total_answerModerated'] = Answer::where('user_id', $currentUser->id)->whereNotNull('moderated_as')->count();
+
+                $user_stats['total_answerModeratedTrue'] = Answer::where('user_id', $currentUser->id)->where('moderated_as', 1)->count();
+                $user_stats['total_answerModeratedFalse'] = Answer::where('user_id', $currentUser->id)->where('moderated_as', 0)->count();
+
+                $user_stats['total_answerAiTrue'] = Answer::where('user_id', $currentUser->id)->where('ai_classification_status', 1)->count();
+                $user_stats['total_answerAiFalse'] = Answer::where('user_id', $currentUser->id)->where('ai_classification_status', 0)->count();
+                return view('profile', compact('country', 'currentUser', 'user_stats'));
             } else {
                 return redirect('/profile/' . auth()->user()->username);
             }

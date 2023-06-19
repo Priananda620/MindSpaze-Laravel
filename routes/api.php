@@ -50,6 +50,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/moderate-false', [ModerateController::class, 'moderateAsFalse']);
     });
 
+    Route::prefix('user')->group(function () {
+        Route::post('/change-password', [UserController::class, 'changePassword']);
+
+        Route::post('/update-details', [UserController::class, 'updateDetails']);
+
+        Route::post('/change-password', [UserController::class, 'changePassword']);
+    });
+
 
     Route::get('/user', [UserController::class, 'getUser']);
 

@@ -49,7 +49,7 @@ function animateProgressBar(isStepping) {
 
 
 }
-
+// var baseUrl = window.location.origin
 
 function createNewCard(encrypted_id, title, username, dateAgo, profileImgUrl, answerCount, hasAnswerVerified, threadUrl, isBoltUser, isHotThread) {
     // var col = $('.col');
@@ -1036,7 +1036,7 @@ $(document).ready(() => {
                 // }
                 try {
                     var resultItem = createNewCard(result.encrypted_id, result.title, result.user.username, result.elapsed_time,
-                        window.location.origin + '/assets/user_images/' + result.user.user_profile_img,
+                        window.location.origin + "/storage/assets/user_images/" + result.user.user_profile_img,
                         result.answer.length, result.hasAnswerVerified, "/", result.user.is_bolt_user, result.isHotThread);
 
 

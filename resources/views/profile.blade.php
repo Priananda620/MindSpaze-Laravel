@@ -7,7 +7,7 @@
                 <div class="text-center">
                     <div class="d-flex justify-content-center">
                         <div class="user-avatar-rounded"
-                            style="background-image:url('{{ asset('assets/user_images/')}}/{{ $currentUser->user_profile_img }}');width: 6.3em;height: 6.3em;">
+                            style="background-image:url('{{ asset('storage/assets/user_images')}}/{{ $currentUser->user_profile_img }}');width: 6.3em;height: 6.3em;">
                         </div>
                     </div>
                     @php
@@ -25,25 +25,24 @@
 
                 <div class="d-flex justify-content-between">
                     <div>
-                        <h4 class="fw-bold">100</h4>
+                        <h4 class="fw-bold">{{$user_stats['total_question']}}</h4>
                         <p class="text-muted-color">Questions</p>
                     </div>
                     <div>
-                        <h4 class="fw-bold">50</h4>
+                        <h4 class="fw-bold">{{$user_stats['total_answerModerated']}}</h4>
                         <p class="text-muted-color">Moderated</p>
                     </div>
                     <div>
-                        <h4 class="fw-bold">20</h4>
+                        <h4 class="fw-bold">{{$user_stats['total_answer']}}</h4>
                         <p class="text-muted-color">Answers</p>
                     </div>
                 </div>
                 <div class="d-flex flex-wrap mb-2 pb-4">
-                    <span class="badge bg-light text-dark me-1 mt-1">99+ factual&nbsp;<i
-                            class="fa-solid fa-circle-check"></i></span>
-                    <span class="badge bg-light text-dark me-1 mt-1">99+ verified&nbsp;<i
+                    <span class="badge bg-light text-dark me-1 mt-1">{{$user_stats['total_answerModeratedTrue'] > 99 ? '99+' : $user_stats['total_answerModeratedTrue']}} factual&nbsp;<i class="fa-solid fa-circle-check"></i></span>
+                    <span class="badge bg-light text-dark me-1 mt-1">{{$user_stats['total_answerAiTrue'] > 99 ? '99+' : $user_stats['total_answerAiTrue']}} verified&nbsp;<i
                             class="fa-solid fa-check-double"></i></span>
-                    <span class="badge bg-light text-dark me-1 mt-1">99+ misleading</span>
-                    <span class="badge bg-light text-dark me-1 mt-1">99+ potential false</span>
+                    <span class="badge bg-light text-dark me-1 mt-1">{{$user_stats['total_answerModeratedFalse'] > 99 ? '99+' : $user_stats['total_answerModeratedFalse']}} misleading</span>
+                    <span class="badge bg-light text-dark me-1 mt-1">{{$user_stats['total_answerAiFalse'] > 99 ? '99+' : $user_stats['total_answerAiFalse']}} potential false</span>
                 </div>
 
                 <ul class="nav flex-row justify-content-between mb-4 fs-3">
@@ -66,40 +65,49 @@
             <!-- 2nd column -->
             <div class="col-lg-8 mt-5">
                 <ul class="nav nav-pills mb-3" role="tablist">
+                    
+
+                    @if ($currentUser->id == auth()->user()->id)
                     <li class="nav-item me-2" role="presentation">
                         <button class="nav-link active px-3 py-3" data-bs-toggle="tab" data-bs-target="#profile-details-tab" aria-selected="true" role="tab">Profile Details</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link px-3 py-3" data-bs-toggle="tab" data-bs-target="#current-user-questions-tab" aria-selected="false" role="tab" tabindex="-1">Your Questions</button>
                     </li>
+                    @elseif($currentUser->id != auth()->user()->id)
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link px-3 py-3 active" data-bs-toggle="tab" data-bs-target="#current-user-questions-tab" aria-selected="true" role="tab">{{$currentUser->username}}'s questions</button>
+                    </li>
+                    @endif
+
+                    @if(auth()->user()->user_role == 1 && $currentUser->id != auth()->user()->id)
+                    <li class="nav-item me-2" role="presentation">
+                        <button class="nav-link px-3 py-3" data-bs-toggle="tab" data-bs-target="#profile-details-tab" aria-selected="false" role="tab" tabindex="-1">Profile Details</button>
+                    </li>
+                    @endif
+                    
+                    
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="profile-details-tab" role="tabpanel">
+                    @if(auth()->user()->user_role == 1 and $currentUser-> id != auth()->user()->id)
+
+                    <div class="tab-pane fade show" id="profile-details-tab" role="tabpanel">
                         <div class="row">
                             <div class="card">
                                 <div class="card-body pt-3">
                                     <!-- Bordered Tabs -->
                                     <ul class="nav nav-pills" role="tablist">
 
-                                        <li class="nav-item me-2 mt-2" role="presentation">
-                                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview"
-                                                aria-selected="true" role="tab">Overview</button>
-                                        </li>
-
-                                        <li class="nav-item me-2 mt-2" role="presentation">
-                                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit"
-                                                aria-selected="false" role="tab" tabindex="-1">Edit Profile</button>
-                                        </li>
-
+                                        @if(auth()->user()->user_role == 1)
                                         <li class="nav-item me-2 mt-2" role="presentation">
                                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings"
                                                 aria-selected="false" role="tab" tabindex="-1">Settings</button>
                                         </li>
-
                                         <li class="nav-item me-2 mt-2" role="presentation">
-                                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password"
-                                                aria-selected="false" role="tab" tabindex="-1">Change Password</button>
+                                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview"
+                                                aria-selected="true" role="tab">Overview</button>
                                         </li>
+                                        @endif
 
                                     </ul>
                                     <div class="tab-content mt-4">
@@ -146,162 +154,30 @@
 
                                         </div>
 
-                                        <div class="tab-pane fade profile-edit pt-3" id="profile-edit" role="tabpanel">
-
-                                            <!-- Profile Edit Form -->
-                                            <form>
-                                                <div class="row mb-3">
-                                                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
-                                                        Image</label>
-                                                    <div class="col-md-8 col-lg-9">
-                                                        <img id="upload-avatar-preview" class="w-50" src="{{ asset('assets/user_images/')}}/{{ $currentUser->user_profile_img }}" alt="Profile">
-                                                        <div class="pt-2">
-                                                            <a href="#" class="btn btn-danger btn-sm"
-                                                                title="Remove my profile image">
-                                                                <i class="fa-solid fa-square-minus"></i>
-                                                            </a>
-
-                                                            <input style="display: none" id="user-pic-update" type="file" name="user-pic-update" required="">
-                                                            <a id="upload-avatar-btn" class="btn bg-lifted-1 btn-sm"
-                                                                title="Upload new profile image">
-
-
-                                                                <i class="fa-solid fa-images"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
-                                                    <div class="col-md-8 col-lg-9">
-                                                        <input name="username" type="text" class="" id="username"
-                                                            value="{{ $currentUser->username }}">
-                                                    </div>
-                                                </div>
-
-                                                {{-- <div class="row mb-3">
-                                                    <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
-                                                    <div class="col-md-8 col-lg-9">
-                                                        <textarea name="about" class="" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
-                                                    </div>
-                                                </div> --}}
-
-                                                <div class="row mb-3">
-                                                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
-                                                    <div class="col-md-8 col-lg-9">
-                                                        <input name="job" type="text" class="mt-0" id="Job"
-                                                            value="{{ $currentUser->job }}">
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
-                                                    <div class="col-md-8 col-lg-9">
-                                                        <input type="text" class="mt-0" id="Country" disabled
-                                                            value="{{ $currentUser->country_code }}">
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                                                    <div class="col-md-8 col-lg-9">
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">+{{$country[0]['phonecode']}}</span>
-                                                            <input id="Phone" name="phone" type="text" style="border: none;color: var(--display-font-color);"
-                                                            class="form-control w-auto mt-0" placeholder="Phone number" value="{{$currentUser->phone}}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                                                    <div class="col-md-8 col-lg-9">
-                                                        <input name="email" type="email" class="mt-0" id="Email"
-                                                            value="{{ $currentUser->email }}">
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter
-                                                        Username</label>
-                                                    <div class="col-md-8 col-lg-9">
-                                                        <input name="twitter" type="text" class="mt-0" id="Twitter"
-                                                            value="{{ $currentUser->twitter_username }}">
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook
-                                                        Username</label>
-                                                    <div class="col-md-8 col-lg-9">
-                                                        <input name="facebook" type="text" class="mt-0" id="Facebook"
-                                                            value="{{ $currentUser->facebook_username }}">
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram
-                                                        Username</label>
-                                                    <div class="col-md-8 col-lg-9">
-                                                        <input name="instagram" type="text" class="mt-0" id="Instagram"
-                                                            value="{{ $currentUser->instagram_username }}">
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin
-                                                        Username</label>
-                                                    <div class="col-md-8 col-lg-9">
-                                                        <input name="linkedin" type="text" class="mt-0" id="Linkedin"
-                                                            value="{{ $currentUser->linkedin_username }}">
-                                                    </div>
-                                                </div>
-
-                                                <div class="text-center">
-                                                    <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
-                                                </div>
-                                            </form><!-- End Profile Edit Form -->
-
-                                        </div>
-
+                                        @if(auth()->user()->user_role == 1)
                                         <div class="tab-pane fade pt-3" id="profile-settings" role="tabpanel">
 
                                             <!-- Settings Form -->
-                                            <form>
+                                            <form id="user-type-form">
 
                                                 <div class="row mb-3">
-                                                    <label for="username" class="col-md-4 col-lg-3 col-form-label">Email
-                                                        Notifications</label>
+                                                    <label for="username" class="col-md-4 col-lg-3 col-form-label">User Type</label>
                                                     <div class="col-md-8 col-lg-9">
                                                         <div class="d-flex align-items-center py-2">
                                                             <input class="form-check-input m-0 me-2" type="checkbox"
                                                                 id="changesMade" checked="">
                                                             <label class="form-check-label m-0 " for="changesMade">
-                                                                Changes made to your account
+                                                                Basic User
                                                             </label>
                                                         </div>
                                                         <div class="d-flex align-items-center py-2">
                                                             <input class="form-check-input m-0 me-2" type="checkbox"
                                                                 id="newProducts" checked="">
                                                             <label class="form-check-label m-0" for="newProducts">
-                                                                Information on new products and services
+                                                                Admin
                                                             </label>
                                                         </div>
-                                                        <div class="d-flex align-items-center py-2">
-                                                            <input class="form-check-input m-0 me-2" type="checkbox"
-                                                                id="proOffers">
-                                                            <label class="form-check-label m-0" for="proOffers">
-                                                                Marketing and promo offers
-                                                            </label>
-                                                        </div>
-                                                        <div class="d-flex align-items-center py-2">
-                                                            <input class="form-check-input m-0 me-2" type="checkbox"
-                                                                id="securityNotify" checked="" disabled="">
-                                                            <label class="form-check-label m-0" for="securityNotify">
-                                                                Security alerts
-                                                            </label>
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
 
@@ -311,41 +187,9 @@
                                             </form><!-- End settings Form -->
 
                                         </div>
+                                        @endif
 
-                                        <div class="tab-pane fade pt-3" id="profile-change-password" role="tabpanel">
-                                            <!-- Change Password Form -->
-                                            <form>
-
-                                                <div class="row mb-3">
-                                                    <div>
-                                                        <label for="currentPassword">Current Password</label>
-                                                        <input name="password" type="password" class=""
-                                                            id="currentPassword">
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div>
-                                                        <label for="newPassword">New Password</label>
-                                                        <input name="newpassword" type="password" class=""
-                                                            id="newPassword">
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-3">
-                                                    <div>
-                                                        <label for="renewPassword">Re-enter New Password</label>
-                                                        <input name="renewpassword" type="password" class=""
-                                                            id="renewPassword">
-                                                    </div>
-                                                </div>
-
-                                                <div class="text-center">
-                                                    <button type="submit" class="btn btn-primary mt-3">Change Password</button>
-                                                </div>
-                                            </form><!-- End Change Password Form -->
-
-                                        </div>
+                                        
 
                                     </div><!-- End Bordered Tabs -->
 
@@ -353,7 +197,282 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="current-user-questions-tab" role="tabpanel">
+                    @endif
+
+                    @if ($currentUser-> id == auth()->user()->id)
+                        <div class="tab-pane fade show active" id="profile-details-tab" role="tabpanel">
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <!-- Bordered Tabs -->
+                                        <ul class="nav nav-pills" role="tablist">
+
+                                            <li class="nav-item me-2 mt-2" role="presentation">
+                                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview"
+                                                    aria-selected="true" role="tab">Overview</button>
+                                            </li>
+
+                                            <li class="nav-item me-2 mt-2" role="presentation">
+                                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit"
+                                                    aria-selected="false" role="tab" tabindex="-1">Edit Profile</button>
+                                            </li>
+
+                                            
+                                            @if(auth()->user()->user_role == 1)
+                                                <li class="nav-item me-2 mt-2" role="presentation">
+                                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings"
+                                                        aria-selected="false" role="tab" tabindex="-1">Settings</button>
+                                                </li>
+                                            @endif
+                                            
+
+                                            <li class="nav-item me-2 mt-2" role="presentation">
+                                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password"
+                                                    aria-selected="false" role="tab" tabindex="-1">Change Password</button>
+                                            </li>
+
+                                        </ul>
+                                        <div class="tab-content mt-4">
+
+                                            <div class="tab-pane fade profile-overview active show" id="profile-overview"
+                                                role="tabpanel">
+                                                <h4 class="card-title mt-2">About</h4>
+                                                <p class="small fst-italic">Your profile details should be accurate and up-to-date. 
+                                                    Please ensure the information you provide is true and complete. 
+                                                    We respect your privacy and will handle your profile details in accordance with your privacy regards.
+                                                </p>
+
+                                                <h4 class="card-title mt-4">Profile Details</h4>
+
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-4 label ">Username</div>
+                                                    <div class="col-lg-9 col-md-8">{{ $currentUser->username }}</div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-4 label">Job</div>
+                                                    <div class="col-lg-9 col-md-8">{!! $currentUser->job == null ? "{<span id='threadList-totalData' class='badge bg-secondary'>empty</span>}": $currentUser->job !!}</div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-4 label">Country</div>
+                                                    <div class="col-lg-9 col-md-8">{{$country[0]['id']}}</div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-4 label">Last Login IP</div>
+                                                    <div class="col-lg-9 col-md-8">{!! $currentUser->last_ip == null? "{<span id='threadList-totalData' class='badge bg-secondary'>empty</span>}": $currentUser->last_ip !!}</div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-4 label">Phone</div>
+                                                    <div class="col-lg-9 col-md-8">({{$country[0]['phonecode']}}){{$currentUser->phone}}</div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-4 label">Email</div>
+                                                    <div class="col-lg-9 col-md-8">{{$currentUser->email}}</div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="tab-pane fade profile-edit pt-3" id="profile-edit" role="tabpanel">
+
+                                                <!-- Profile Edit Form -->
+                                                <form id="profile_update_data">
+                                                    <div class="row mb-3">
+                                                        <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile
+                                                            Image</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <img id="upload-avatar-preview" class="w-50" src="{{asset('storage/assets/user_images')}}/{{ $currentUser->user_profile_img }}" alt="Profile">
+                                                            <div class="pt-2">
+                                                                {{-- <a href="#" class="btn btn-danger btn-sm"
+                                                                    title="Remove my profile image">
+                                                                    <i class="fa-solid fa-square-minus"></i>
+                                                                </a> --}}
+
+                                                                <input style="display: none" id="user-pic-update" type="file" name="user_profile_img">
+                                                                <a id="upload-avatar-btn" class="btn bg-lifted-1 btn-sm"
+                                                                    title="Upload new profile image">
+
+
+                                                                    <i class="fa-solid fa-images"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="username" type="text" class="" id="username"
+                                                                value="{{ $currentUser->username }}">
+                                                        </div>
+                                                    </div>
+
+                                                    {{-- <div class="row mb-3">
+                                                        <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <textarea name="about" class="" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
+                                                        </div>
+                                                    </div> --}}
+
+                                                    <div class="row mb-3">
+                                                        <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="job" type="text" class="mt-0" id="Job"
+                                                                value="{{ $currentUser->job }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input type="text" class="mt-0" id="Country" disabled name="country"
+                                                                value="{{ $currentUser->country_code }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">+{{$country[0]['phonecode']}}</span>
+                                                                <input id="Phone" name="phone" type="text" style="border: none;color: var(--display-font-color);"
+                                                                class="form-control w-auto mt-0" placeholder="Phone number" value="{{$currentUser->phone}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="email" type="email" class="mt-0" id="Email"
+                                                                value="{{ $currentUser->email }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter
+                                                            Username</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="twitter_username" type="text" class="mt-0" id="Twitter"
+                                                                value="{{ $currentUser->twitter_username }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook
+                                                            Username</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="facebook_username" type="text" class="mt-0" id="Facebook"
+                                                                value="{{ $currentUser->facebook_username }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram
+                                                            Username</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="instagram_username" type="text" class="mt-0" id="Instagram"
+                                                                value="{{ $currentUser->instagram_username }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin
+                                                            Username</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <input name="linkedin_username" type="text" class="mt-0" id="Linkedin"
+                                                                value="{{ $currentUser->linkedin_username }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="text-center">
+                                                        <button id="update-data-save" type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                                                    </div>
+                                                </form><!-- End Profile Edit Form -->
+
+                                            </div>
+
+                                            @if(auth()->user()->user_role == 1)
+                                            <div class="tab-pane fade pt-3" id="profile-settings" role="tabpanel">
+
+                                                <!-- Settings Form -->
+                                                <form id="user-type-form">
+
+                                                    <div class="row mb-3">
+                                                        <label for="username" class="col-md-4 col-lg-3 col-form-label">User Type</label>
+                                                        <div class="col-md-8 col-lg-9">
+                                                            <div class="d-flex align-items-center py-2">
+                                                                <input class="form-check-input m-0 me-2" type="checkbox"
+                                                                    id="changesMade" checked="">
+                                                                <label class="form-check-label m-0 " for="changesMade">
+                                                                    Basic User
+                                                                </label>
+                                                            </div>
+                                                            <div class="d-flex align-items-center py-2">
+                                                                <input class="form-check-input m-0 me-2" type="checkbox"
+                                                                    id="newProducts" checked="">
+                                                                <label class="form-check-label m-0" for="newProducts">
+                                                                    Admin
+                                                                </label>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="text-center">
+                                                        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                                                    </div>
+                                                </form><!-- End settings Form -->
+
+                                            </div>
+                                            @endif
+
+                                            <div class="tab-pane fade pt-3" id="profile-change-password" role="tabpanel">
+                                                <!-- Change Password Form -->
+                                                <form id="profile-change-password-form">
+
+                                                    <div class="row mb-3">
+                                                        <div>
+                                                            <label for="current_password">Current Password</label>
+                                                            <input name="current_password" type="password" class=""
+                                                                id="current_password">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <div>
+                                                            <label for="new_password">New Password</label>
+                                                            <input name="new_password" type="password" class=""
+                                                                id="new_password">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mb-3">
+                                                        <div>
+                                                            <label for="new_password_2">Re-enter New Password</label>
+                                                            <input name="new_password_2" type="password" class=""
+                                                                id="new_password_2">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="text-center">
+                                                        <button type="submit" id="change-password-submit" class="btn btn-primary mt-3">Change Password</button>
+                                                    </div>
+                                                </form><!-- End Change Password Form -->
+
+                                            </div>
+
+                                        </div><!-- End Bordered Tabs -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    <div class="tab-pane fade {{$currentUser-> id != auth()->user()->id ? 'show active' : ''}}" id="current-user-questions-tab" role="tabpanel">
                         <div class="row">
                             <!-- Left child container -->
                             {{-- <h4 class="fw-bold">Questions</h4> --}}
@@ -557,4 +676,143 @@
       </div> --}}
         </div>
     </div>
+    <script>
+        $(document).ready(() => {
+            $('#change-password-submit').on('click', function (e) {
+                e.preventDefault()
+
+                var formData = new FormData($('#profile-change-password-form')[0])
+                console.log(formData.get('current_password'))
+                console.log(formData.get('new_password'))
+                console.log(formData.get('new_password_2'))
+
+
+
+                let requestHeaders = {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+                };
+
+                $.ajax({
+                    url: window.location.origin + "/api/" + 'user/change-password',
+                    method: 'POST',
+                    headers: requestHeaders,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    timeout: 5000,
+
+                    success: function(response) {
+                        console.log(response)
+                        
+                        pushToastMessage('success',
+                            'success update data', 'success')
+                    },
+                    error: function(xhr, status, error) {
+                        const response = JSON.parse(xhr.responseText);
+                        // if (response.errors && response.errors.new_password_2) {
+                        //     pushToastMessage('info', 'New password doesnt match.', 'info');
+                        // } else {
+                        //     pushToastMessage('failed', 'Failed, check console', 'fail');
+                        // }
+
+                        if (response.errors) {
+                            const errorMessages = Object.values(response.errors).flat();
+                            errorMessages.forEach(message => {
+                                pushToastMessage('info', message, 'info');
+                            });
+                        } else if (response.message) {
+                            pushToastMessage('info', response.message, 'info');
+                        } else if (response.error) {
+                            pushToastMessage('info', response.error, 'info');
+                        } else {
+                            pushToastMessage('failed', 'Failed, check console', 'fail');
+                            console.log(response)
+                        }
+
+                    },
+                    beforeSend: function() {
+                        animateProgressBar(true)
+                    },
+                    complete: function() {
+                        $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                        $('.progress-bar').addClass('opacity-0')
+                        $('.progress-bar').removeClass('opacity-100')
+                    },
+                });
+
+
+            })
+            $('#update-data-save').on('click', function (e) {
+                e.preventDefault()
+
+                var formData = new FormData($('#profile_update_data')[0])
+                console.log(formData.get('user-pic-update'))
+                console.log(formData.get('username'))
+                
+
+
+                let requestHeaders = {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+                };
+
+                $.ajax({
+                    url: window.location.origin + "/api/" + 'user/update-details',
+                    method: 'POST',
+                    headers: requestHeaders,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    timeout: 5000,
+
+                    success: function(response) {
+                        console.log(response)
+
+                        $('#upload-avatar-preview').attr('src', window.location.origin + "/storage/assets/user_images/" + response.user.user_profile_img)
+                        pushToastMessage('success',
+                            'success update data', 'success')
+                    },
+                    error: function(xhr, status, error) {
+                        var response = JSON.parse(xhr.responseText);
+                        // if (response.errors) {
+                        //     const errorMessages = Object.values(response.errors).flat();
+                        //     errorMessages.forEach(message => {
+                        //         pushToastMessage('info', message, 'info');
+                        //     });
+                        // } else {
+                        //     pushToastMessage('failed', 'Failed, check console', 'fail');
+                        // }
+                        
+                        if (response.errors) {
+                            const errorMessages = Object.values(response.errors).flat();
+                            errorMessages.forEach(message => {
+                                pushToastMessage('info', message, 'info');
+                            });
+                        } else if (response.message) {
+                            pushToastMessage('info', response.message, 'info');
+                        } else if (response.error) {
+                            pushToastMessage('info', response.error, 'info');
+                        } else {
+                            pushToastMessage('failed', 'Failed, check console', 'fail');
+                            console.log(response)
+                        }
+
+
+                    },
+                    beforeSend: function() {
+                        animateProgressBar(true)
+                    },
+                    complete: function() {
+                        $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                        $('.progress-bar').addClass('opacity-0')
+                        $('.progress-bar').removeClass('opacity-100')
+                    },
+                });
+
+            })
+
+            
+        })
+    </script>
 @endsection
