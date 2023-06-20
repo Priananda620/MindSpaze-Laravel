@@ -154,12 +154,36 @@
                                 $('#register-body > form').submit();
                             },
                             error: function (xhr, status, error) {
-                                if (xhr.status === 401 || xhr.status === 422) {
-                                    pushToastMessage(error, "email or username or phone exist", 'fail')
-                                }else if(xhr.status === 500) {
-                                    pushToastMessage('failed', 'fail to request to the server', 'fail')
-                                }else{
-                                    pushToastMessage(error, error, 'info')
+                                // if (xhr.status === 401 || xhr.status === 422) {
+                                //     pushToastMessage(error, "email or username or phone exist", 'fail')
+                                // }else if(xhr.status === 500) {
+                                //     pushToastMessage('failed', 'fail to request to the server', 'fail')
+                                // }else{
+                                //     pushToastMessage(error, error, 'info')
+                                // }
+
+                                var response = JSON.parse(xhr.responseText);
+                                // if (response.errors) {
+                                //     const errorMessages = Object.values(response.errors).flat();
+                                //     errorMessages.forEach(message => {
+                                //         pushToastMessage('info', message, 'info');
+                                //     });
+                                // } else {
+                                //     pushToastMessage('failed', 'Failed, check console', 'fail');
+                                // }
+                                
+                                if (response.errors) {
+                                    const errorMessages = Object.values(response.errors).flat();
+                                    errorMessages.forEach(message => {
+                                        pushToastMessage('info', message, 'info');
+                                    });
+                                } else if (response.message) {
+                                    pushToastMessage('info', response.message, 'info');
+                                } else if (response.error) {
+                                    pushToastMessage('info', response.error, 'info');
+                                } else {
+                                    pushToastMessage('failed', 'Failed, check console', 'fail');
+                                    console.log(response)
                                 }
                             },
                             beforeSend: function () {

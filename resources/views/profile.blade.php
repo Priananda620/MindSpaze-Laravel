@@ -19,6 +19,11 @@
                     @endphp
 
                     <h2 class="fw-bold mt-3">{{ $currentUser->username }}</h2>
+                    @if($currentUser->id != auth()->user()->id)
+                    <p class="text-muted-color">{{$currentUser->job}}
+                    </p>
+                    @endif
+
                     <p class="text-muted-color">Joined {{$formattedTimestamp}}
                     </p>
                 </div>
@@ -120,7 +125,7 @@
                                                 We respect your privacy and will handle your profile details in accordance with your privacy regards.
 
                                             </p>
-                                            <a class="badge bg-light text-dark me-1 mt-1" href="/about#community-guidelines">Community Guidelines</a>
+                                            <a class="badge bg-light text-dark me-1 mt-1" href="/about#community-guidelines" target="_blank" rel="noopener noreferrer">Community Guidelines&nbsp;<i class="fa-solid fa-right-long"></i></a>
 
                                             <h4 class="card-title mt-4">Profile Details</h4>
 
@@ -245,7 +250,7 @@
                                                     
                                                     
                                                 </p>
-                                                <a class="badge bg-light text-dark me-1 mt-1" href="/about#community-guidelines">Community Guidelines</a>
+                                                <a class="badge bg-light text-dark me-1 mt-1" href="/about#community-guidelines" target="_blank" rel="noopener noreferrer">Community Guidelines&nbsp;<i class="fa-solid fa-right-long"></i></a>
 
                                                 <h4 class="card-title mt-4">Profile Details</h4>
 
@@ -754,6 +759,11 @@
                 console.log($('#selected-option').val())
                 $('#profileQuestionInputDebounce').trigger('input');
             })
+
+            if ($('button[data-bs-target="#profile-details-tab"]').length == 0) {
+                profileQuestionInputDebounce.trigger('input');
+            }
+
 
             $('button[data-bs-target="#current-user-questions-tab"]').on('click', function() {
                 profileQuestionInputDebounce.trigger('input');

@@ -425,7 +425,8 @@ $(document).ready(() => {
             $('#register-hero-btn').click()
         }
     }, 100);
-    pushToastMessage('title test', 'body test test test test test test', 'success')
+    
+    pushToastMessage('title test', 'message test', 'success')
 
 
     onResizeActions(window.innerWidth || document.documentElement.clientWidth, window.innerHeight || document.documentElement.clientHeight)

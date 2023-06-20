@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
+use App\Models\User;
 use Illuminate\Support\Facades\URL;
 
 class ForgotPasswordController extends Controller
@@ -36,8 +37,9 @@ class ForgotPasswordController extends Controller
             $request->only('email'),
             function ($user, $token) use ($request) {
                 $resetUrl = URL::signedRoute('password.reset', ['token' => $token, 'email' => $request->email]);
+                $profileUrl = User::where('email', $request->email)->first();
                 
-                Mail::send('emails.forgot-password', ['resetUrl' => $resetUrl], function ($message) use ($request) {
+                Mail::send('emails.forgot-password', ['resetUrl' => $resetUrl, 'profileUrl' => url('/profile').'/'.$profileUrl->username, 'avatarUrl' => asset('storage/assets/user_images/').'/'.$profileUrl->user_profile_img], function ($message) use ($request) {
                     $message->to($request->email)->subject('Reset Your Password');
                 });
             }
