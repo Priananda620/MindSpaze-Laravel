@@ -15,6 +15,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Crypt;
 
 class UserController extends Controller
 {
@@ -35,6 +36,44 @@ class UserController extends Controller
         return [
             'user' => auth()->user()
         ];
+    }
+
+    public function updateRole(Request $request) {
+        try {
+            $validatedData = $request->validate([
+                'user_id' => 'required|string',
+                'user_role' => 'required|string|in:basic_user,admin_user',
+            ]);
+
+
+            $user = User::where('id', Crypt::decryptString($request->input('user_id')))->first();
+
+            if($request->input('user_role') == 'basic_user'){
+                $newRole = 0;
+            }else if($request->input('user_role') == 'admin_user'){
+                $newRole = 1;
+            }else{
+                return response()->json([
+                    'message' => 'The given data was invalid.'
+                ], 422);
+            }
+
+            $user->user_role = $newRole;
+            $user->save();
+
+            return response()->json([
+                'message' => 'User Role Changed Successfully.',
+                'success' => ['new role' => ['User Role Changed Successfully.']]
+            ], 200);   
+    
+        } catch (\Throwable $th) {
+            throw $th;
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
     }
 
     public function changePassword(Request $request){

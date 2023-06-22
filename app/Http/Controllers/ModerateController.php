@@ -58,7 +58,7 @@ class ModerateController extends Controller
             $answer = Answer::where('id', Crypt::decryptString($request->answer_id))->first();
 
             if(!empty($answer)){
-                if($answer->moderated_as == 0){
+                if($answer->moderated_as !== null && $answer->moderated_as == 0){
                     $answer->moderated_as = null;
                 }else{
                     $answer->moderated_as = 0;

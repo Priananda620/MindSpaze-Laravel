@@ -4,18 +4,14 @@
         <div>
             <div class="filter-header d-flex flex-row align-items-center sticky-filter">
                 <div class="dropdown me-3">
-                    <input type="hidden" id="selected-option">
+                    <input type="hidden" id="selected-option" value="latest">
                     <button selected-value="Latest" class="btn btn-secondary dropdown-toggle" type="button"
                         id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         Latest
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" data-value="Latest">Latest</a></li>
-                        <li><a class="dropdown-item" data-value="Unanswered">Unanswered</a></li>
-                        <li><a class="dropdown-item" data-value="Popular">Popular</a></li>
-                        <li><a class="dropdown-item" data-value="Answered">Answered</a></li>
-                        <li><a class="dropdown-item" data-value="Featured">Featured</a></li>
-                        <li><a class="dropdown-item" data-value="Flagged">Flagged</a></li>
+                        <li><a class="dropdown-item cursor-pointer" data-value="Latest">Latest</a></li>
+                        <li><a class="dropdown-item cursor-pointer" data-value="Oldest">Oldest</a></li>
                     </ul>
                 </div>
                 <div id="chips-filter" class="overflow-scroll d-flex hide-scrollbar1 hide-scrollbar2">
@@ -68,4 +64,14 @@
             </nav>
         </div>
     </section>
+
+    <script>
+        $(document).ready(() => {
+            $('.dropdown-menu').on('click', function(e) {
+                // e.preventDefault()
+                console.log($('#selected-option').val())
+                $('.search-not-header').trigger('input');
+            })
+        })
+    </script>
 @endsection

@@ -112,6 +112,7 @@ class ThreadController extends Controller
         try {
             $validatedData = $request->validate([
                 'query' => 'nullable|string',
+                'order_by' => 'nullable|string',
                 'tags' => 'nullable|json',
                 'limit' => 'nullable|integer',
                 'page' => 'nullable|integer'
@@ -120,6 +121,12 @@ class ThreadController extends Controller
             $limit = $validatedData['limit'] ?? 12;
 
             $page = $validatedData['page'] ?? 1;
+
+            if (strtolower(trim($request->input('order_by'))) == 'oldest') {
+                $orderBy = 'asc';
+            } else {
+                $orderBy = 'desc';
+            }
 
             $offset = ($page - 1) * $limit;
 
@@ -167,7 +174,7 @@ class ThreadController extends Controller
 
             $totalItems = $results->count();
 
-            $results = $results->offset($offset)->limit($limit);
+            $results = $results->orderBy('created_at', $orderBy)->offset($offset)->limit($limit);
             $results = $results->get();
 
             $totalPages = ceil($totalItems / $limit);
@@ -197,6 +204,7 @@ class ThreadController extends Controller
                 'page' => $page ? (int)$page : 0,
                 'totalItems' => $totalItems ? (int)$totalItems : 0,
                 'totalPages' => $totalPages ? (int)$totalPages : 0,
+                'order_by' => $orderBy
             ]);
         } catch (\Throwable $th) {
             throw $th;
@@ -290,15 +298,28 @@ class ThreadController extends Controller
                     // echo 'THREEE';
             }
 
-            $results->orderBy('created_at', $orderBy)
-                ->distinct();
+            $results->orderBy('created_at', $orderBy);
 
 
             ////////////////////////////////////
+            $countQuery = clone $results;
+            $countQuery->distinct();
+            // $totalItemsQuery = $countQuery->getQuery();
+            // $sqlTotalItems = $totalItemsQuery->toSql();
+            // $bindingsTotalItems = $totalItemsQuery->getBindings();
+            // $exportedQueryTotalItems = vsprintf(str_replace('?', "'%s'", $sqlTotalItems), $bindingsTotalItems);
+            
+            $totalItems = $countQuery->get()->count();
+            //////////////////
 
-            $totalItems = $results->count();
 
+            $results->distinct();
             $results = $results->offset($offset)->limit($limit);
+            
+            ///////////////////////////
+            // $query = $results->getQuery();
+            /////////////////////////
+
             $results = $results->get();
 
             $totalPages = ceil($totalItems / $limit);
@@ -321,6 +342,10 @@ class ThreadController extends Controller
                 return $result;
             });
 
+            // $sql = $query->toSql();
+            // $bindings = $query->getBindings();
+            // $exportedQuery = vsprintf(str_replace('?', "'%s'", $sql), $bindings);
+
             return response()->json([
                 'threads' => $results,
                 'total' => $results->count(),
@@ -328,6 +353,8 @@ class ThreadController extends Controller
                 'page' => $page ? (int)$page : 0,
                 'totalItems' => $totalItems ? (int)$totalItems : 0,
                 'totalPages' => $totalPages ? (int)$totalPages : 0,
+                // 'exportedQuery' => $exportedQuery,
+                // 'exportedQueryCount' => $exportedQueryTotalItems
             ]);
         } catch (\Throwable $th) {
             throw $th;

@@ -75,7 +75,7 @@
                             <div class="collapse navbar-collapse position-absolute bg-lifted" id="hamburgerMenu">
                                 <ul class="navbar-nav p-2">
                                     <li class="nav-item m-1">
-                                        <a href="#" class="p-2"><i class="fa-solid fa-share-nodes"></i></a>
+                                        <a class="p-2 copy-thread-link cursor-pointer"><i class="fa-solid fa-share-nodes"></i></a>
                                     </li>
                                     <li class="nav-item m-1">
                                         {{-- {{$questionThread->user->id}}\\\{{auth()->user()->id}}\\\{{auth()->user()->user_role}} --}}
@@ -125,9 +125,15 @@
                             style="font-family:inherit; padding: 0.4em 1em; font-size: 11px; font-weight: unset; border-radius: unset; letter-spacing: unset; line-height: unset">
                             <i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;login to add answer
                         </a> --}}
+                        @if (auth()->check() && auth()->user()->user_role == 0)
                         <a class="button small-bth" id="add-answer-btn">
                             <i class="fas fa-pen-square"></i>&nbsp;&nbsp;Add Answer                                <!-- <i class="fas fa-pen-square"></i>&nbsp;&nbsp;Add Answer -->
                         </a>
+                        @else
+                        <a class="button small-bth">
+                            <i class="fa-solid fa-lock"></i>&nbsp;&nbsp;Admin cannot add answer                                <!-- <i class="fas fa-pen-square"></i>&nbsp;&nbsp;Add Answer -->
+                        </a>
+                        @endif
                     </div>
 
                 </div>
@@ -367,6 +373,8 @@
             // }, 2000);
             loadAnswerItems()
 
+
+
         });
 
         function loadAnswerItems() {
@@ -402,7 +410,7 @@
 
                     console.log(response)
                     pushToastMessage('success',
-                        'success load data', 'success')
+                        'success load answer data', 'success')
 
                     if(response.answers.length > 0){
                         $('#no-answer').hide()
@@ -449,6 +457,18 @@
 
                     }
 
+                    // var currentUrl = window.location.href;
+                    // var idInUrl = currentUrl.substring(currentUrl.indexOf("#") + 1);
+
+                    // // Check if an element with the ID exists
+                    // var answerElement = $("[answer-id='" + idInUrl + "']");
+                    // if (answerElement.length > 0) {
+
+                    //     console.log("Element with ID '" + idInUrl + "' exists.");
+                    //     console.log(answerElement)
+                    // } else {
+                    //     console.log("Element with ID '" + idInUrl + "' does not exist.");
+                    // }
 
                 },
                 error: function(errors) {
@@ -605,7 +625,7 @@
             var collapseDiv = $('<div>').addClass('collapse navbar-collapse position-absolute bg-lifted hamburgerMenuAnswer');
             var navbarNav = $('<ul>').addClass('navbar-nav p-2');
             var navItem1 = $('<li>').addClass('nav-item m-1');
-            var navItemLink1 = $('<a>').attr('href', '#').addClass('p-2 d-block').html($('<i>').addClass('fa-solid fa-share-nodes'));
+            var navItemLink1 = $('<a>').addClass('p-2 d-block copy-thread-link cursor-pointer').html($('<i>').addClass('fa-solid fa-share-nodes'));
             var navItem2 = $('<li>').addClass('nav-item m-1');
             var navItemLink2 = $('<a>').addClass('p-2 d-block cursor-pointer').html($('<i>').addClass('fa-solid fa-trash'));
             navItemLink2.attr('data-bs-toggle', 'modal')
@@ -694,7 +714,7 @@
 
                     console.log(response.upvote_is_active)
                     pushToastMessage('success',
-                        'success load data', 'success')
+                        'success up vote', 'success')
 
                     var downvoteCount = parseInt(thisVote.siblings('.down-vote-toggle').find('p').html());
                     var upvoteCount = parseInt(thisVote.find('p').html());
@@ -766,7 +786,7 @@
 
                     console.log(response.downvote_is_active)
                     pushToastMessage('success',
-                        'success load data', 'success')
+                        'success down vote', 'success')
 
                     var downvoteCount = parseInt(thisVote.find('p').html());
                     var upvoteCount = parseInt(thisVote.siblings('.up-vote-toggle').find('p').html());
@@ -905,6 +925,9 @@
                         $("#backdrop-close-evoke").click()
                         quillEditor.setText('');
                     }
+
+                    pushToastMessage('success',
+                        'your answer has been added', 'success')
 
                 },
                 error: function() {
@@ -1104,6 +1127,9 @@
                         // location.reload();
                         loadAnswerItems()
 
+                        pushToastMessage('success',
+                        'your answer has been deleted', 'success')
+
                     },
                     error: function() {
                         pushToastMessage('failed',
@@ -1153,7 +1179,7 @@
                         console.log(response)
 
                         pushToastMessage('success',
-                            'success true moderation', 'success')
+                            'You have moderated an answer as True', 'success')
 
                         loadAnswerItems()
 
@@ -1204,7 +1230,7 @@
                     success: function(response) {
                         console.log(response)
                         pushToastMessage('success',
-                            'success false moderation', 'success')
+                            'You have moderate an answer as False', 'success')
                         
                         loadAnswerItems()
 

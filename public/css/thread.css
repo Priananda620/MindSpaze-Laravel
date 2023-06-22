@@ -147,8 +147,8 @@ a {
 
 
 .thread-contents-header .user-data {
-    mix-blend-mode: color-dodge;
-    /* mix-blend-mode: exclusion; */
+    /* mix-blend-mode: color-dodge; */
+    mix-blend-mode: unset;
 }
 
 

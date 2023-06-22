@@ -670,17 +670,17 @@ section.section-child .section-text {
         display: none;
     }
 
-    #course-statistic-wrap {
+    /* #course-statistic-wrap {
         flex-direction: column;
-    }
+    } */
 
-    #course-statistic-wrap>div {
+    /* #course-statistic-wrap>div {
         width: 100% !important;
-    }
+    } */
 
-    #course-statistic-wrap>div:nth-of-type(1) {
+    /* #course-statistic-wrap>div:nth-of-type(1) {
         margin-bottom: 1em !important;
-    }
+    } */
 
     #main-body-content {
         width: 90vw !important;
@@ -860,7 +860,7 @@ footer i:hover {
 }
 
 .user-avatar-wrap {
-    filter: brightness(2);
+    /* filter: brightness(2); */
     background: var(--base-color-lifted-1);
     border-radius: 22px;
     height: 3.7em;
@@ -1435,7 +1435,7 @@ section#heading-landing-text p {
 
 .course-card-items {
     padding: 1em;
-    mix-blend-mode: difference;
+    /* mix-blend-mode: difference; */
     background: var(--section-bg);
     border-radius: .5em;
 }
@@ -1457,7 +1457,16 @@ section#heading-landing-text p {
     background-position: center;
     position: relative;
     overflow: hidden;
-    background: lightgray;
+    background: var(--base-color);
+}
+
+
+.custom-truncate {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* Specify the maximum number of lines to show */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #course-card-wrap>div h4 {
@@ -1487,14 +1496,14 @@ section#heading-landing-text p {
     scrollbar-width: none;
 }
 
-#course-statistic-wrap>div {
+/* #course-statistic-wrap>div {
     width: 49%;
-    height: 20em;
+    /* height: 20em; */
     padding: 2em;
     border-radius: .5em;
 }
 
-#course-statistic-wrap>div:nth-of-type(2) {
+/* #course-statistic-wrap>div:nth-of-type(2) {
     background-color: transparent;
     background-image: linear-gradient(138deg, #4966f7, #7756fd);
 }
@@ -1508,7 +1517,7 @@ section#heading-landing-text p {
     background-repeat: no-repeat;
     position: relative;
     z-index: 1;
-}
+} */
 
 #course-statistic-wrap>div:nth-of-type(1)::after {
     width: 100%;
@@ -1521,20 +1530,20 @@ section#heading-landing-text p {
     z-index: -1;
     position: absolute;
     border-radius: .5em;
-}
+} */
 
-#course-statistic-wrap {
+/* #course-statistic-wrap {
     width: 100%;
-}
+} */
 
 #tutor-main h2,
 #tutor-main h3 {
     font-weight: 600;
 }
 
-#course-statistic-wrap p {
+/* #course-statistic-wrap p {
     line-height: 1.5em;
-}
+} */
 
 .text-elipsis {
     text-overflow: ellipsis;
@@ -1554,7 +1563,7 @@ h3>.divider {
 }
 
 
-#chips-filter .badge,  #chips-filter-profile .badge{
+#chips-filter .badge,  #chips-filter-profile .badge, #chips-filter-answer-type .badge{
     border: none !important;
     padding: 1.2em;
     margin: 0 .4em !important;

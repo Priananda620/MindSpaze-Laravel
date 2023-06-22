@@ -18,10 +18,12 @@
                         $formattedTimestamp = ltrim($formattedTimestamp, '0');
                     @endphp
 
-                    <h2 class="fw-bold mt-3">{{ $currentUser->username }}</h2>
+                    <h2 class="fw-bold mt-3 text-truncate">{{ $currentUser->username }}</h2>
                     @if($currentUser->id != auth()->user()->id)
-                    <p class="text-muted-color">{{$currentUser->job}}
-                    </p>
+                        @if(!empty($currentUser->job))
+                        <p class="text-muted-color text-truncate">{{$currentUser->job}}
+                        </p>
+                        @endif
                     @endif
 
                     <p class="text-muted-color">Joined {{$formattedTimestamp}}
@@ -73,16 +75,18 @@
                     
 
                     @if ($currentUser->id == auth()->user()->id)
-                    <li class="nav-item me-2" role="presentation">
-                        <button class="nav-link active px-3 py-3" data-bs-toggle="tab" data-bs-target="#profile-details-tab" aria-selected="true" role="tab">Profile Details</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link px-3 py-3" data-bs-toggle="tab" data-bs-target="#current-user-questions-tab" aria-selected="false" role="tab" tabindex="-1">Your Questions</button>
-                    </li>
+                        <li class="nav-item me-2" role="presentation">
+                            <button class="nav-link active px-3 py-3" data-bs-toggle="tab" data-bs-target="#profile-details-tab" aria-selected="true" role="tab">Profile Details</button>
+                        </li>
+                            @if(auth()->check() && auth()->user()->user_role == 0)
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link px-3 py-3" data-bs-toggle="tab" data-bs-target="#current-user-questions-tab" aria-selected="false" role="tab" tabindex="-1">Your Questions</button>
+                            </li>
+                            @endif
                     @elseif($currentUser->id != auth()->user()->id)
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link px-3 py-3 active" data-bs-toggle="tab" data-bs-target="#current-user-questions-tab" aria-selected="true" role="tab">{{$currentUser->username}}'s questions</button>
-                    </li>
+                        <li class="nav-item me-2" role="presentation">
+                            <button class="nav-link px-3 py-3 active" data-bs-toggle="tab" data-bs-target="#current-user-questions-tab" aria-selected="true" role="tab">{{$currentUser->username}}'s questions</button>
+                        </li>
                     @endif
 
                     @if(auth()->user()->user_role == 1 && $currentUser->id != auth()->user()->id)
@@ -105,12 +109,12 @@
 
                                         @if(auth()->user()->user_role == 1)
                                         <li class="nav-item me-2 mt-2" role="presentation">
-                                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings"
-                                                aria-selected="false" role="tab" tabindex="-1">Settings</button>
-                                        </li>
-                                        <li class="nav-item me-2 mt-2" role="presentation">
                                             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview"
                                                 aria-selected="true" role="tab">Overview</button>
+                                        </li>
+                                        <li class="nav-item me-2 mt-2" role="presentation">
+                                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings"
+                                                aria-selected="false" role="tab" tabindex="-1">Settings</button>
                                         </li>
                                         @endif
 
@@ -166,20 +170,21 @@
 
                                             <!-- Settings Form -->
                                             <form id="user-type-form">
-
+                                                <input class="d-none" type="hidden" name="user_id" value="{{$encrypted_userId}}">
+                                                
                                                 <div class="row mb-3">
                                                     <label for="username" class="col-md-4 col-lg-3 col-form-label">User Type</label>
                                                     <div class="col-md-8 col-lg-9">
                                                         <div class="d-flex align-items-center py-2">
-                                                            <input class="form-check-input m-0 me-2" type="checkbox"
-                                                                id="changesMade" checked="">
+                                                            <input class="w-auto p-2 form-check-input m-0 me-2" type="radio" name="user_role" value="basic_user"
+                                                                id="basic_role" {{$currentUser->user_role !== 1 ? 'checked' : ''}}>
                                                             <label class="form-check-label m-0 " for="changesMade">
                                                                 Basic User
                                                             </label>
                                                         </div>
                                                         <div class="d-flex align-items-center py-2">
-                                                            <input class="form-check-input m-0 me-2" type="checkbox"
-                                                                id="newProducts" checked="">
+                                                            <input class="w-auto p-2 form-check-input m-0 me-2" type="radio" name="user_role" value="admin_user"
+                                                                id="admin_role" {{$currentUser->user_role == 1 ? 'checked' : ''}}>
                                                             <label class="form-check-label m-0" for="newProducts">
                                                                 Admin
                                                             </label>
@@ -410,20 +415,21 @@
 
                                                 <!-- Settings Form -->
                                                 <form id="user-type-form">
+                                                    <input class="d-none" type="hidden" name="user_id" value="{{$encrypted_userId}}">
 
                                                     <div class="row mb-3">
                                                         <label for="username" class="col-md-4 col-lg-3 col-form-label">User Type</label>
                                                         <div class="col-md-8 col-lg-9">
                                                             <div class="d-flex align-items-center py-2">
-                                                                <input class="form-check-input m-0 me-2" type="checkbox"
-                                                                    id="changesMade" checked="">
+                                                                <input class="w-auto p-2 form-check-input m-0 me-2" type="radio" name="user_role" value="basic_user"
+                                                                    id="basic_role" {{$currentUser->user_role !== 1 ? 'checked' : ''}}>
                                                                 <label class="form-check-label m-0 " for="changesMade">
                                                                     Basic User
                                                                 </label>
                                                             </div>
                                                             <div class="d-flex align-items-center py-2">
-                                                                <input class="form-check-input m-0 me-2" type="checkbox"
-                                                                    id="newProducts" checked="">
+                                                                <input class="w-auto p-2 form-check-input m-0 me-2" type="radio" name="user_role" value="admin_user"
+                                                                    id="admin_role" {{$currentUser->user_role == 1 ? 'checked' : ''}}>
                                                                 <label class="form-check-label m-0" for="newProducts">
                                                                     Admin
                                                                 </label>
@@ -482,7 +488,9 @@
                             </div>
                         </div>
                     @endif
-                    <div class="tab-pane fade {{$currentUser-> id != auth()->user()->id ? 'show active' : ''}}" id="current-user-questions-tab" role="tabpanel">
+
+                    
+                    <div class="tab-pane fade {{$currentUser->id != auth()->user()->id ? 'show active' : ''}}" id="current-user-questions-tab" role="tabpanel">
                         <div class="row">
                             <!-- Left child container -->
                             {{-- <h4 class="fw-bold">Questions</h4> --}}
@@ -553,10 +561,87 @@
       </div> --}}
         </div>
     </div>
+    @if(auth()->user()->user_role == 1)
+        <script>
+            $(document).ready(() => {
+                // Find element with specific answer-id attribute
+                // Get the ID from the URL
+
+                $('#user-type-form').on('submit',(e) => {
+                    e.preventDefault()
+                    
+                    var formData = new FormData($('#user-type-form')[0])
+                    console.log(formData.get('user_role'))
+
+
+                    let requestHeaders = {
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + $.cookie('api_plain_token')
+                    };
+
+                    $.ajax({
+                        url: window.location.origin + "/api/" + 'user/change-role',
+                        method: 'POST',
+                        headers: requestHeaders,
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        timeout: 5000,
+
+                        success: function(response) {
+                            console.log(response)
+                            
+                            pushToastMessage('success',
+                                'success update role', 'success')
+                        },
+                        error: function(xhr, status, error) {
+                            const response = JSON.parse(xhr.responseText);
+
+                            if (response.errors) {
+                                const errorMessages = Object.values(response.errors).flat();
+                                errorMessages.forEach(message => {
+                                    pushToastMessage('info', message, 'info');
+                                });
+                            } else if (response.message) {
+                                pushToastMessage('info', response.message, 'info');
+                            } else if (response.error) {
+                                pushToastMessage('info', response.error, 'info');
+                            } else {
+                                pushToastMessage('failed', 'Failed, check console', 'fail');
+                                console.log(response)
+                            }
+
+                        },
+                        beforeSend: function() {
+                            animateProgressBar(true)
+                        },
+                        complete: function() {
+                            $('.progress-bar').css('width', '100%').attr('aria-valuenow', 100);
+                            $('.progress-bar').addClass('opacity-0')
+                            $('.progress-bar').removeClass('opacity-100')
+                        },
+                    });
+                })
+                
+            })
+        </script>
+    @endif
     <script>
         var profileQuestionSelectedFilter = ["ALL_QUESTION"];
         var userId = '{{$encrypted_userId}}'
         $(document).ready(() => {
+            var url = window.location.href;
+            var idInUrl = url.substring(url.indexOf("#") + 1);
+
+            // Check if an element with the ID exists
+            if(idInUrl == 'account-settings'){
+                if ($("button[data-bs-target='#profile-edit']").length > 0) {
+                    console.log("Element with ID '" + idInUrl + "' exists.");
+                    $("button[data-bs-target='#profile-edit']").click()
+                }
+            }
+
+      
             $('#change-password-submit').on('click', function (e) {
                 e.preventDefault()
 
@@ -726,6 +811,7 @@
                     method: 'GET',
                     headers: requestHeaders,
                     data: {
+                        limit: 6,
                         user_id: userId,
                         date: dateFilter,
                         filter_by: profileQuestionSelectedFilter[0],
@@ -760,7 +846,7 @@
                 $('#profileQuestionInputDebounce').trigger('input');
             })
 
-            if ($('button[data-bs-target="#profile-details-tab"]').length == 0) {
+            if ($('button[data-bs-target="#profile-edit"]').length == 0) {
                 profileQuestionInputDebounce.trigger('input');
             }
 
@@ -817,7 +903,7 @@
                             setTimeout(function () {
 
                                 // getThreads(currentPage); // Fetch the threads for the new page
-                                fetchNonHeaderSearchResults()
+                                fetchProfileThreadResults()
                             }, 500);
                             
                         }

@@ -71,6 +71,10 @@ Route::middleware(['checkLoginSession'])->group(function () {
         Route::get('/admin', [HomeController::class, 'admin']);
     });
 
+    Route::middleware(['basicUser'])->group(function () {
+        Route::get('/add-question', [HomeController::class, 'addQuestion'])->name('addQuestion');
+    });
+
     Route::prefix('thread')->group(function () {
         Route::post('/upload-image', [ThreadController::class, 'addQuestionImage']);
 
@@ -87,7 +91,7 @@ Route::middleware(['checkLoginSession'])->group(function () {
     });
 
 
-    Route::get('/add-question', [HomeController::class, 'addQuestion'])->name('addQuestion');
+    
 });
 
 

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Tags;
 use Illuminate\Support\Facades\Crypt;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -28,12 +29,36 @@ class HomeController extends Controller
 
     public function admin(Request $request)
     {
-        $answers = Answer::all();
+        $answers = Answer::whereNull('moderated_as');
+
+        $allAnswers = Answer::all()->count();
+
+        $allQuestion = Question::all()->count();
+
+        $allBasicUser = User::where('user_role', 0)->count();
+
+        $allAdmin = User::where('user_role', 1)->count();
+
+
 
         $total_is_moderated = Answer::whereNotNull('moderated_as')->count();
-        $total_not_moderated = Answer::whereNull('moderated_as')->count();
+        $total_not_moderated = $answers->count();
 
-        return view('adminMain', compact('answers', 'total_not_moderated', 'total_is_moderated'));
+        $total_ai_true = Answer::whereNotNull('ai_classification_status')->where('ai_classification_status', 1)->count();
+        $total_ai_false = Answer::whereNotNull('ai_classification_status')->where('ai_classification_status', 0)->count();
+
+        $answers = $answers->get();
+
+        $answers = $answers->map(function ($result) {
+            $result->encrypted_question_id = Crypt::encryptString($result->question->id);
+            $createdAt = Carbon::parse($result->created_at);
+            $result->elapsed_time = $createdAt->diffForHumans();
+
+            return $result;
+        });
+
+        return view('adminMain', compact('answers', 'total_not_moderated', 
+        'total_is_moderated', 'allAnswers', 'allQuestion', 'allAdmin', 'allBasicUser', 'total_ai_false', 'total_ai_true'));
     }
 
 

@@ -43,11 +43,17 @@
                             <li>
                                 <a href="{{url('/profile').'/'.auth()->user()->username}}">My Profile</a>
                             </li>
+                            @if(auth()->check() && auth()->user()->user_role == 0)
                             <li>
                                 <a href="{{url('/add-question')}}">Add Question</a>
                             </li>
+                            @elseif(auth()->check() && auth()->user()->user_role == 1)
                             <li>
-                                <a href="{{url('/profile').'/'.auth()->user()->username}}">Account Settings</a>
+                                <a href="{{url('/')}}">Dashboard</a>
+                            </li>
+                            @endif
+                            <li>
+                                <a href="{{url('/profile/#account-settings')}}">Account Settings</a>
                             </li>
                             <li>
                                 <a href="{{url('/threads')}}">Browse Threads</a>
@@ -61,11 +67,13 @@
                 </div>
 
             </div>
+            @if(auth()->check() && auth()->user()->user_role == 0)
             <div class="d-flex flex-row me-3">
                 <a href="{{url('/add-question')}}" class="h3 m-0">
                     <i class="fa-solid fa-square-plus"></i>
                 </a>
             </div>
+            @endif
 
             <a class="button me-2 logout-action" href="{{url('/logout')}}">Logout</a>
             {{-- <div class="user-avatar-rounded me-2" style="background-image:url('assets/tutors/{{auth()->user()->id}}.jpg')"></div> --}}

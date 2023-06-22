@@ -24,6 +24,15 @@ class UserTableSeeder extends Seeder
                 'password' => Hash::make("Azhar20062001"),
                 'phone' => '87875587801',
                 'country_code' => 'id',
+                'user_role' => '0',
+            ],
+            [
+                'email' => 'admin1@yopmail.com',
+                'username' => 'admin1',
+                'password' => Hash::make("Admin1@yopmail.com"),
+                'phone' => '87356273727',
+                'country_code' => 'id',
+                'user_role' => '1',
             ],
         ]);
     }

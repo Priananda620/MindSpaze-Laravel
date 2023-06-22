@@ -58,6 +58,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/change-password', [UserController::class, 'changePassword']);
 
         Route::get('/get-threads', [ThreadController::class, 'getUserThreads']);
+
+        Route::post('/change-role', [UserController::class, 'updateRole']);
     });
 
 

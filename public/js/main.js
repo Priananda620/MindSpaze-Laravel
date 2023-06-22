@@ -361,9 +361,30 @@ function checkQuillImage(objectRoot) {
     return false;
 }
 
+function copyToClipboard(text) {
+    var tempInput = $('<input>');
+    $('body').append(tempInput);
+    tempInput.val(text).select();
+    document.execCommand('copy');
+    tempInput.remove();
+    pushToastMessage('Share', 'Link Copied To Clipboard', 'success')
+  }
+  
+
 $(document).ready(() => {
     const inputPhoneField = document.getElementById('Phone');
+    
+    $(document).on('click', '.copy-thread-link', function() {
+        const currentUrl = window.location.href;
 
+        copyToClipboard(currentUrl);
+
+        backdropCloseEvoke.click()
+
+        console.log('COPYY CLIPBOARD')
+    });
+
+      
     // Add event listener to restrict input to only integers
     inputPhoneField.addEventListener('input', function (e) {
         this.value = this.value.replace(/[^0-9]/g, '');
@@ -931,6 +952,7 @@ $(document).ready(() => {
 
                         // getThreads(currentPage); // Fetch the threads for the new page
                         fetchNonHeaderSearchResults()
+                        
                     }, 500);
                     
                 }
@@ -958,6 +980,8 @@ $(document).ready(() => {
             'Authorization': 'Bearer ' + $.cookie('api_plain_token')
         };
 
+        const selectedDropdown = $('#selected-option').val()
+
         $.ajax({
             url: window.location.origin + "/api/" + 'get-threads',
             method: 'POST',
@@ -965,7 +989,8 @@ $(document).ready(() => {
             data: JSON.stringify({
                 query: query,
                 tags: tagsSelectedEncIDJSON,
-                page: currentPage
+                page: currentPage,
+                order_by: selectedDropdown
             }),
             timeout: 5000,
             success: function (response) {
@@ -1198,10 +1223,10 @@ $(document).ready(() => {
         } else {
             console.log("bbbbb")
             toggler.setAttribute("checked", "false");
-            r.style.setProperty('--base-color', '#888cb0')
+            r.style.setProperty('--base-color', '#f3f4ff')
             r.style.setProperty('--display-font-color', '#131c22')
             r.style.setProperty('--base-color-lifted-1', '#e0e3ff')
-            r.style.setProperty('--section-bg', '#6a63ab')
+            r.style.setProperty('--section-bg', '#efedff')
             r.style.setProperty('--display-font-color-2nd', '#424c53')
 
             Cookies.set('dark_switch_status', false)
