@@ -29,71 +29,71 @@ use Ramsey\Uuid\Type\Integer;
 class ThreadController extends Controller
 {
 
-    public function test()
-    {
-        $answerCondition = false;  // Default is to filter where answer is null
-        $moderatedAs = 1;  // Default is to ignore this condition
-        $aiClassificationStatus = null;  // Default is to ignore this condition
+    // public function test()
+    // {
+    //     $answerCondition = false;  // Default is to filter where answer is null
+    //     $moderatedAs = 1;  // Default is to ignore this condition
+    //     $aiClassificationStatus = null;  // Default is to ignore this condition
 
-        if ($answerCondition) {
+    //     if ($answerCondition) {
 
-            $results = Question::with('user', 'answer')
-                ->select('questions.*')
-                ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
-                ->where('questions.user_id', auth()->user()->id)
-                ->whereNull('answers.id')
-                ->orderBy('created_at', 'asc')
-                ->distinct()
-                ->get();
-        } else if ($moderatedAs) {
-            $results = Question::with('user', 'answer')
-                ->select('questions.*')
-                ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
-                ->where('questions.user_id', auth()->user()->id)
-                ->whereNotNull('answers.id')
-                ->when(!is_null($moderatedAs), function ($query) use ($moderatedAs) {
-                    return $query->where('answers.moderated_as', $moderatedAs);
-                })
-                ->orderBy('created_at', 'asc')
-                ->distinct()
-                ->get();
-        } else if ($aiClassificationStatus) {
-            $results = Question::with('user', 'answer')
-                ->select('questions.*')
-                ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
-                ->where('questions.user_id', auth()->user()->id)
-                ->whereNotNull('answers.id')
-                ->when(!is_null($aiClassificationStatus), function ($query) use ($aiClassificationStatus) {
-                    return $query->where('answers.ai_classification_status', $aiClassificationStatus);
-                })
-                ->orderBy('created_at', 'asc')
-                ->distinct()
-                ->get();
-        }
+    //         $results = Question::with('user', 'answer')
+    //             ->select('questions.*')
+    //             ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
+    //             ->where('questions.user_id', auth()->user()->id)
+    //             ->whereNull('answers.id')
+    //             ->orderBy('created_at', 'asc')
+    //             ->distinct()
+    //             ->get();
+    //     } else if ($moderatedAs) {
+    //         $results = Question::with('user', 'answer')
+    //             ->select('questions.*')
+    //             ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
+    //             ->where('questions.user_id', auth()->user()->id)
+    //             ->whereNotNull('answers.id')
+    //             ->when(!is_null($moderatedAs), function ($query) use ($moderatedAs) {
+    //                 return $query->where('answers.moderated_as', $moderatedAs);
+    //             })
+    //             ->orderBy('created_at', 'asc')
+    //             ->distinct()
+    //             ->get();
+    //     } else if ($aiClassificationStatus) {
+    //         $results = Question::with('user', 'answer')
+    //             ->select('questions.*')
+    //             ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
+    //             ->where('questions.user_id', auth()->user()->id)
+    //             ->whereNotNull('answers.id')
+    //             ->when(!is_null($aiClassificationStatus), function ($query) use ($aiClassificationStatus) {
+    //                 return $query->where('answers.ai_classification_status', $aiClassificationStatus);
+    //             })
+    //             ->orderBy('created_at', 'asc')
+    //             ->distinct()
+    //             ->get();
+    //     }
 
-        // $results = Question::with('user', 'answer')
-        // ->select('questions.*')
-        // ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
-        // ->where('questions.user_id', auth()->user()->id)
-        // ->when($answerCondition, function ($query) {
-        //     return $query->whereNull('answers.id');
-        // }, function ($query) {
-        //     return $query->whereNotNull('answers.id');
-        // })
-        // ->when(!is_null($moderatedAs), function ($query) use ($moderatedAs) {
-        //     return $query->where('answers.moderated_as', $moderatedAs);
-        // })
-        // ->when(!is_null($aiClassificationStatus), function ($query) use ($aiClassificationStatus) {
-        //     return $query->where('answers.ai_classification_status', $aiClassificationStatus);
-        // })
-        // ->orderBy('created_at', 'asc')
-        // ->distinct()
-        // ->get();
+    //     // $results = Question::with('user', 'answer')
+    //     // ->select('questions.*')
+    //     // ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
+    //     // ->where('questions.user_id', auth()->user()->id)
+    //     // ->when($answerCondition, function ($query) {
+    //     //     return $query->whereNull('answers.id');
+    //     // }, function ($query) {
+    //     //     return $query->whereNotNull('answers.id');
+    //     // })
+    //     // ->when(!is_null($moderatedAs), function ($query) use ($moderatedAs) {
+    //     //     return $query->where('answers.moderated_as', $moderatedAs);
+    //     // })
+    //     // ->when(!is_null($aiClassificationStatus), function ($query) use ($aiClassificationStatus) {
+    //     //     return $query->where('answers.ai_classification_status', $aiClassificationStatus);
+    //     // })
+    //     // ->orderBy('created_at', 'asc')
+    //     // ->distinct()
+    //     // ->get();
 
-        // $results = Question::where('user_id', auth()->user()->id)->get();
+    //     // $results = Question::where('user_id', auth()->user()->id)->get();
 
-        print_r($results);
-    }
+    //     print_r($results);
+    // }
 
     private static function guidv4($data = null)
     {

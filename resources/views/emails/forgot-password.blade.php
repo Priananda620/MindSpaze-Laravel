@@ -15,7 +15,7 @@
             <div style="margin-bottom: 20px;border-radius: 50%;">
                 <a href="{{$profileUrl}}" style="display: flex; align-items: center;background-color: #1d1d1d;padding: 20px; border-radius: 8px; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);">
                     <div style="background-image:url('{{$avatarUrl}}');background-color: #ffffff; width: 35px; height: 35px; border-radius: 50%; margin-right: 8px;background-size: cover;background-position: center;"></div>
-                    <span style="color: #ffffff;">{{$username}}</span>
+                    <span style="color: #ffffff;height: fit-content;margin: auto 0;">{{$username}}</span>
                 </a>
             </div>
 
