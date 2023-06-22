@@ -39,7 +39,7 @@ class ForgotPasswordController extends Controller
                 $resetUrl = URL::signedRoute('password.reset', ['token' => $token, 'email' => $request->email]);
                 $profileUrl = User::where('email', $request->email)->first();
                 
-                Mail::send('emails.forgot-password', ['resetUrl' => $resetUrl, 'profileUrl' => url('/profile').'/'.$profileUrl->username, 'avatarUrl' => asset('storage/assets/user_images/').'/'.$profileUrl->user_profile_img], function ($message) use ($request) {
+                Mail::send('emails.forgot-password', ['username' => $profileUrl->username,'resetUrl' => $resetUrl, 'profileUrl' => url('/profile').'/'.$profileUrl->username, 'avatarUrl' => asset('storage/assets/user_images/').'/'.$profileUrl->user_profile_img], function ($message) use ($request) {
                     $message->to($request->email)->subject('Reset Your Password');
                 });
             }
