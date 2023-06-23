@@ -139,7 +139,12 @@
 				<div class="part2-card" style="margin-right:1em">
 					<h2>Start Using<br>Our Services</h2>
 					<p class="display-font-color">Start participating in our spaze now. You can start by exploring. And say hi to everyone if you have logged in 👋</p>
-					<p class="display-font-color" onclick="location.href='{{url('/threads')}}'"><strong>View Threads</strong>&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i></p>
+                    @if(auth()->check())
+                    <p class="display-font-color" onclick="location.href='{{url('/threads')}}'"><strong>View Threads</strong>&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i></p>
+                    @else
+                    <p class="display-font-color" onclick="location.href='{{url('/#login')}}'"><strong>Login</strong>&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i></p>
+                    @endif
+					
 				</div>
             </div>
             <div class="col mt-5">
