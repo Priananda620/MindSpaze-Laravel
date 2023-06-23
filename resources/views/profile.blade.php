@@ -18,7 +18,12 @@
                         $formattedTimestamp = ltrim($formattedTimestamp, '0');
                     @endphp
 
-                    <h2 class="fw-bold mt-3 text-truncate">{{ $currentUser->username }}</h2>
+                    <h2 class="fw-bold mt-3 text-truncate">{{ $currentUser->username }}
+                    @if ($currentUser->is_bolt_user)
+                        <i class='fa-solid fa-bolt mb-1 orange' style='color:var(--yellow)' data-bs-toggle='tooltip' data-bs-placement='right' title='Bolt User'></i>
+                    @endif
+
+                    </h2>
                     @if($currentUser->id != auth()->user()->id)
                         @if(!empty($currentUser->job))
                         <p class="text-muted-color text-truncate">{{$currentUser->job}}
@@ -72,7 +77,7 @@
             <!-- 2nd column -->
             <div class="col-lg-8 mt-5">
                 <ul class="nav nav-pills mb-3" role="tablist">
-                    
+
 
                     @if ($currentUser->id == auth()->user()->id)
                         <li class="nav-item me-2" role="presentation">
@@ -94,8 +99,8 @@
                         <button class="nav-link px-3 py-3" data-bs-toggle="tab" data-bs-target="#profile-details-tab" aria-selected="false" role="tab" tabindex="-1">Profile Details</button>
                     </li>
                     @endif
-                    
-                    
+
+
                 </ul>
                 <div class="tab-content">
                     @if(auth()->user()->user_role == 1 and $currentUser-> id != auth()->user()->id)
@@ -124,8 +129,8 @@
                                         <div class="tab-pane fade profile-overview active show" id="profile-overview"
                                             role="tabpanel">
                                             <h4 class="card-title mt-2">About</h4>
-                                            <p class="small fst-italic">Your profile details should be accurate and up-to-date. 
-                                                Please ensure the information you provide is true and complete. 
+                                            <p class="small fst-italic">Your profile details should be accurate and up-to-date.
+                                                Please ensure the information you provide is true and complete.
                                                 We respect your privacy and will handle your profile details in accordance with your privacy regards.
 
                                             </p>
@@ -171,7 +176,7 @@
                                             <!-- Settings Form -->
                                             <form id="user-type-form">
                                                 <input class="d-none" type="hidden" name="user_id" value="{{$encrypted_userId}}">
-                                                
+
                                                 <div class="row mb-3">
                                                     <label for="username" class="col-md-4 col-lg-3 col-form-label">User Type</label>
                                                     <div class="col-md-8 col-lg-9">
@@ -189,7 +194,7 @@
                                                                 Admin
                                                             </label>
                                                         </div>
-                                                        
+
                                                     </div>
                                                 </div>
 
@@ -201,7 +206,7 @@
                                         </div>
                                         @endif
 
-                                        
+
 
                                     </div><!-- End Bordered Tabs -->
 
@@ -229,14 +234,14 @@
                                                     aria-selected="false" role="tab" tabindex="-1">Edit Profile</button>
                                             </li>
 
-                                            
+
                                             @if(auth()->user()->user_role == 1)
                                                 <li class="nav-item me-2 mt-2" role="presentation">
                                                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings"
                                                         aria-selected="false" role="tab" tabindex="-1">Settings</button>
                                                 </li>
                                             @endif
-                                            
+
 
                                             <li class="nav-item me-2 mt-2" role="presentation">
                                                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password"
@@ -249,11 +254,11 @@
                                             <div class="tab-pane fade profile-overview active show" id="profile-overview"
                                                 role="tabpanel">
                                                 <h4 class="card-title mt-2">About</h4>
-                                                <p class="small fst-italic">Your profile details should be accurate and up-to-date. 
-                                                    Please ensure the information you provide is true and complete. 
+                                                <p class="small fst-italic">Your profile details should be accurate and up-to-date.
+                                                    Please ensure the information you provide is true and complete.
                                                     We respect your privacy and will handle your profile details in accordance with your privacy regards.
-                                                    
-                                                    
+
+
                                                 </p>
                                                 <a class="badge bg-light text-dark me-1 mt-1" href="/about#community-guidelines" target="_blank" rel="noopener noreferrer">Community Guidelines&nbsp;<i class="fa-solid fa-right-long"></i></a>
 
@@ -434,7 +439,7 @@
                                                                     Admin
                                                                 </label>
                                                             </div>
-                                                            
+
                                                         </div>
                                                     </div>
 
@@ -489,7 +494,7 @@
                         </div>
                     @endif
 
-                    
+
                     <div class="tab-pane fade {{$currentUser->id != auth()->user()->id ? 'show active' : ''}}" id="current-user-questions-tab" role="tabpanel">
                         <div class="row">
                             <!-- Left child container -->
@@ -569,7 +574,7 @@
 
                 $('#user-type-form').on('submit',(e) => {
                     e.preventDefault()
-                    
+
                     var formData = new FormData($('#user-type-form')[0])
                     console.log(formData.get('user_role'))
 
@@ -590,7 +595,7 @@
 
                         success: function(response) {
                             console.log(response)
-                            
+
                             pushToastMessage('success',
                                 'success update role', 'success')
                         },
@@ -622,7 +627,7 @@
                         },
                     });
                 })
-                
+
             })
         </script>
     @endif
@@ -641,7 +646,7 @@
                 }
             }
 
-      
+
             $('#change-password-submit').on('click', function (e) {
                 e.preventDefault()
 
@@ -668,7 +673,7 @@
 
                     success: function(response) {
                         console.log(response)
-                        
+
                         pushToastMessage('success',
                             'success update data', 'success')
                     },
@@ -713,7 +718,7 @@
                 var formData = new FormData($('#profile_update_data')[0])
                 console.log(formData.get('user-pic-update'))
                 console.log(formData.get('username'))
-                
+
 
 
                 let requestHeaders = {
@@ -747,7 +752,7 @@
                         // } else {
                         //     pushToastMessage('failed', 'Failed, check console', 'fail');
                         // }
-                        
+
                         if (response.errors) {
                             const errorMessages = Object.values(response.errors).flat();
                             errorMessages.forEach(message => {
@@ -856,8 +861,8 @@
             });
 
 
-            
-            
+
+
             $('#chips-filter-profile .badge').on('click', function () {
                 $('#chips-filter-profile .badge').addClass('bg-dark')
                 $('#chips-filter-profile .badge').removeClass('bg-secondary')
@@ -895,7 +900,7 @@
                     // Add click event listener to the page link
                     pageElement.find('a').click(function () {
                         if(!$(this).parent('li').hasClass('active')){
-                            
+
                             var newPage = $(this).text();
                             currentPage = parseInt(newPage); // Update the current page
 
@@ -905,9 +910,9 @@
                                 // getThreads(currentPage); // Fetch the threads for the new page
                                 fetchProfileThreadResults()
                             }, 500);
-                            
+
                         }
-                        
+
                     });
 
                     // Append the page element to the pagination
