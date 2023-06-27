@@ -25,11 +25,35 @@
                 <button class="float-end"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            @include('login')
-            @include('register')
+            {{-- @if(!auth()->check()) --}}
+                @include('login')
+                @include('register')
+            {{-- @endif --}}
 
         </div>
     </div>
+
+    @php
+        use Illuminate\Support\Facades\Request;
+    @endphp
+    @php
+        $previousUrl = url()->previous();
+        $currentUrl = url()->current();
+
+        $previousDomain = parse_url($previousUrl, PHP_URL_HOST);
+        $currentDomain = parse_url($currentUrl, PHP_URL_HOST);
+
+        $isSameSite = (strcasecmp($previousDomain, $currentDomain) === 0);
+    @endphp
+
+    
+    @if ($isSameSite)
+    {{'v.1.0'}}
+    <div id="overlay-page-not-ready" class="w-100 h-100 position-fixed d-flex align-items-center justify-content-center">
+        <i class="fa-solid fa-ghost fa-beat" style="color: #f5bc00; font-size:5em"></i>
+    </div>
+    @endif
+
 
     <div id="full-page-container">
 

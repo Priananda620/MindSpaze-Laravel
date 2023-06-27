@@ -372,6 +372,18 @@ function copyToClipboard(text) {
   
 
 $(document).ready(() => {
+    setTimeout(function () {
+        $('#overlay-page-not-ready').css('transform', 'scale(16)')
+        $('#overlay-page-not-ready').addClass('thunderEffect')
+        setTimeout(function () {
+            $('#overlay-page-not-ready').css('opacity', '0')
+            setTimeout(function () {
+                $('#overlay-page-not-ready').removeClass('d-flex')
+                $('#overlay-page-not-ready').addClass('d-none')
+            }, 500);
+        }, 500);
+    }, 2200);
+
     const inputPhoneField = document.getElementById('Phone');
     
     $(document).on('click', '.copy-thread-link', function() {
