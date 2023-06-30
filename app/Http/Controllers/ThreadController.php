@@ -3,27 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use App\Models\Question;
+use App\Models\QuestionTag;
+use App\Models\Reaction;
 use App\Models\Tag;
 use App\Models\User;
-use App\Models\UpVote;
-use App\Models\DownVote;
-use App\Models\Reaction;
-use App\Models\Question;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
-use Laravel\Sanctum\PersonalAccessToken;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
-use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
-use App\Models\QuestionTag;
-use Ramsey\Uuid\Type\Integer;
 // use Reactions;
 
 class ThreadController extends Controller

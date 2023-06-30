@@ -4,15 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Answer;
 use App\Models\Question;
-use App\Models\User;
 use App\Models\Tag;
-use App\Models\QuestionTag;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Tags;
-use Illuminate\Support\Facades\Crypt;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {

@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Answer;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
-use App\Models\UpVote;
-use App\Models\DownVote;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Validation\ValidationException;
 
 class ModerateController extends Controller
 {

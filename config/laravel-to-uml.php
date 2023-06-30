@@ -49,7 +49,7 @@ return [
         'fillArrows' => false,
         'font'       => 'Calibri',
         'fontSize'   => 12,
-        'leading'    => 1.25,
+        'leading'    => 1.5,
         'lineWidth'  => 3,
         'padding'    => 10,
         'spacing'    => 20,
