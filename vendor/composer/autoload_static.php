@@ -102,6 +102,7 @@ class ComposerStaticInit68c26361ba3098996b4d2f0eb9efd882
         'O' => 
         array (
             'Opis\\Closure\\' => 13,
+            'Oefenweb\\DamerauLevenshtein\\' => 28,
         ),
         'N' => 
         array (
@@ -351,6 +352,10 @@ class ComposerStaticInit68c26361ba3098996b4d2f0eb9efd882
         'Opis\\Closure\\' => 
         array (
             0 => __DIR__ . '/..' . '/opis/closure/src',
+        ),
+        'Oefenweb\\DamerauLevenshtein\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/oefenweb/damerau-levenshtein/src',
         ),
         'NunoMaduro\\Collision\\' => 
         array (
@@ -3397,6 +3402,7 @@ class ComposerStaticInit68c26361ba3098996b4d2f0eb9efd882
         'NunoMaduro\\Collision\\Provider' => __DIR__ . '/..' . '/nunomaduro/collision/src/Provider.php',
         'NunoMaduro\\Collision\\SolutionsRepositories\\NullSolutionsRepository' => __DIR__ . '/..' . '/nunomaduro/collision/src/SolutionsRepositories/NullSolutionsRepository.php',
         'NunoMaduro\\Collision\\Writer' => __DIR__ . '/..' . '/nunomaduro/collision/src/Writer.php',
+        'Oefenweb\\DamerauLevenshtein\\DamerauLevenshtein' => __DIR__ . '/..' . '/oefenweb/damerau-levenshtein/src/DamerauLevenshtein.php',
         'Opis\\Closure\\Analyzer' => __DIR__ . '/..' . '/opis/closure/src/Analyzer.php',
         'Opis\\Closure\\ClosureContext' => __DIR__ . '/..' . '/opis/closure/src/ClosureContext.php',
         'Opis\\Closure\\ClosureScope' => __DIR__ . '/..' . '/opis/closure/src/ClosureScope.php',

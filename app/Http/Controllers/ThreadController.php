@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use Illuminate\Support\Facades\DB;
 use App\Models\Question;
 use App\Models\QuestionTag;
 use App\Models\Reaction;
@@ -96,6 +97,32 @@ class ThreadController extends Controller
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 
+    public function checkTitle(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'query' => 'nullable|string',
+            ]);
+    
+            $query = strtolower($request->input('query'));
+    
+            $checkTitle = Question::whereRaw('LOWER(title) LIKE ?', ['%' . $query . '%'])->count();
+    
+            return response()->json([
+                'total' => $checkTitle
+            ]);
+    
+        } catch (\Throwable $th) {
+            throw $th;
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $exception->errors(),
+            ], 422);
+        }
+    }
+    
+
     public function getThreads(Request $request)
     {
         try {
@@ -134,16 +161,43 @@ class ThreadController extends Controller
             if (!empty($request->input('query'))) {
 
                 if (count($decodedTags) > 0) {
+                    // $results = Question::with('user', 'answer')
+                    //     ->select('questions.*')
+                    //     ->join('question_tags', 'questions.id', '=', 'question_tags.question_id')
+                    //     ->join('tags', 'tags.id', '=', 'question_tags.tag_id')
+                    //     ->whereIn('tags.id', $decodedTags)
+                    //     ->where('title', 'LIKE', '%' . $request->input('query') . '%')
+                    //     ->distinct();
+                    $inputQuery = $request->input('query');
+                    $keywords = explode(' ', $inputQuery);
+
                     $results = Question::with('user', 'answer')
                         ->select('questions.*')
                         ->join('question_tags', 'questions.id', '=', 'question_tags.question_id')
                         ->join('tags', 'tags.id', '=', 'question_tags.tag_id')
                         ->whereIn('tags.id', $decodedTags)
-                        ->where('title', 'LIKE', '%' . $request->input('query') . '%')
+                        ->where(function ($query) use ($keywords) {
+                            foreach ($keywords as $keyword) {
+                                $query->orWhere(function ($query) use ($keyword) {
+                                    $query->whereRaw('levenshtein(LOWER(title), LOWER(?)) <= 15', [$keyword]);
+                                });
+                            }
+                            $query->orWhereRaw('LOWER(title) LIKE ?', ['%' . strtolower(implode(' ', $keywords)) . '%']);
+                        })
                         ->distinct();
-                    // ->get();
+                        // ->get();
                 } else {
-                    $results = Question::with('user', 'answer')->where('title', 'LIKE', '%' . $request->input('query') . '%');
+                    // $results = Question::with('user', 'answer')->where('title', 'LIKE', '%' . $request->input('query') . '%');
+                    $results = Question::with('user', 'answer')
+                    ->where(function ($query) use ($request) {
+                        $keywords = explode(' ', $request->input('query'));
+                        foreach ($keywords as $keyword) {
+                            $query->orWhere(function ($query) use ($keyword) {
+                                $query->whereRaw('levenshtein(LOWER(title), LOWER(?)) <= 15', [$keyword]);
+                            });
+                        }
+                        $query->orWhereRaw('LOWER(title) LIKE ?', ['%' . strtolower($request->input('query')) . '%']);
+                    });
                     // ->get();
                 }
             } else {
@@ -606,10 +660,29 @@ class ThreadController extends Controller
 
                 $tags = QuestionTag::with('tag')->where('question_id', $questionThread->id)->get();
 
-                $relatedThreads = Question::with('user', 'answer')
-                    ->where('title', 'LIKE', '%' . $questionThread->title . '%')
+                //modified 7/4
+                // $relatedThreads = Question::with('user', 'answer')
+                // ->where('title', 'LIKE', '%' . $questionThread->title . '%')
+                // ->where('id', '!=', $questionThread->id)
+                // ->limit(4)->withCount('answer')->get();
+
+                $keywords = explode(' ', $questionThread->title);
+                $relatedThreadsQuery = Question::with('user', 'answer')
+                    ->where(function ($query) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $lowercaseKeyword = strtolower($keyword);
+                            $query->orWhere(function ($query) use ($lowercaseKeyword) {
+                                $query->whereRaw(DB::raw('levenshtein(LOWER(title), LOWER(\''.$lowercaseKeyword.'\')) <= 15'));
+                            });
+                        }
+                    })
                     ->where('id', '!=', $questionThread->id)
-                    ->limit(4)->withCount('answer')->get();
+                    ->limit(4)
+                    ->withCount('answer');
+                
+                $relatedThreads = $relatedThreadsQuery->get();
+                $relatedSqlQuery = $relatedThreadsQuery->toSql();
+
 
                 if ($relatedThreads->isEmpty()) {
                     $relatedThreads = Question::with('user', 'answer')
@@ -619,9 +692,13 @@ class ThreadController extends Controller
                 } else if ($relatedThreads->count() < 4) {
                     $addition_LIMIT = 4 - $relatedThreads->count();
 
+                    //modified 7/4
+                    $relatedThreadsIds = $relatedThreads->pluck('id')->toArray();
+
                     $relatedThreads2 = Question::with('user', 'answer')
                         ->where('id', '!=', $questionThread->id)
-                        ->where('id', '!=', $relatedThreads[0]->id)
+                        // ->where('id', '!=', $relatedThreads[0]->id)
+                        ->whereNotIn('id', $relatedThreadsIds)
                         ->orderBy('created_at', 'desc')
                         ->limit($addition_LIMIT)
                         ->withCount('answer')
@@ -651,7 +728,7 @@ class ThreadController extends Controller
 
 
 
-                return view('threadDetails', compact('questionThread', 'diffForHumans', 'tags', 'relatedThreads', 'questionIdEncrypted'));
+                return view('threadDetails', compact('questionThread', 'diffForHumans', 'tags', 'relatedThreads', 'questionIdEncrypted', 'relatedSqlQuery'));
             } else {
                 return redirect('/threads');
             }

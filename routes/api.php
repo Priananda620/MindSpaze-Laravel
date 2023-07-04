@@ -67,4 +67,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Route::get('/get-threads', [ThreadController::class, 'getThreads']);
     Route::match(['GET', 'POST'], '/get-threads', [ThreadController::class, 'getThreads']);
+
+    Route::match(['GET', 'POST'], '/check-title', [ThreadController::class, 'checkTitle']);
 });

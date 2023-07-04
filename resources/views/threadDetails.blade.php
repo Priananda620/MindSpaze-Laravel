@@ -91,6 +91,12 @@
                     </div>
 
                     <div class="mb-3 d-flex flex-row">
+                        @if($questionThread->isHotThread)
+                            <button class="btn btn-warning me-1" type="disabled">
+                                <i class="fa-solid fa-bolt fa-shake"></i>
+                            </button>
+                        @endif
+
                         <button class="btn btn-secondary" type="disabled">
                             <i class="fa-solid fa-tags"></i>
                         </button>
@@ -279,6 +285,7 @@
                 <div id="side-sticky-wrapper">
                     <div class="thread-contents-header">
                         <h2 class="fw-700">Related Threads</h2>
+                        {{-- {{$relatedSqlQuery}} --}}
                     </div>
 
                     <div class="row row-cols-1 row-cols-md-1 g-4 w-100">

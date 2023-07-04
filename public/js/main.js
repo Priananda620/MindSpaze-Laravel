@@ -808,7 +808,7 @@ $(document).ready(() => {
         };
 
         $.ajax({
-            url: window.location.origin + "/api/" + 'get-threads',
+            url: window.location.origin + "/api/" + 'check-title',
             method: 'GET',
             headers: requestHeaders,
             data: { query: query },
