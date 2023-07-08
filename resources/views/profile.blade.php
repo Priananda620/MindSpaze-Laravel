@@ -503,7 +503,7 @@
                             {{-- <h4 class="fw-bold">Questions</h4> --}}
                             <div class="filter-header d-flex flex-row align-items-center">
                                 <div class="dropdown me-3">
-                                    <input type="hidden" id="selected-option" value="latest">
+                                    <input type="hidden" id="selected-sortBy-option" value="latest">
                                     <button selected-value="Latest" class="btn btn-secondary dropdown-toggle" type="button"
                                         id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         Latest
@@ -811,7 +811,7 @@
                     'Authorization': 'Bearer ' + $.cookie('api_plain_token')
                 };
 
-                var dateFilter = $('#selected-option').val();
+                var dateFilter = $('#selected-sortBy-option').val();
 
                 $.ajax({
                     url: window.location.origin + "/api/" + 'user/get-threads',

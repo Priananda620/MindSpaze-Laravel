@@ -414,25 +414,21 @@
 
                 timeout: 5000,
                 success: function(response) {
+                    console.log(response);
+                    pushToastMessage('success', 'success load answer data', 'success');
 
-                    console.log(response)
-                    pushToastMessage('success',
-                        'success load answer data', 'success')
-
-                    if(response.answers.length > 0){
-                        $('#no-answer').hide()
-                    }else{
-                        $('#no-answer').show()
+                    if (response.answers.length > 0) {
+                        $('#no-answer').hide();
+                    } else {
+                        $('#no-answer').show();
                     }
 
-                    $('#ans-count').html(response.answers.length+' answers')
+                    $('#ans-count').html(response.answers.length + ' answers');
 
-                    for (let i = 0; i < response.answers.length; i++) {
+                    response.answers.forEach(function(answer) {
                         var emojiCountMap = new Map();
 
-                        let currReactions = response.answers[i].reaction
-
-                        currReactions.forEach(function(reaction) {
+                        answer.reaction.forEach(function(reaction) {
                             let emoji = reaction.reaction_emoji;
                             if (emojiCountMap.has(emoji)) {
                                 emojiCountMap.set(emoji, emojiCountMap.get(emoji) + 1);
@@ -445,39 +441,81 @@
                             console.log(emoji + " -> count: " + count);
                         });
 
+                        let newAnswerItem = addAnswerItem(
+                            answer.encrypted_id,
+                            answer.user.username,
+                            answer.elapsed_time,
+                            answer.user.user_profile_img,
+                            answer.downvote.length,
+                            answer.upvote.length,
+                            answer.answer_synopsis,
+                            answer.ai_classification_status,
+                            answer.moderated_as,
+                            answer.curr_downvote,
+                            answer.curr_upvote,
+                            emojiCountMap,
+                            answer.curr_user_owner,
+                            answer.curr_user_auth_is_admin
+                        );
 
-
-                        var item = response.answers[i];
-                        // console.log(item);
-
-                        let newAnswerItem = addAnswerItem(response.answers[i].encrypted_id, response.answers[i].user.username,
-                        response.answers[i].elapsed_time,
-                        response.answers[i].user.user_profile_img,
-                        response.answers[i].downvote.length,response.answers[i].upvote.length,
-                        response.answers[i].answer_synopsis,
-                        response.answers[i].ai_classification_status, response.answers[i].moderated_as,
-                        response.answers[i].curr_downvote, response.answers[i].curr_upvote,
-                        emojiCountMap,
-                        response.answers[i].curr_user_owner,
-                        response.answers[i].curr_user_auth_is_admin)
                         $('#answer-box').after(newAnswerItem);
+                    })
 
-                    }
-
-                    // var currentUrl = window.location.href;
-                    // var idInUrl = currentUrl.substring(currentUrl.indexOf("#") + 1);
-
-                    // // Check if an element with the ID exists
-                    // var answerElement = $("[answer-id='" + idInUrl + "']");
-                    // if (answerElement.length > 0) {
-
-                    //     console.log("Element with ID '" + idInUrl + "' exists.");
-                    //     console.log(answerElement)
-                    // } else {
-                    //     console.log("Element with ID '" + idInUrl + "' does not exist.");
-                    // }
-
+                    moveAllMarkedAnswers()
                 },
+
+                // success: function(response) {
+
+                //     console.log(response)
+                //     pushToastMessage('success',
+                //         'success load answer data', 'success')
+
+                //     if(response.answers.length > 0){
+                //         $('#no-answer').hide()
+                //     }else{
+                //         $('#no-answer').show()
+                //     }
+
+                //     $('#ans-count').html(response.answers.length+' answers')
+
+                //     for (let i = 0; i < response.answers.length; i++) {
+                //         var emojiCountMap = new Map();
+
+                //         let currReactions = response.answers[i].reaction
+
+                //         currReactions.forEach(function(reaction) {
+                //             let emoji = reaction.reaction_emoji;
+                //             if (emojiCountMap.has(emoji)) {
+                //                 emojiCountMap.set(emoji, emojiCountMap.get(emoji) + 1);
+                //             } else {
+                //                 emojiCountMap.set(emoji, 1);
+                //             }
+                //         });
+
+                //         emojiCountMap.forEach(function(count, emoji) {
+                //             console.log(emoji + " -> count: " + count);
+                //         });
+
+
+
+                //         var item = response.answers[i];
+                //         // console.log(item);
+
+                //         let newAnswerItem = addAnswerItem(response.answers[i].encrypted_id, response.answers[i].user.username,
+                //         response.answers[i].elapsed_time,
+                //         response.answers[i].user.user_profile_img,
+                //         response.answers[i].downvote.length,response.answers[i].upvote.length,
+                //         response.answers[i].answer_synopsis,
+                //         response.answers[i].ai_classification_status, response.answers[i].moderated_as,
+                //         response.answers[i].curr_downvote, response.answers[i].curr_upvote,
+                //         emojiCountMap,
+                //         response.answers[i].curr_user_owner,
+                //         response.answers[i].curr_user_auth_is_admin)
+                //         $('#answer-box').after(newAnswerItem);
+
+                //     }
+
+                // },
                 error: function(errors) {
                     pushToastMessage('failed',
                         'failed, check console', 'fail')
@@ -498,6 +536,18 @@
                     $('.progress-bar').removeClass('opacity-100')
                 },
             });
+        }
+
+        function moveAllMarkedAnswers() {
+
+            let allModeratedTrueAnswers = $('.isModeratedTrue')
+            let answerBox = $('#answer-box');
+            allModeratedTrueAnswers.insertAfter(answerBox);
+
+            let allModeratedFalseAnswers = $('.isModeratedFalse')
+            let lastChild = $("#thread-contents-left").children().last();
+            allModeratedFalseAnswers.insertAfter(lastChild);
+
         }
 
         function addAnswerItem(_encrypted_id, _username, _elapsed_time, _avatar_img, _total_down, _total_up, _answer_synopsis, _ai_classification_status, _moderated_as, _curr_downvote, _curr_upvote, _emojiCountMap, _curr_user_owner, _curr_user_auth_is_admin) {
@@ -531,6 +581,7 @@
                 answerStats.append(moderatedStat);
                 threadContents.addClass('isModeratedTrue')
                 moderate_flag = true
+
             }else if(_moderated_as !== null && !_moderated_as){
                 var markedFalseStat = $('<div>').addClass('answer-stat-items false-red').text('Marked False ').append($('<i>').addClass('fa-solid fa-circle-xmark'));
                     answerStats.append(markedFalseStat);
@@ -577,7 +628,10 @@
             upVoteIcon.append(upvoteNumber)
             downVoteIcon.append(downvoteNumber)
 
-            votingDiv.append(upVoteIcon, downVoteIcon);
+            // if(!_curr_user_auth_is_admin){
+                votingDiv.append(upVoteIcon, downVoteIcon);
+            // }
+            
 
             var faDiv = $('<div>').addClass('fa-2x');
             var loadingIcon = $('<i>').addClass('fas fa-circle-notch fa-spin');
@@ -684,7 +738,6 @@
             userWrapper.append(answerRightAction)
             threadContents.append(userWrapper, qlDiv, reactionDiv);
 
-
             let parsedJson = JSON.parse(_answer_synopsis);
             console.log(parsedJson)
 
@@ -744,6 +797,10 @@
 
                         thisVote.find('p').html(--upvoteCount);
                     }
+
+                    setTimeout(function () {
+                        loadAnswerItems()
+                    }, 2000);
 
                 },
                 error: function(errors) {
@@ -812,6 +869,11 @@
                         thisVote.siblings('.up-vote-toggle').removeClass('isActive')
                         thisVote.find('p').html(--downvoteCount);
                     }
+
+                    setTimeout(function () {
+                        loadAnswerItems()
+                    }, 2000);
+                    
                 },
                 error: function(errors) {
                     pushToastMessage('failed',

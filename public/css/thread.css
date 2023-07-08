@@ -224,6 +224,14 @@ a {
     /* margin-right: auto; */
     padding: 7px;
     justify-content: center;
+    /* cursor: pointer; */
+}
+
+.fa-arrow-up{
+    cursor: pointer;
+}
+
+.fa-arrow-down{
     cursor: pointer;
 }
 

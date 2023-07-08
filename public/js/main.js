@@ -730,19 +730,36 @@ $(document).ready(() => {
     });
 
 
-    const dropdown = $('.dropdown');
-    const options = dropdown.find('.dropdown-item');
+    const dropdown_sortBy = $('div.filter-header .dropdown:nth-of-type(1)');
+    const dropdown_filterBy = $('div.filter-header .dropdown:nth-of-type(2)');
 
-    options.on('click', function () {
+    const options_sortBy = dropdown_sortBy.find('ul[aria-labelledby="dropdownMenuButton1"] .dropdown-item');
+
+    const options_filterBy = dropdown_filterBy.find('ul[aria-labelledby="dropdownMenuButton2"] .dropdown-item');
+
+    options_sortBy.on('click', function () {
 
         const selectedValue = $(this).attr('data-value');
 
         // Update the button text
-        const dropdownButton = dropdown.find('.dropdown-toggle');
+        const dropdownButton = dropdown_sortBy.find('.dropdown-toggle');
         dropdownButton.text($(this).text());
         dropdownButton.attr("selected-value", $(this).text());
 
-        const selectedOption = $('#selected-option');
+        const selectedOption = $('#selected-sortBy-option');
+        selectedOption.val(selectedValue);
+    });
+
+    options_filterBy.on('click', function () {
+
+        const selectedValue = $(this).attr('data-value');
+
+        // Update the button text
+        const dropdownButton = dropdown_filterBy.find('.dropdown-toggle');
+        dropdownButton.text($(this).text());
+        dropdownButton.attr("selected-value", $(this).text());
+
+        const selectedOption = $('#selected-filter-option');
         selectedOption.val(selectedValue);
     });
 
@@ -992,7 +1009,8 @@ $(document).ready(() => {
             'Authorization': 'Bearer ' + $.cookie('api_plain_token')
         };
 
-        const selectedDropdown = $('#selected-option').val()
+        const selectedSortDropdown = $('#selected-sortBy-option').val()
+        const selectedFilterDropdown = $('#selected-filter-option').val()
 
         $.ajax({
             url: window.location.origin + "/api/" + 'get-threads',
@@ -1002,7 +1020,8 @@ $(document).ready(() => {
                 query: query,
                 tags: tagsSelectedEncIDJSON,
                 page: currentPage,
-                order_by: selectedDropdown
+                order_by: selectedSortDropdown,
+                filter_by: selectedFilterDropdown
             }),
             timeout: 5000,
             success: function (response) {

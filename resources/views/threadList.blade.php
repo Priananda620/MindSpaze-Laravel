@@ -3,17 +3,33 @@
     <section id="threads-with-filter">
         <div>
             <div class="filter-header d-flex flex-row align-items-center sticky-filter">
-                <div class="dropdown me-3">
-                    <input type="hidden" id="selected-option" value="latest">
+                <div class="dropdown me-2">
+                    <input type="hidden" id="selected-sortBy-option" value="latest">
                     <button selected-value="Latest" class="btn btn-secondary dropdown-toggle" type="button"
-                        id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         Latest
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item cursor-pointer" data-value="Latest">Latest</a></li>
-                        <li><a class="dropdown-item cursor-pointer" data-value="Oldest">Oldest</a></li>
+                        <li><a class="dropdown-item cursor-pointer" data-value="latest">Latest</a></li>
+                        <li><a class="dropdown-item cursor-pointer" data-value="oldest">Oldest</a></li>
                     </ul>
                 </div>
+                <div class="dropdown me-2">
+                    <input type="hidden" id="selected-filter-option" value="all">
+                    <button selected-value="All" class="btn btn-secondary dropdown-toggle" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        All
+                    </button>
+                
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                        <li><a class="dropdown-item cursor-pointer" data-value="all">All</a></li>
+                        <li><a class="dropdown-item cursor-pointer" data-value="answered">Answered</a></li>
+                        <li><a class="dropdown-item cursor-pointer" data-value="unanswered">Unanswered</a></li>
+                        <li><a class="dropdown-item cursor-pointer" data-value="verified_true">Verified True</a></li>
+                        <li><a class="dropdown-item cursor-pointer" data-value="verified_false">Verified False</a></li>
+                    </ul>
+                </div>
+                
                 <div id="chips-filter" class="overflow-scroll d-flex hide-scrollbar1 hide-scrollbar2">
                     {{-- <button class="badge bg-dark">Primary</button> --}}
                     @foreach ($tags as $tag)

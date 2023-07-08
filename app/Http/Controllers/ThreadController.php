@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\DB;
 use App\Models\Question;
 use App\Models\QuestionTag;
@@ -129,10 +130,30 @@ class ThreadController extends Controller
             $validatedData = $request->validate([
                 'query' => 'nullable|string',
                 'order_by' => 'nullable|string',
+                'filter_by' => 'nullable|string',
                 'tags' => 'nullable|json',
                 'limit' => 'nullable|integer',
                 'page' => 'nullable|integer'
             ]);
+
+            // filter_by
+            // All
+            // Answered
+            // UnAnswered
+            // Verified True
+            // Verified False
+
+            if(strtolower(trim($request->input('filter_by'))) == 'answered'){
+                $filter_by = "answered";
+            }else if(strtolower(trim($request->input('filter_by'))) == 'unanswered'){
+                $filter_by = "unanswered";
+            }else if(strtolower(trim($request->input('filter_by'))) == 'verified_true'){
+                $filter_by = "verified_true";
+            }else if(strtolower(trim($request->input('filter_by'))) == 'verified_false'){
+                $filter_by = "verified_false";
+            }else{
+                $filter_by = "all";
+            }
 
             $limit = $validatedData['limit'] ?? 12;
 
@@ -173,6 +194,7 @@ class ThreadController extends Controller
 
                     $results = Question::with('user', 'answer')
                         ->select('questions.*')
+                        ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
                         ->join('question_tags', 'questions.id', '=', 'question_tags.question_id')
                         ->join('tags', 'tags.id', '=', 'question_tags.tag_id')
                         ->whereIn('tags.id', $decodedTags)
@@ -182,13 +204,27 @@ class ThreadController extends Controller
                                     $query->whereRaw('levenshtein(LOWER(title), LOWER(?)) <= 15', [$keyword]);
                                 });
                             }
+
                             $query->orWhereRaw('LOWER(title) LIKE ?', ['%' . strtolower(implode(' ', $keywords)) . '%']);
-                        })
-                        ->distinct();
+                        });
+                        
                         // ->get();
                 } else {
                     // $results = Question::with('user', 'answer')->where('title', 'LIKE', '%' . $request->input('query') . '%');
+                    // $results = Question::with('user', 'answer')
+                    // ->where(function ($query) use ($request) {
+                    //     $keywords = explode(' ', $request->input('query'));
+                    //     foreach ($keywords as $keyword) {
+                    //         $query->orWhere(function ($query) use ($keyword) {
+                    //             $query->whereRaw('levenshtein(LOWER(title), LOWER(?)) <= 15', [$keyword]);
+                    //         });
+                    //     }
+                    //     $query->orWhereRaw('LOWER(title) LIKE ?', ['%' . strtolower($request->input('query')) . '%']);
+                    // });
+
                     $results = Question::with('user', 'answer')
+                    ->select('questions.*')
+                    ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
                     ->where(function ($query) use ($request) {
                         $keywords = explode(' ', $request->input('query'));
                         foreach ($keywords as $keyword) {
@@ -197,27 +233,64 @@ class ThreadController extends Controller
                             });
                         }
                         $query->orWhereRaw('LOWER(title) LIKE ?', ['%' . strtolower($request->input('query')) . '%']);
+
                     });
+
                     // ->get();
                 }
             } else {
                 if (count($decodedTags) > 0) {
+                    // $results = Question::with('user', 'answer')
+                    //     ->select('questions.*')
+                    //     ->join('question_tags', 'questions.id', '=', 'question_tags.question_id')
+                    //     ->join('tags', 'tags.id', '=', 'question_tags.tag_id')
+                    //     ->whereIn('tags.id', $decodedTags);
+
                     $results = Question::with('user', 'answer')
-                        ->select('questions.*')
-                        ->join('question_tags', 'questions.id', '=', 'question_tags.question_id')
-                        ->join('tags', 'tags.id', '=', 'question_tags.tag_id')
-                        ->whereIn('tags.id', $decodedTags)
-                        ->distinct();
+                    ->select('questions.*')
+                    ->leftJoin('answers', 'questions.id', '=', 'answers.question_id')
+                    ->join('question_tags', 'questions.id', '=', 'question_tags.question_id')
+                    ->join('tags', 'tags.id', '=', 'question_tags.tag_id')
+                    ->whereIn('tags.id', $decodedTags);
+                    
                     // ->get();
                 } else {
-                    $results = Question::with('user', 'answer');
+                    // $results = Question::with('user', 'answer');
+
+                    $results = Question::with('user', 'answer')
+                    ->select('questions.*')
+                    ->leftJoin('answers', 'questions.id', '=', 'answers.question_id');
+
                     // ->get();
                 }
             }
 
-            $totalItems = $results->count();
+            if ($filter_by == 'answered') {
+                $results->whereNotNull('answers.id');
+            } else if ($filter_by == 'unanswered') {
+                $results->whereNull('answers.id');
+            } else if ($filter_by == 'verified_true') {
+                $results->where(function ($results) {
+                    $results->whereRaw('answers.ai_classification_status = ?', [1])
+                        ->whereRaw('answers.moderated_as = ?', [1]);
+                });
+            } else if ($filter_by == 'verified_false') {
+                $results->where(function ($results) {
+                    $results->whereRaw('answers.ai_classification_status = ?', [0])
+                        ->whereRaw('answers.moderated_as = ?', [0]);
+                });
+            }
 
-            $results = $results->orderBy('created_at', $orderBy)->offset($offset)->limit($limit);
+            $results->distinct();
+
+            $countQuery = clone $results;
+            // $countQuery->distinct();
+            
+            $totalItems = $countQuery->get()->count();
+
+            // $totalItems = $results->count();
+
+            $results = $results->orderBy('questions.created_at', $orderBy)->offset($offset)->limit($limit);
             $results = $results->get();
 
             $totalPages = ceil($totalItems / $limit);
@@ -247,7 +320,8 @@ class ThreadController extends Controller
                 'page' => $page ? (int)$page : 0,
                 'totalItems' => $totalItems ? (int)$totalItems : 0,
                 'totalPages' => $totalPages ? (int)$totalPages : 0,
-                'order_by' => $orderBy
+                'order_by' => $orderBy,
+                'filter_by' => $filter_by
             ]);
         } catch (\Throwable $th) {
             throw $th;
@@ -583,14 +657,20 @@ class ThreadController extends Controller
                 $answer->curr_user_auth_is_admin = (bool)auth()->user()->user_role;
 
 
+                $answer->points = $answer->upvote->count() - $answer->downvote->count();
 
                 return $answer;
             });
 
+            // $answer_sorted = $answers->sortByDesc('points')->values()->all();
+
+            $answer_sorted = $answers->sortBy('points')->values()->all();
+
+            // print_r($answer_sorted);
 
 
             return response()->json([
-                'answers' => $answers,
+                'answers' => $answer_sorted,
                 'question_id' => $request->input('question_id'),
                 'total' => $answers->count()
             ]);
