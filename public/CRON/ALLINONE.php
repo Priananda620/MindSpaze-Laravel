@@ -35,8 +35,7 @@ try {
     $pdo->exec($sqlResetHotThread);
 
 
-    $sqlHotThread = "
-    UPDATE questions 
+    $sqlHotThread = "UPDATE questions 
     SET isHotThread  = 1
     WHERE id IN (
         SELECT question_id

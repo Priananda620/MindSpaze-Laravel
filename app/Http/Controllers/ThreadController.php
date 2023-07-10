@@ -201,7 +201,7 @@ class ThreadController extends Controller
                         ->where(function ($query) use ($keywords) {
                             foreach ($keywords as $keyword) {
                                 $query->orWhere(function ($query) use ($keyword) {
-                                    $query->whereRaw('levenshtein(LOWER(title), LOWER(?)) <= 15', [$keyword]);
+                                    $query->whereRaw('levenshtein(LOWER(title), LOWER(?)) <= 18', [$keyword]);
                                 });
                             }
 
@@ -216,7 +216,7 @@ class ThreadController extends Controller
                     //     $keywords = explode(' ', $request->input('query'));
                     //     foreach ($keywords as $keyword) {
                     //         $query->orWhere(function ($query) use ($keyword) {
-                    //             $query->whereRaw('levenshtein(LOWER(title), LOWER(?)) <= 15', [$keyword]);
+                    //             $query->whereRaw('levenshtein(LOWER(title), LOWER(?)) <= 18', [$keyword]);
                     //         });
                     //     }
                     //     $query->orWhereRaw('LOWER(title) LIKE ?', ['%' . strtolower($request->input('query')) . '%']);
@@ -229,7 +229,7 @@ class ThreadController extends Controller
                         $keywords = explode(' ', $request->input('query'));
                         foreach ($keywords as $keyword) {
                             $query->orWhere(function ($query) use ($keyword) {
-                                $query->whereRaw('levenshtein(LOWER(title), LOWER(?)) <= 15', [$keyword]);
+                                $query->whereRaw('levenshtein(LOWER(title), LOWER(?)) <= 18', [$keyword]);
                             });
                         }
                         $query->orWhereRaw('LOWER(title) LIKE ?', ['%' . strtolower($request->input('query')) . '%']);
@@ -752,7 +752,7 @@ class ThreadController extends Controller
                         foreach ($keywords as $keyword) {
                             $lowercaseKeyword = strtolower($keyword);
                             $query->orWhere(function ($query) use ($lowercaseKeyword) {
-                                $query->whereRaw(DB::raw('levenshtein(LOWER(title), LOWER(\''.$lowercaseKeyword.'\')) <= 15'));
+                                $query->whereRaw(DB::raw('levenshtein(LOWER(title), LOWER(\''.$lowercaseKeyword.'\')) <= 18'));
                             });
                         }
                     })

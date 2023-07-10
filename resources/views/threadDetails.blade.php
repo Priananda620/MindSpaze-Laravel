@@ -93,7 +93,7 @@
                     <div class="mb-3 d-flex flex-row">
                         @if($questionThread->isHotThread)
                             <button class="btn btn-warning me-1" type="disabled">
-                                <i class="fa-solid fa-bolt fa-shake"></i>
+                                <i class="fa-solid fa-fire fa-shake fs-2" style="color: #a44646;"></i>
                             </button>
                         @endif
 
