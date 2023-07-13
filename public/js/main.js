@@ -248,6 +248,9 @@ function onResizeActions(viewportWidth, viewportHeight) {
         $('#addQuestion-container #step3 object').css('width', '30vw')
     }
 
+    $(document).off('focus', '#search-input')
+    $(document).off('blur', '#search-input')
+
     if (viewportWidth < 1024) {
         $('.suggestion-container ').css('top', headerHeight)
         part2Childs.addClass('flex-column')
@@ -261,6 +264,15 @@ function onResizeActions(viewportWidth, viewportHeight) {
         $('#step5 p').addClass('w-90')
         $('#step5 p').removeClass('w-50')
         console.log("SMALLER")
+
+        $(document).on('focus', '#search-input', function() {
+            $('#search-input').addClass('focus')
+    
+        })
+    
+        $(document).on('blur', '#search-input', function() {
+            $('#search-input').removeClass('focus')
+        })
     } else {
         $('.suggestion-container ').css('top', '');
         part2Childs.removeClass('flex-column')

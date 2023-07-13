@@ -61,7 +61,7 @@
                             <div class="team-item-content">
                                 <h5 class="team-item-name sq os">Priananda Azhar</h5>
                                 <div class="ik h sd sf ol">Computer Science, Global Class</div>
-                                <p class="sj l">desc desc desc desc desc desc desc desc desc desc desc desc desc desc desc desc desc </p>
+                                <p class="sj l">Nim 2301868951</p>
                             </div>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                             <div class="team-item-content">
                                 <h5 class="team-item-name sq os">Joerio Christian Chandra</h5>
                                 <div class="ik h sd sf ol">Computer Science, Global Class</div>
-                                <p class="sj l">desc desc desc desc desc desc desc desc desc desc desc desc desc desc desc desc </p>
+                                <p class="sj l">Nim 2301862393</p>
                             </div>
                         </div>
                     </div>
@@ -95,7 +95,8 @@
                                 <div class="tb"></div>
                             </div>
                             <div class="tg c">
-                                <p>In the age of the Internet, it is much easier to communicate with each other. We are able to receive messages from the other end of the world in a few seconds when it used to take months. Just like what the ships have done for the exchange of goods, the internet has done for the exchange of ideas.</p>
+                                <p style="text-align: justify;">MindSpaze is a fact-checking platform within a forum-based environment that addresses the problem of false information. It combines human moderators and AI-driven fact-checking to ensure content quality and counter misinformation. Following the waterfall model, MindSpaze systematically develops reliable fact-checking features and incorporates community guidelines. Experimental results demonstrate its effectiveness in detecting and flagging false information. Further research aims to enhance AI algorithms and natural language processing techniques for improved accuracy. MindSpaze offers a comprehensive solution to combat misinformation and fosters a positive online community environment.
+                                </p>
                             </div>
                         </li>
                         <li>
@@ -103,7 +104,8 @@
                                 <div class="tb"></div>
                             </div>
                             <div class="tg c">
-                                <p>We want to create a platform where like-minded individuals are able to come together and discuss ideas freely.</p>
+                                <p style="text-align: justify;">MindSpaze is a web application that addresses the issue of false information and hoaxes circulating on the internet. It provides a forum-based platform where users can exchange information and engage in discussions. The platform incorporates fact-checking features, combining human moderators and AI-driven algorithms to ensure content accuracy and combat misinformation. By following the waterfall model of the Software Development Life Cycle (SDLC), MindSpaze has been developed with careful research, requirement analysis, and design. It aims to create a reliable and trusted space for users by meeting the demand for fact-checking features and implementing strict community guidelines. The effectiveness of MindSpaze in detecting and flagging false information has been confirmed through experimental results. Future advancements in AI algorithms and natural language processing techniques hold potential for further enhancing the platform's capabilities in combating misinformation. Overall, MindSpaze strives to provide a valuable solution for users seeking reliable information and contribute to a positive online community environment.
+                                </p>
                             </div>
                         </li>
                         <li>
@@ -111,7 +113,7 @@
                                 <div class="tb"></div>
                             </div>
                             <div class="tg c">
-                                <p>Our platform is where like-minded individuals are able to come together and discuss ideas freely, where work professionals and entrepreneurs can connect and where people can get different and unique perspectives.</p>
+                                <p style="text-align: justify;">MindSpaze differentiates itself by integrating fact-checking, adopting a forum-based approach, combining human and AI moderation, emphasizing user-friendly design, and focusing on continuous development to meet user needs effectively.</p>
                             </div>
                         </li>
                         <li>
@@ -119,17 +121,15 @@
                                 <div class="tb"></div>
                             </div>
                             <div class="tg c">
-                                <p>Native PHP, Jquery, AJAX, Native JS, MySQL, HTML, CSS</p>
+                                <p style="text-align: justify;">Laravel PHP Framework, Python Flask (API for classifying the strings payload using ML model SVM and NB), Jquery, AJAX, Native Browser JavaScript, MySQL DB, Bootstrap 5, CSS</p>
                             </div>
                         </li>
                         <li>
-                            <div class="tm l"><span class="f sj">What is our business model?</span>
+                            <div class="tm l"><span class="f sj">What the user questionaire responses think of MindSpaze?</span>
                                 <div class="tb"></div>
                             </div>
                             <div class="tg c">
-                                <p>Our business model will be primarily based on ad revenue, but the ads will be focused and targeted on certain users who are likely to be interested.
-                                    <br><br>
-                                    This way, businesses and users will benefit. Businesses will be able to reach high value customers and users will be informed of new products.
+                                <p style="text-align: justify;">User candidates have also highlighted that it can be very useful of MindSpaze's fact-checking capabilities, acknowledging its role in filtering out false information and promoting reliable content. They have expressed confidence in the combination of human moderation and AI-driven algorithms, recognizing the potential of this approach to maintain content quality and combat misinformation. The positive feedback from user candidates demonstrates their belief in MindSpaze's ability to address their concerns regarding false information and contribute to a more informed online community.
                                 </p>
                             </div>
                         </li>
@@ -261,35 +261,94 @@
                     <div class="ni">
                         <div class="ns">
                             <div class="no">
-                                <div class="nu sd os reveal-fade">April 2021 — 4th Semester</div>
-                                <div class="iv u sj greveal-y">First Deployed Basic Functionality Under The Name Of "MindSpace" on Software Engineering, Entrepreneurship and Multimedia Course.</div>
+                                <div class="nu sd os reveal-fade">April 27, 2023</div>
+                                <div class="iv u sj greveal-y">
+                                    During the requirements phase, the team focuses on gathering extensive information to ensure a successful project. Additionally, in Chapter 2, efforts include finding a reliable UML book source, providing an explanation about "hoaxum," adding a dedicated hoax detection section, and identifying a suitable Machine Learning model.
+                                </div>
                             </div>
                         </div>
+                        
                         <div class="ns">
                             <div class="no">
-                                <div class="nu sd os reveal-fade">June 2021 — 4th Semester</div>
-                                <div class="iv u sj greveal-y">Deployed second high-quality release and conducted user feedback review.</div>
+                                <div class="nu sd os reveal-fade">May 4, 2023</div>
+                                <div class="iv u sj greveal-y">
+                                    In the system design phase, meticulous planning is undertaken to develop upvote and downvote features. The subsequent implementation phase involves the actual development of these functionalities.
+                                </div>
                             </div>
                         </div>
+                        
                         <div class="ns">
                             <div class="no">
-                                <div class="nu sd os reveal-fade">July 2021 — 4th Semester</div>
-                                <div class="iv u sj greveal-y">Rewriting how the Web App fetch the data by implementing Async methods by using APIs.</div>
+                                <div class="nu sd os reveal-fade">May 10, 2023</div>
+                                <div class="iv u sj greveal-y">
+                                    The testing phase is initiated to assess the functionality and effectiveness of the upvote and downvote features. Once deemed successful, the deployment phase follows, where the initial version of the web app, equipped with the upvote and downvote capabilities, is launched.
+                                </div>
                             </div>
                         </div>
+                        
                         <div class="ns">
                             <div class="no">
-                                <div class="nu sd os reveal-fade">September 2021 — 5th Semester</div>
-                                <div class="iv u sj greveal-y">"MindSpace" turns into "MindSpaze" due to entrepreneurship market validation course. And being used in Agile Development course also.</div>
+                                <div class="nu sd os reveal-fade">May 12, 2023</div>
+                                <div class="iv u sj greveal-y">
+                                    Chapter 3 focuses on system analysis and problem requirements, addressing crucial aspects of the project.
+                                </div>
                             </div>
                         </div>
+                        
                         <div class="ns">
                             <div class="no">
-                                <div class="nu sd os reveal-fade">November 2021 — 5th Semester</div>
-                                <div class="iv u sj greveal-y">Deployed last remaining undone features in a short amout of time and
-                                    conducted a market validation test.</div>
+                                <div class="nu sd os reveal-fade">May 27, 2023</div>
+                                <div class="iv u sj greveal-y">
+                                    The development phase continues, now encompassing the creation of additional features such as the profile page. Rigorous testing is conducted to ensure the profile page functions flawlessly before its deployment.
+                                </div>
                             </div>
                         </div>
+                        
+                        <div class="ns">
+                            <div class="no">
+                                <div class="nu sd os reveal-fade">May 30, 2023</div>
+                                <div class="iv u sj greveal-y">
+                                    Ongoing analysis and improvement of the Machine Learning model for hoax detection persist, enhancing its accuracy and efficiency.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ns">
+                            <div class="no">
+                                <div class="nu sd os reveal-fade">June 7, 2023</div>
+                                <div class="iv u sj greveal-y">
+                                    The development process integrates Black Box Testing theories, further enhancing the evaluation and validation of the system.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ns">
+                            <div class="no">
+                                <div class="nu sd os reveal-fade">June 15, 2023</div>
+                                <div class="iv u sj greveal-y">
+                                    Further development takes place with the introduction of forum thread creation and comment functionality. Comprehensive testing ensures these features operate seamlessly, and upon successful evaluation, the updated version of the web app, equipped with forum capabilities, is deployed.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ns">
+                            <div class="no">
+                                <div class="nu sd os reveal-fade">June 19, 2023</div>
+                                <div class="iv u sj greveal-y">
+                                    The maintenance phase commences, focusing on providing continuous support and updates for the upvote, downvote, profile page, and forum features.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ns">
+                            <div class="no">
+                                <div class="nu sd os reveal-fade">June 23, 2023</div>
+                                <div class="iv u sj greveal-y">
+                                    Evaluation and testing efforts persist, adhering to the 8 Golden Rules for UI evaluations, ensuring an optimal user experience.
+                                </div>
+                            </div>
+                        </div>
+                                                
                     </div>
                 </div>
             </div>

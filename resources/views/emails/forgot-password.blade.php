@@ -20,7 +20,7 @@
             </div>
 
             <div style="background-color: #1d1d1d; padding: 20px; border-radius: 4px;">
-                <p style="margin-bottom: 10px;">Hello!</p>
+                <h1 style="margin-bottom: 10px;">Hello!</h1>
                 <p style="margin-bottom: 10px;">You are receiving this email because we received a password reset request for your account.</p>
                 <p style="margin-bottom: 10px;">Click the button below to reset your password:</p>
                 <p style="margin-bottom: 10px;">

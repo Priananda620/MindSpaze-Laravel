@@ -151,7 +151,9 @@
     animation-timing-function: steps(1);
 }
  
-  
+.ql-editor p, .ql-editor ol{
+    text-align: justify;
+}
   
   
 #overlay-page-not-ready{
@@ -170,7 +172,7 @@ body {
     text-rendering: optimizelegibility;
     line-height: 1;
     font-family: 'Montserrat', sans-serif !important;
-
+    /* width: 100vw; */
     scroll-behavior: smooth;
     color: var(--display-font-color) !important;
     background: var(--base-color) !important;
@@ -252,7 +254,7 @@ header>#header {
 
 .badge.answer-verified{
     border: 2px solid #00fcff !important;
-    color: #007e96 !important !important;
+    color: #007e96 !important;
 }
 
 .toast-body {
@@ -1042,6 +1044,19 @@ header form input {
     width: auto;
     position: relative;
 }
+
+#search-input{
+    transition: width .5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+
+#search-input.focus{
+    position: absolute;
+    width: 75vw;
+    z-index: 100000;
+    top: -20px;
+}
+
 
 #search-box #search-suggestion {
     display: none;

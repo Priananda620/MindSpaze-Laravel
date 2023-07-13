@@ -18,9 +18,9 @@
                         $formattedTimestamp = ltrim($formattedTimestamp, '0');
                     @endphp
 
-                    <h2 class="fw-bold mt-3 text-truncate position-relative pe-4 mx-auto mw-100" 
+                    <h2 class="fw-bold mt-3 text-truncate position-relative {{$currentUser->is_bolt_user ? 'pe-4': ''}} mx-auto mw-100" 
                         style="width: fit-content">
-                        {{ $currentUser->username }}&nbsp;
+                        {{trim($currentUser->username)}}{!!$currentUser->is_bolt_user?'&nbsp;':''!!}
                     @if ($currentUser->is_bolt_user)
                         <i class='fa-solid fa-bolt mb-1 orange position-absolute end-0' style='color:var(--yellow)' data-bs-toggle='tooltip' data-bs-placement='right' title='Bolt User'></i>
                     @endif
