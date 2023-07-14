@@ -7,6 +7,8 @@ use App\Http\Controllers\ModerateController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\AdminOnlySanctum;
+use App\Http\Middleware\BasicUserOnlySanctum;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +33,15 @@ Route::post('/register', [UserController::class, 'register'])->name('registerApi
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('thread')->group(function () {
-        Route::post('/post', [ThreadController::class, 'addQuestion']);
+        
 
-        Route::post('/post-answer', [ThreadController::class, 'addAnswer']);
+        Route::middleware(BasicUserOnlySanctum::class)->group(function () {
+            Route::post('/post', [ThreadController::class, 'addQuestion']);
+            Route::post('/post-answer', [ThreadController::class, 'addAnswer']);
+        });
+    
+
+        
 
         Route::post('/add-reaction', [ThreadController::class, 'addReaction']);
 
@@ -46,8 +54,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/up-vote', [VoteController::class, 'upVote']);
         Route::post('/down-vote', [VoteController::class, 'downVote']);
 
-        Route::post('/moderate-true', [ModerateController::class, 'moderateAsTrue']);
-        Route::post('/moderate-false', [ModerateController::class, 'moderateAsFalse']);
+        Route::middleware(AdminOnlySanctum::class)->group(function () {
+            Route::post('/moderate-true', [ModerateController::class, 'moderateAsTrue']);
+            Route::post('/moderate-false', [ModerateController::class, 'moderateAsFalse']);
+        });
     });
 
     Route::prefix('user')->group(function () {
@@ -59,7 +69,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('/get-threads', [ThreadController::class, 'getUserThreads']);
 
-        Route::post('/change-role', [UserController::class, 'updateRole']);
+
+        Route::middleware(AdminOnlySanctum::class)->group(function () {
+            Route::post('/change-role', [UserController::class, 'updateRole']);
+        });
     });
 
 
