@@ -20,7 +20,35 @@ class HomeController extends Controller
             // $subjects = Subject::where('tutor_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
             // return view('mainPage', compact('subjects'));
         } else {
-            return view('landingGuest');
+
+
+            $ip = $request->ip();
+            if($ip !== "127.0.0.1"){
+                $ip_details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
+                $countryID = $ip_details->country;
+            }else{
+                // $countryID = "ID";
+
+                $ip_details = json_decode(file_get_contents("http://ipinfo.io/115.58.192.43/json"));
+                $countryID = $ip_details->country;
+            }
+
+
+            $result = DB::table('countries')
+                ->select('phonecode')
+                ->where('id', $countryID)
+                ->limit(1)
+                ->get();
+
+            // Check if the query returned any results
+            if ($result->isNotEmpty()) {
+                $phonecode = $result[0]->phonecode;
+            } else {
+                $phonecode = "62";
+            }
+
+
+            return view('landingGuest', compact('phonecode'));
         }
     }
 

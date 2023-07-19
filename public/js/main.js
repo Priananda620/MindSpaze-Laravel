@@ -397,6 +397,19 @@ $(document).ready(() => {
     }, 2200);
 
     const inputPhoneField = document.getElementById('Phone');
+
+
+    if(inputPhoneField){
+        // Add event listener to restrict input to only integers
+        inputPhoneField.addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            if (this.value.length > 13) {
+                this.value = this.value.slice(0, 13);
+            }
+
+            console.log(this.value)
+        });
+    }
     
     $(document).on('click', '.copy-thread-link', function() {
         const currentUrl = window.location.href;
@@ -406,17 +419,6 @@ $(document).ready(() => {
         backdropCloseEvoke.click()
 
         console.log('COPYY CLIPBOARD')
-    });
-
-      
-    // Add event listener to restrict input to only integers
-    inputPhoneField.addEventListener('input', function (e) {
-        this.value = this.value.replace(/[^0-9]/g, '');
-        if (this.value.length > 13) {
-            this.value = this.value.slice(0, 13);
-        }
-
-        console.log(this.value)
     });
 
 

@@ -53,7 +53,7 @@
                     {{-- </select> --}}
                     <label for="phone" class="mb-3">Phone<span style="color: red;">&nbsp;*&nbsp;&nbsp;&nbsp;</span></label>
                     <div class="input-group">
-                        <span class="input-group-text">+62</span>
+                        <span id="phonecode" class="input-group-text">+62</span>
                         <input id="Phone" name="phone" type="text" style="border: none;color: var(--display-font-color);" class="form-control w-auto mt-0" placeholder="Phone number" required>
                     </div>
 
@@ -117,6 +117,10 @@
 
             <script>
                 $(document).ready(() => {
+                    if(phonecode !== null){
+                        $('#phonecode').html('+'+phonecode);
+                    }
+                    
                     $('#register-body > form #register-submit').click(function() {
                         // e.preventDefault()
                         console.log("REGISTERRRR")

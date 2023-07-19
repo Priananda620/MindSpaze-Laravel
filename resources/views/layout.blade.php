@@ -25,10 +25,10 @@
                 <button class="float-end"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            {{-- @if(!auth()->check()) --}}
+            @if(!auth()->check())
                 @include('login')
                 @include('register')
-            {{-- @endif --}}
+            @endif
 
         </div>
     </div>
